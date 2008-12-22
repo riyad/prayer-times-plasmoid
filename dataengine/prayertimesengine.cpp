@@ -19,8 +19,6 @@
 
 #include <QDate>
 
-#include <math.h>
-
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
     : Plasma::DataEngine(parent)
 {
@@ -34,6 +32,12 @@ PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 PrayerTimesEngine::~PrayerTimesEngine()
 {
 }
+
+void  PrayerTimesEngine::init() {
+	localTimeZone = KSystemTimeZones::local();
+	// TODO: read method from config files
+}
+
 
 bool PrayerTimesEngine::sourceRequestEvent(const QString &name)
 {
@@ -66,11 +70,13 @@ bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 
 void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 {
-	localTimeZone = KSystemTimeZones::zone("Local");
+	coords.remove(" ");
+	QStringList splitCoords = coords.split(",");
+	location->degreeLong = splitCoords[0].toDouble();
+	location->degreeLat = splitCoords[1].toDouble();
 
-	location->degreeLong = longitude;
-	location->degreeLat = latitude;
-	location->gmtDiff = double(localTimeZone.currentOffset())/3600.;
+	location->gmtDiff = double(localTimeZone.currentOffset())/3600;
+
 	location->seaLevel = 0; // default, just for simplicity
 	location->pressure = 1010; // default from itl's prayer.h
 	location->temperature = 10; // default from itl's prayer.
