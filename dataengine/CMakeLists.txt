@@ -1,5 +1,5 @@
 
-add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
@@ -10,9 +10,9 @@ set(prayertimes_engine_SRCS prayertimesengine.cpp)
 
 kde4_add_plugin(plasma_engine_prayertimes ${prayertimes_engine_SRCS})
 target_link_libraries(plasma_engine_prayertimes
-		      ${KDE4_KDECORE_LIBS}
-		      ${PLASMA_LIBS}
-		      ${ITL_LIBRARY})
+                      ${KDE4_KDECORE_LIBS}
+                      ${PLASMA_LIBS}
+                      ${ITL_LIBRARY})
 
 install(TARGETS plasma_engine_prayertimes
         DESTINATION ${PLUGIN_INSTALL_DIR})
