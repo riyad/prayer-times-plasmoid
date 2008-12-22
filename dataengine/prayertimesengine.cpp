@@ -89,6 +89,7 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 	location->degreeLong = splitCoords[1].toDouble();
 
 	location->gmtDiff = double(localTimeZone.currentOffset())/3600;
+	location->dst = localTimeZone.isDstAtUtc(localTimeZone.toUtc(QDateTime::currentDateTime())) ? 1 : 0;
 
 	location->seaLevel = 0; // default, just for simplicity
 	location->pressure = 1010; // default from itl's prayer.h
