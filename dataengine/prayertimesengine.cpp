@@ -57,14 +57,14 @@ bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 	parseLocation(name, &location);
 	calculatePrayerTimes(&location, &prayerTimes, &qiblaDegrees);
 
-	setData(name, I18N_NOOP("prayerTimeFajr"),    prayerTimes[0]);
-	setData(name, I18N_NOOP("prayerTimeShorooq"), prayerTimes[1]);
-	setData(name, I18N_NOOP("prayerTimeDhuhr"),   prayerTimes[2]);
-	setData(name, I18N_NOOP("prayerTimeAsr"),     prayerTimes[3]);
-	setData(name, I18N_NOOP("prayerTimeMaghrib"), prayerTimes[4]);
-	setData(name, I18N_NOOP("prayerTimeIshaa"),   prayerTimes[5]);
+	setData(name, I18N_NOOP("Fajr"),    prayerTimes[0]);
+	setData(name, I18N_NOOP("Shorooq"), prayerTimes[1]);
+	setData(name, I18N_NOOP("Dhuhr"),   prayerTimes[2]);
+	setData(name, I18N_NOOP("Asr"),     prayerTimes[3]);
+	setData(name, I18N_NOOP("Maghrib"), prayerTimes[4]);
+	setData(name, I18N_NOOP("Ishaa"),   prayerTimes[5]);
 
-	setData(name, I18N_NOOP("qiblaDegrees"), qiblaDegrees);
+	setData(name, I18N_NOOP("Qibla"), qiblaDegrees);
 
 	return true;
 }
