@@ -30,17 +30,17 @@
 
 class PrayerTimesEngine : public Plasma::DataEngine
 {
-    Q_OBJECT
+	Q_OBJECT
 
-    public:
-        PrayerTimesEngine(QObject* parent, const QVariantList& args);
-        ~PrayerTimesEngine();
+public:
+		PrayerTimesEngine(QObject* parent, const QVariantList& args);
+		~PrayerTimesEngine();
 
-    protected:
-        bool sourceRequestEvent(const QString &name);
-        bool updateSourceEvent(const QString& source);
+protected:
+		bool sourceRequestEvent(const QString &name);
+		bool updateSourceEvent(const QString& source);
 
-    private:
+	private:
 	void recalculate();
 
     private:
