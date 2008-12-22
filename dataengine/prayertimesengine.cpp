@@ -70,6 +70,19 @@ bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 
 void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 {
+	if(coords.isEmpty()) {
+		kDebug() << "Error: coords is empty: " << coords;
+		return;
+	}
+	if(coords.isNull()) {
+		kDebug() << "Error: coords is null";
+		return;
+	}
+	if(location == 0L) {
+		kDebug() << "Error: location is null";
+		return;
+	}
+	
 	coords.remove(" ");
 	QStringList splitCoords = coords.split(",");
 	location->degreeLong = splitCoords[0].toDouble();
@@ -84,6 +97,19 @@ void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 
 void PrayerTimesEngine::calculatePrayerTimes(Location *location, QVector<QTime> *prayerTimes, double *qiblaDegrees)
 {
+	if(location == 0L) {
+		kDebug() << "Error: location is null";
+		return;
+	}
+	if(prayerTimes == 0L) {
+		kDebug() << "Error: prayerTimes is null";
+		return;
+	}
+	if(qiblaDegrees == 0L) {
+		kDebug() << "Error: qiblaDegrees is null";
+		return;
+	}
+
 	Prayer prayers[6];
 
 	Method method;
@@ -93,6 +119,10 @@ void PrayerTimesEngine::calculatePrayerTimes(Location *location, QVector<QTime> 
 	date.day = QDate::currentDate().day();
 	date.month = QDate::currentDate().month();
 	date.year = QDate::currentDate().year();
+
+	kDebug() << "Latitude: " << location->degreeLat;
+	kDebug() << "Longitude: " << location->degreeLong;
+	kDebug() << "Method: " << calculationMethod;
 
 	getPrayerTimes(location, &method, &date, prayers);
 
