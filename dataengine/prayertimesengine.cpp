@@ -34,6 +34,7 @@ PrayerTimesEngine::~PrayerTimesEngine()
 }
 
 void  PrayerTimesEngine::init() {
+	// use local time zone for prayer time calculations
 	localTimeZone = KSystemTimeZones::local();
 	
 	// default to Mulim World League method
@@ -50,12 +51,17 @@ bool PrayerTimesEngine::sourceRequestEvent(const QString& name)
 	return updateSourceEvent(name);
 }
 
+/**
+ * Calculates/updates the prayer times and the qibla for the given coordinates.
+ * @param name the coordinats in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
+ */
 bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 {
 	Location location;
 	QVector<QTime> prayerTimes;
 	double qiblaDegrees;
 
+	// populate the location struct
 	parseLocation(name, &location);
 	calculatePrayerTimes(&location, &prayerTimes, &qiblaDegrees);
 
@@ -71,6 +77,12 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 	return true;
 }
 
+/**
+ * Generates a Location from the given coordinates.
+ * @param coords the coordinats in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
+ * @param location a Location to store the results in
+ * @note uses the local time zone for setting the corresponding fields in location
+ */
 void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 {
 	if(coords.isEmpty()) {
