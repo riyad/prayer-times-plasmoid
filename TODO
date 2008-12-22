@@ -1,0 +1,12 @@
+
+Plasmoid:
+- Prayer times tab:
+  - Find nice icon/image to place next to the prayer times
+- Qibla tab:
+  - Find nice Kaaba image
+  - Find nice Kompas image
+
+Configuration:
+- Location (using Marble widget)
+- Calculation
+- Notification (Athan, message 15min before, ...)
