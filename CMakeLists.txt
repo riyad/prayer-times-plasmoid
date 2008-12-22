@@ -1,9 +1,14 @@
 # Project Needs a name ofcourse
 project(plasma-prayertimes)
  
+
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
+
 # Find the required Libaries
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
+find_package(Plasma REQUIRED)
+find_package(ITL REQUIRED)
  
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
