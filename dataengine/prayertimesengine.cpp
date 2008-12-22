@@ -26,9 +26,6 @@ PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 {
 	// We ignore any arguments - data engines do not have much use for them
 	Q_UNUSED(args);
-
-	// allow polling every second
-	setMinimumPollingInterval(1000);
 }
 
 PrayerTimesEngine::~PrayerTimesEngine()
