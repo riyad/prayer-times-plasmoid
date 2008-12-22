@@ -41,12 +41,12 @@ public:
 		void init();
 
 protected:
-		bool sourceRequestEvent(const QString &name);
+		bool sourceRequestEvent(const QString& name);
 		bool updateSourceEvent(const QString& source);
 
 private:
-	void parseLocation(QString coords, Location *location);
-	void calculatePrayerTimes(Location *location, QVector<QTime> *prayerTimes, double *qiblaDegrees);
+	void parseLocation(const QString& coords, Location* location);
+	void calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes, double* qiblaDegrees);
 };
 
 #endif

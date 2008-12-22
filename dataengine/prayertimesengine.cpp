@@ -40,7 +40,7 @@ void  PrayerTimesEngine::init() {
 }
 
 
-bool PrayerTimesEngine::sourceRequestEvent(const QString &name)
+bool PrayerTimesEngine::sourceRequestEvent(const QString& name)
 {
 	// We do not have any special code to execute the
 	// first time a source is requested, so we just call
@@ -48,7 +48,7 @@ bool PrayerTimesEngine::sourceRequestEvent(const QString &name)
 	return updateSourceEvent(name);
 }
 
-bool PrayerTimesEngine::updateSourceEvent(const QString &name)
+bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 {
 	Location location;
 	QVector<QTime> prayerTimes;
@@ -69,7 +69,7 @@ bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 	return true;
 }
 
-void PrayerTimesEngine::parseLocation(QString coords, Location *location)
+void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 {
 	if(coords.isEmpty()) {
 		kDebug() << "Error: coords is empty: " << coords;
@@ -84,8 +84,7 @@ void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 		return;
 	}
 	
-	coords.remove(" ");
-	QStringList splitCoords = coords.split(",");
+	QStringList splitCoords = QString(coords).remove(" ").split(",");
 	location->degreeLat = splitCoords[0].toDouble();
 	location->degreeLong = splitCoords[1].toDouble();
 
@@ -96,7 +95,7 @@ void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 	location->temperature = 10; // default from itl's prayer.
 }
 
-void PrayerTimesEngine::calculatePrayerTimes(Location *location, QVector<QTime> *prayerTimes, double *qiblaDegrees)
+void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes, double* qiblaDegrees)
 {
 	if(location == 0L) {
 		kDebug() << "Error: location is null";
