@@ -16,6 +16,9 @@ include_directories(
   ${KDE4_INCLUDES}
   )
 
+# We include the data engine
+add_subdirectory(dataengine)
+
 # We add our source code here
 set(prayertimes_SRCS prayertimes.cpp)
 
