@@ -3,7 +3,7 @@ Name=Prayer Times Data Engine
 Comment=Islamic Prayer Times data for Plasmoids
 Type=Service
 
-X-KDE-ServiceTypes=Plasma/DataEnginex
+X-KDE-ServiceTypes=Plasma/DataEngine
 X-KDE-Library=plasma_engine_prayertimes
 X-Plasma-EngineName=prayertimes
 X-KDE-PluginInfo-Author=Riyad Preukschas
