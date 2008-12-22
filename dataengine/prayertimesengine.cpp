@@ -27,7 +27,7 @@ PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 	// We ignore any arguments - data engines do not have much use for them
 	Q_UNUSED(args);
 
-	// update every minute
+	// update every minute, maybe the date has changed
 	setMinimumPollingInterval(1000*60);
 }
 
@@ -59,15 +59,16 @@ bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 
 void PrayerTimesEngine::recalculate()
 {
+/*
   local = KSystemTimeZones::zone(timezone);
 
   l = Location();
   l.degreeLong = longitude;
   l.degreeLat = latitude;
-  l.gmtDiff =   double(local.currentOffset())/3600.;
-  l.seaLevel = 0;
-  l.pressure = 1010;
-  l.temperature = 10;
+  l.gmtDiff = double(localTimeZone.currentOffset())/3600.;
+  l.seaLevel = 0; // default, just for simplicity
+  l.pressure = 1010; // default from itl's prayer.h
+  l.temperature = 10; // default from itl's prayer.h
 
   m = Method();
   getMethod(calculationMethod,&m);
@@ -88,6 +89,7 @@ void PrayerTimesEngine::recalculate()
 
   gmtDiff = l.gmtDiff;
   gmtSeparator = (gmtDiff >= 0)?"+":"";
+*/
 }
 
 // This does the magic that allows Plasma to load
