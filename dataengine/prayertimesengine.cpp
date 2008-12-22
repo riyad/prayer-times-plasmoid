@@ -35,6 +35,7 @@ PrayerTimesEngine::~PrayerTimesEngine()
 
 void  PrayerTimesEngine::init() {
 	localTimeZone = KSystemTimeZones::local();
+	calculationMethod = 5;
 	// TODO: read method from config files
 }
 
