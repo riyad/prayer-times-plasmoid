@@ -35,6 +35,8 @@ PrayerTimesEngine::~PrayerTimesEngine()
 
 void  PrayerTimesEngine::init() {
 	localTimeZone = KSystemTimeZones::local();
+	
+	// default to Mulim World League method
 	calculationMethod = 5;
 	// TODO: read method from config files
 }
@@ -91,7 +93,7 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 	location->gmtDiff = double(localTimeZone.currentOffset())/3600;
 	location->dst = localTimeZone.isDstAtUtc(localTimeZone.toUtc(QDateTime::currentDateTime())) ? 1 : 0;
 
-	location->seaLevel = 0; // default, just for simplicity
+	location->seaLevel = 0; // just for simplicity
 	location->pressure = 1010; // default from itl's prayer.h
 	location->temperature = 10; // default from itl's prayer.
 }
