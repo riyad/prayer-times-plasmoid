@@ -82,8 +82,9 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 /**
  * Generates a Location from the given coordinates.
  * @param coords the coordinats in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
- * @param location a Location to store the results in
+ * @param location the resulting location
  * @note uses the local time zone for setting the corresponding fields in location
+ * @note location will be overwritten
  */
 void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 {
@@ -112,6 +113,12 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 	location->temperature = 10; // default from itl's prayer.
 }
 
+/**
+ * Calculates the prayer times for the given location for the current day.
+ * @param location the location for calculating the prayer times
+ * @param prayerTimes the six times (i.e. fajr, shorook, dhuhr, ..., ishaa) for the current day
+ * @note prayerTimes will be overwritten
+ */
 void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes)
 {
 	if(location == 0L) {
@@ -123,28 +130,40 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 		return;
 	}
 
+	// for retrieving the results of the calculation
 	Prayer prayers[6];
 
+	// filling in the parameters for the "calculationMethod" method
 	Method method;
 	getMethod(calculationMethod, &method);
 
+	// the date of the day the prayer times are goign to be calculated for
 	Date date;
 	date.day = QDate::currentDate().day();
 	date.month = QDate::currentDate().month();
 	date.year = QDate::currentDate().year();
 
+	// some debug output
 	kDebug() << "Latitude: " << location->degreeLat;
 	kDebug() << "Longitude: " << location->degreeLong;
 	kDebug() << "Method: " << calculationMethod;
 
+	// the actual prayer times calculation
 	getPrayerTimes(location, &method, &date, prayers);
 
+	// transfering the calculation result into our result structure
 	prayerTimes->resize(6);
 	for(int i = 0; i < 6; ++i) {
 		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
 	}
 }
 
+/**
+ * Calculates the qibla for the given location.
+ * @param location the location for calculating the qibla
+ * @param qiblaDegrees the qibla from the location in degrees
+ * @note qiblaDegrees will be overwritten
+ */
 void PrayerTimesEngine::calculateQibla(const Location* location, double* qiblaDegrees)
 {
 	if(location == 0L) {
@@ -159,9 +178,8 @@ void PrayerTimesEngine::calculateQibla(const Location* location, double* qiblaDe
 	*qiblaDegrees = -getNorthQibla(location);
 }
 
-// This does the magic that allows Plasma to load
-// this plugin.  The first argument must match
-// the X-Plasma-EngineName in the .desktop file.
+// This does the magic that allows Plasma to load this plugin.
+// The first argument must match the X-Plasma-EngineName in the .desktop file.
 K_EXPORT_PLASMA_DATAENGINE(prayertimes, PrayerTimesEngine)
 
 // this is needed since TestTimeEngine is a QObject
