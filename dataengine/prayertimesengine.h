@@ -65,6 +65,6 @@ class PrayerTimesEngine : public Plasma::DataEngine
 	int gmtDiff;
 };
 
+// This is the command that links the data engine to the .desktop file
 K_EXPORT_PLASMA_DATAENGINE(prayertimes, PrayerTimesEngine)
-
 #endif
