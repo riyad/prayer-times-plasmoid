@@ -15,7 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "plasma-engine-prayertimes.h"
+#include "prayertimesengine.h"
 
 #include <Plasma/DataContainer>
 
@@ -97,4 +97,4 @@ void PrayerTimesEngine::recalculate()
   gmtSeparator = (gmtDiff >= 0)?"+":"";
 }
 
-#include "plasma-engine-prayertimes.moc"
+#include "prayertimesengine.moc"
