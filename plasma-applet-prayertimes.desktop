@@ -1,23 +1,16 @@
 [Desktop Entry]
 Name=PrayerTimes
-Name[x-test]=xxPrayerTimesxx
-Comment=Plasma PrayerTimes
-Comment[km]=ប្លាស្មា PrayerTimes
-Comment[sr]=Плазмин PrayerTimes
-Comment[sr@latin]=Plasmin PrayerTimes
-Comment[uk]=Плазма PrayerTimes
-Comment[x-test]=xxPlasma PrayerTimesxx
+Comment=Islamic Prayer Times
 Type=Service
-
-X-KDE-ServiceTypes=Plasma/Applet
+ServiceTypes=Plasma/Applet
+ 
 X-KDE-Library=plasma_applet_prayertimes
-X-KDE-PluginInfo-Author=%{AUTHOR}
-X-KDE-PluginInfo-Email=%{EMAIL}
-X-KDE-PluginInfo-Name=prayertimes
+X-KDE-PluginInfo-Author=Riyad Preukschas
+X-KDE-PluginInfo-Email=includeme@users.sourceforge.net
+X-KDE-PluginInfo-Name=plasma_applet_prayertimes
 X-KDE-PluginInfo-Version=0.1
 X-KDE-PluginInfo-Website=http://plasma.kde.org/
-X-KDE-PluginInfo-Category=
+X-KDE-PluginInfo-Category=Islamic
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPL
 X-KDE-PluginInfo-EnabledByDefault=true
-
