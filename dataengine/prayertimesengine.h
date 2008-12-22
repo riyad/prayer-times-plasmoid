@@ -20,10 +20,6 @@
 
 #include <itl/prayer.h>
 
-#include <QString>
-#include <QTime>
-#include <QDate>
-
 #include <KSystemTimeZones>
 
 #include <Plasma/DataEngine>
@@ -31,6 +27,9 @@
 class PrayerTimesEngine : public Plasma::DataEngine
 {
 	Q_OBJECT
+
+	KTimeZone localTimeZone;
+	Method calculationMethod;
 
 public:
 		PrayerTimesEngine(QObject* parent, const QVariantList& args);
@@ -40,29 +39,8 @@ protected:
 		bool sourceRequestEvent(const QString &name);
 		bool updateSourceEvent(const QString& source);
 
-	private:
+private:
 	void recalculate();
-
-    private:
-	Location l;
-	Prayer prayers[6];
-	Method m;
-	Date d;
-
-	QTime prayerTimes[6];
-	double degrees;
-	int deg, min;
-	double sec;
-	int prayerIndex;
-	QString gmtSeparator;
-
-	QDate today;
-	QString timezone;
-	KTimeZone local;
-	double latitude;
-	double longitude;
-	int calculationMethod;
-	int gmtDiff;
 };
 
 #endif
