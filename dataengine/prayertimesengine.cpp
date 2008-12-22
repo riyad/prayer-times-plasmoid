@@ -86,8 +86,8 @@ void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 	
 	coords.remove(" ");
 	QStringList splitCoords = coords.split(",");
-	location->degreeLong = splitCoords[0].toDouble();
-	location->degreeLat = splitCoords[1].toDouble();
+	location->degreeLat = splitCoords[0].toDouble();
+	location->degreeLong = splitCoords[1].toDouble();
 
 	location->gmtDiff = double(localTimeZone.currentOffset())/3600;
 
