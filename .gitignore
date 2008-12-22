@@ -1,0 +1,7 @@
+
+# ignore KDevelop files
+.kdev4/
+*.kdev4
+
+# ignore build directory
+build/
