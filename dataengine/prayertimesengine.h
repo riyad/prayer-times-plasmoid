@@ -38,6 +38,8 @@ public:
 		PrayerTimesEngine(QObject* parent, const QVariantList& args);
 		~PrayerTimesEngine();
 
+		void init();
+
 protected:
 		bool sourceRequestEvent(const QString &name);
 		bool updateSourceEvent(const QString& source);
