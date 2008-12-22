@@ -23,7 +23,7 @@ set(prayertimes_SRCS prayertimes.cpp)
 # Now make sure all files get to the right place
 kde4_add_plugin(plasma_applet_prayertimes ${prayertimes_SRCS})
 target_link_libraries(plasma_applet_prayertimes 
-                      ${KDE4_PLASMA_LIBS} ${KDE4_KDEUI_LIBS})
+                      ${KDE4_PLASMA_LIBS} ${KDE4_KDEUI_LIBS} ${ITL_LIBRARY})
  
 install(TARGETS plasma_applet_prayertimes
         DESTINATION ${PLUGIN_INSTALL_DIR})
