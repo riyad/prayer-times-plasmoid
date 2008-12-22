@@ -17,7 +17,7 @@
 
 #include "prayertimesengine.h"
 
-#include <Plasma/DataContainer>
+#include <QDate>
 
 #include <math.h>
 
@@ -45,51 +45,57 @@ bool PrayerTimesEngine::sourceRequestEvent(const QString &name)
 
 bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 {
-	recalculate();
+	Location location;
+	QVector<QTime> prayerTimes;
+	double qiblaDegrees;
+
+	parseLocation(name, &location);
+	calculatePrayerTimes(&location, &prayerTimes, &qiblaDegrees);
 	
-	setData(name, I18N_NOOP("prayerTimeFajr"), prayerTimes[0]);
+	setData(name, I18N_NOOP("prayerTimeFajr"),    prayerTimes[0]);
 	setData(name, I18N_NOOP("prayerTimeShorooq"), prayerTimes[1]);
-	setData(name, I18N_NOOP("prayerTimeDhuhr"), prayerTimes[2]);
-	setData(name, I18N_NOOP("prayerTimeAsr"), prayerTimes[3]);
+	setData(name, I18N_NOOP("prayerTimeDhuhr"),   prayerTimes[2]);
+	setData(name, I18N_NOOP("prayerTimeAsr"),     prayerTimes[3]);
 	setData(name, I18N_NOOP("prayerTimeMaghrib"), prayerTimes[4]);
-	setData(name, I18N_NOOP("prayerTimeIshaa"), prayerTimes[5]);
+	setData(name, I18N_NOOP("prayerTimeIshaa"),   prayerTimes[5]);
+	
+	setData(name, I18N_NOOP("qiblaDegrees"), qiblaDegrees);
 	
 	return true;
 }
 
-void PrayerTimesEngine::recalculate()
+void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 {
-/*
-  local = KSystemTimeZones::zone(timezone);
+	localTimeZone = KSystemTimeZones::zone("Local");
 
-  l = Location();
-  l.degreeLong = longitude;
-  l.degreeLat = latitude;
-  l.gmtDiff = double(localTimeZone.currentOffset())/3600.;
-  l.seaLevel = 0; // default, just for simplicity
-  l.pressure = 1010; // default from itl's prayer.h
-  l.temperature = 10; // default from itl's prayer.h
+	location->degreeLong = longitude;
+	location->degreeLat = latitude;
+	location->gmtDiff = double(localTimeZone.currentOffset())/3600.;
+	location->seaLevel = 0; // default, just for simplicity
+	location->pressure = 1010; // default from itl's prayer.h
+	location->temperature = 10; // default from itl's prayer.
+}
 
-  m = Method();
-  getMethod(calculationMethod,&m);
+void PrayerTimesEngine::calculatePrayerTimes(Location *location, QVector<QTime> *prayerTimes, double *qiblaDegrees)
+{
+  Prayer prayers[6];
 
-  d = Date();
-  d.day = today.day();
-  d.month = today.month();
-  d.year = today.year();
+  Method method;
+  getMethod(calculationMethod, &method);
 
-  getPrayerTimes(&l, &m, &d, prayers);
+  Date date;
+  date.day = QDate::currentDate().day();
+  date.month = QDate::currentDate().month();
+  date.year = QDate::currentDate().year();
 
-  for(int i = 0; i < 6; ++i) {
-    prayerTimes[i] = QTime(prayers[i].hour, prayers[i].minute, prayers[i].second);
-  }
-  
-  degrees = -getNorthQibla(&l);
-  decimal2Dms(degrees, &deg, &min, &sec);
+  getPrayerTimes(location, &method, &date, prayers);
 
-  gmtDiff = l.gmtDiff;
-  gmtSeparator = (gmtDiff >= 0)?"+":"";
-*/
+	prayerTimes->resize(6);
+	for(int i = 0; i < 6; ++i) {
+		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
+	}
+
+	*qiblaDegrees = -getNorthQibla(location);
 }
 
 // This does the magic that allows Plasma to load
