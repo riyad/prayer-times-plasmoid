@@ -24,9 +24,11 @@
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
     : Plasma::DataEngine(parent)
 {
-  Q_UNUSED(args);
-  //setMinimumUpdateInterval(1000);
-  setMinimumPollingInterval(1000);
+	// We ignore any arguments - data engines do not have much use for them
+	Q_UNUSED(args);
+
+	// allow polling every second
+	setMinimumPollingInterval(1000);
 }
 
 PrayerTimesEngine::~PrayerTimesEngine()
@@ -35,33 +37,24 @@ PrayerTimesEngine::~PrayerTimesEngine()
 
 bool PrayerTimesEngine::sourceRequestEvent(const QString &name)
 {
-    return updateSourceEvent(name);
+	// We do not have any special code to execute the
+	// first time a source is requested, so we just call
+	// updateSourceEvent().
+	return updateSourceEvent(name);
 }
 
 bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 {
-  today = property("today").toDate();
-  latitude = property("latitude").toDouble();
-  longitude = property("longitude").toDouble();
-  calculationMethod = property("calculationMethod").toInt();
-  timezone = property("timezone").toString();
-  
-  recalculate();
-  
-  setData(name, I18N_NOOP("prayerTimes1"), prayerTimes[0]);
-  setData(name, I18N_NOOP("prayerTimes2"), prayerTimes[1]);
-  setData(name, I18N_NOOP("prayerTimes3"), prayerTimes[2]);
-  setData(name, I18N_NOOP("prayerTimes4"), prayerTimes[3]);
-  setData(name, I18N_NOOP("prayerTimes5"), prayerTimes[4]);
-  setData(name, I18N_NOOP("prayerTimes6"), prayerTimes[5]);
-  setData(name, I18N_NOOP("deg"), deg);
-  setData(name, I18N_NOOP("min"), min);
-  setData(name, I18N_NOOP("sec"), sec);
-  setData(name, I18N_NOOP("degrees"), degrees);
-  setData(name, I18N_NOOP("gmtDiff"), gmtDiff);
-  setData(name, I18N_NOOP("gmtSeparator"), gmtSeparator);
-   
-  return true;
+	recalculate();
+	
+	setData(name, I18N_NOOP("prayerTimeFajr"), prayerTimes[0]);
+	setData(name, I18N_NOOP("prayerTimeShorooq"), prayerTimes[1]);
+	setData(name, I18N_NOOP("prayerTimeDhuhr"), prayerTimes[2]);
+	setData(name, I18N_NOOP("prayerTimeAsr"), prayerTimes[3]);
+	setData(name, I18N_NOOP("prayerTimeMaghrib"), prayerTimes[4]);
+	setData(name, I18N_NOOP("prayerTimeIshaa"), prayerTimes[5]);
+	
+	return true;
 }
 
 void PrayerTimesEngine::recalculate()
@@ -97,4 +90,10 @@ void PrayerTimesEngine::recalculate()
   gmtSeparator = (gmtDiff >= 0)?"+":"";
 }
 
+// This does the magic that allows Plasma to load
+// this plugin.  The first argument must match
+// the X-Plasma-EngineName in the .desktop file.
+K_EXPORT_PLASMA_DATAENGINE(prayertimes, PrayerTimesEngine)
+
+// this is needed since TestTimeEngine is a QObject
 #include "prayertimesengine.moc"
