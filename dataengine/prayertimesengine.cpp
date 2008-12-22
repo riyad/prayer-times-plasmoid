@@ -63,7 +63,9 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 
 	// populate the location struct
 	parseLocation(name, &location);
-	calculatePrayerTimes(&location, &prayerTimes, &qiblaDegrees);
+
+	calculatePrayerTimes(&location, &prayerTimes);
+	calculateQibla(&location, &qiblaDegrees);
 
 	setData(name, I18N_NOOP("Fajr"),    prayerTimes[0]);
 	setData(name, I18N_NOOP("Shorooq"), prayerTimes[1]);
@@ -110,7 +112,7 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 	location->temperature = 10; // default from itl's prayer.
 }
 
-void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes, double* qiblaDegrees)
+void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes)
 {
 	if(location == 0L) {
 		kDebug() << "Error: location is null";
@@ -118,10 +120,6 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 	}
 	if(prayerTimes == 0L) {
 		kDebug() << "Error: prayerTimes is null";
-		return;
-	}
-	if(qiblaDegrees == 0L) {
-		kDebug() << "Error: qiblaDegrees is null";
 		return;
 	}
 
@@ -144,6 +142,18 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 	prayerTimes->resize(6);
 	for(int i = 0; i < 6; ++i) {
 		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
+	}
+}
+
+void PrayerTimesEngine::calculateQibla(const Location* location, double* qiblaDegrees)
+{
+	if(location == 0L) {
+		kDebug() << "Error: location is null";
+		return;
+	}
+	if(qiblaDegrees == 0L) {
+		kDebug() << "Error: qiblaDegrees is null";
+		return;
 	}
 
 	*qiblaDegrees = -getNorthQibla(location);

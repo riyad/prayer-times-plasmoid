@@ -46,7 +46,8 @@ protected:
 
 private:
 	void parseLocation(const QString& coords, Location* location);
-	void calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes, double* qiblaDegrees);
+	void calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes);
+	void calculateQibla(const Location* location, double* qiblaDegrees);
 };
 
 #endif
