@@ -1,8 +1,17 @@
 [Desktop Entry]
 Name=Prayer Times Data Engine
-Comment=Prayer Times data for Plasmoids
-X-KDE-ServiceTypes=Plasma/DataEngine
+Comment=Islamic Prayer Times data for Plasmoids
 Type=Service
-Icon=alarmclock
+
+X-KDE-ServiceTypes=Plasma/DataEnginex
 X-KDE-Library=plasma_engine_prayertimes
 X-Plasma-EngineName=prayertimes
+X-KDE-PluginInfo-Author=Riyad Preukschas
+X-KDE-PluginInfo-Email=includeme@users.sourceforge.net
+X-KDE-PluginInfo-Name=prayertimes
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://plasma.kde.org/
+X-KDE-PluginInfo-Category=Date and Time
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=LGPL
+X-KDE-PluginInfo-EnabledByDefault=true
