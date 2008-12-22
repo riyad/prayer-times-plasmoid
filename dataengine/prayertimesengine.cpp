@@ -51,16 +51,16 @@ bool PrayerTimesEngine::updateSourceEvent(const QString &name)
 
 	parseLocation(name, &location);
 	calculatePrayerTimes(&location, &prayerTimes, &qiblaDegrees);
-	
+
 	setData(name, I18N_NOOP("prayerTimeFajr"),    prayerTimes[0]);
 	setData(name, I18N_NOOP("prayerTimeShorooq"), prayerTimes[1]);
 	setData(name, I18N_NOOP("prayerTimeDhuhr"),   prayerTimes[2]);
 	setData(name, I18N_NOOP("prayerTimeAsr"),     prayerTimes[3]);
 	setData(name, I18N_NOOP("prayerTimeMaghrib"), prayerTimes[4]);
 	setData(name, I18N_NOOP("prayerTimeIshaa"),   prayerTimes[5]);
-	
+
 	setData(name, I18N_NOOP("qiblaDegrees"), qiblaDegrees);
-	
+
 	return true;
 }
 
@@ -78,17 +78,17 @@ void PrayerTimesEngine::parseLocation(QString coords, Location *location)
 
 void PrayerTimesEngine::calculatePrayerTimes(Location *location, QVector<QTime> *prayerTimes, double *qiblaDegrees)
 {
-  Prayer prayers[6];
+	Prayer prayers[6];
 
-  Method method;
-  getMethod(calculationMethod, &method);
+	Method method;
+	getMethod(calculationMethod, &method);
 
-  Date date;
-  date.day = QDate::currentDate().day();
-  date.month = QDate::currentDate().month();
-  date.year = QDate::currentDate().year();
+	Date date;
+	date.day = QDate::currentDate().day();
+	date.month = QDate::currentDate().month();
+	date.year = QDate::currentDate().year();
 
-  getPrayerTimes(location, &method, &date, prayers);
+	getPrayerTimes(location, &method, &date, prayers);
 
 	prayerTimes->resize(6);
 	for(int i = 0; i < 6; ++i) {
