@@ -1,4 +1,5 @@
 #include "prayertimes.h"
+
 #include <QPainter>
 #include <QFontMetrics>
 #include <QSizeF>
@@ -36,6 +37,14 @@ void PrayerTimes::init()
     if (m_icon.isNull()) {
         setFailedToLaunch(true, i18n("No world to say hello"));
     }
+
+	dataEngine("prayertimes")->connectSource(locationCoords(), this, 1000*60, Plasma::AlignToMinute);
+	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
+}
+
+void Clock::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
+{
+	Q_UNUSED(source);
 }
 
 
