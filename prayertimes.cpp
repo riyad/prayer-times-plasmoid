@@ -4,8 +4,9 @@
 #include <QSizeF>
 #include <KLocale>
 
-#include <plasma/svg.h>
-#include <plasma/theme.h>
+#include <Plasma/DataEngine>
+#include <Plasma/Svg>
+#include <Plasma/Theme>
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
     : Plasma::Applet(parent, args),
