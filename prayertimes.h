@@ -22,6 +22,9 @@ public:
 		void paintInterface(QPainter *painter, const QStyleOptionGraphicsItem *option, const QRect& contentsRect);
 		void init();
 
+public slots:
+	dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
+
 private:
 		Plasma::Svg m_svg;
 		KIcon m_icon;
