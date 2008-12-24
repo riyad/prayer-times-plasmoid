@@ -19,6 +19,8 @@
 
 #include <QDate>
 
+#include <KSystemTimeZone>
+
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
     : Plasma::DataEngine(parent)
 {

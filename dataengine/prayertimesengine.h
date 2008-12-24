@@ -20,10 +20,11 @@
 
 #include <itl/prayer.h>
 
+#include <QString>
 #include <QTime>
 #include <QVector>
 
-#include <KSystemTimeZones>
+#include <KTimeZone>
 
 #include <Plasma/DataEngine>
 
