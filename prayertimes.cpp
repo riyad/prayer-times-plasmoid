@@ -46,6 +46,15 @@ void PrayerTimes::init()
 void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
 {
 	Q_UNUSED(source);
+
+	m_fajr = data["Fajr"].toTime();
+	m_shorooq = data["Shorooq"].toTime();
+	m_dhuhr = data["Dhuhr"].toTime();
+	m_asr = data["Asr"].toTime();
+	m_maghrib = data["Maghrib"].toTime();
+	m_ishaa = data["Ishaa"].toTime();
+
+	m_qibla = data["Qibla"].toDouble();
 }
 
 
