@@ -1,7 +1,7 @@
 // Here we avoid loading the header multiple times
 #ifndef PRAYERTIMES_HEADER
 #define PRAYERTIMES_HEADER
-// We need the Plasma Applet headers
+
 #include <KIcon>
 
 #include <Plasma/Applet>
@@ -27,6 +27,8 @@ public slots:
 	void dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
 
 private:
+		QString locationCoords();
+
 		Plasma::Svg m_svg;
 		KIcon m_icon;
 
