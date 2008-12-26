@@ -71,4 +71,9 @@ void PrayerTimes::paintInterface(QPainter *p,
     p->restore();
 }
 
+QString PrayerTimes::locationCoords()
+{
+	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
+}
+
 #include "prayertimes.moc"
