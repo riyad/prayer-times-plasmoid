@@ -10,9 +10,12 @@
 #include <Plasma/Theme>
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
-    : Plasma::Applet(parent, args),
-    m_svg(this),
-    m_icon("document")
+	: Plasma::Applet(parent, args),
+	m_svg(this),
+	m_icon("document"),
+	m_latitude(53.01),
+	m_longitude(8.8),
+	m_calculationMethod(5)
 {
     // this will get us the standard applet background, for free!
     setBackgroundHints(DefaultBackground);
@@ -42,7 +45,7 @@ void PrayerTimes::init()
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
 }
 
-void Clock::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
+void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
 {
 	Q_UNUSED(source);
 }

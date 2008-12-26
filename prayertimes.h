@@ -5,6 +5,7 @@
 #include <KIcon>
 
 #include <Plasma/Applet>
+#include <Plasma/DataEngine>
 #include <Plasma/Svg>
 
 class QSizeF;
@@ -23,11 +24,14 @@ public:
 		void init();
 
 public slots:
-	dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
+	void dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
 
 private:
 		Plasma::Svg m_svg;
 		KIcon m_icon;
+
+		double m_latitude, m_longitude;
+		int m_calculationMethod;
 };
  
 // This is the command that links your applet to the .desktop file
