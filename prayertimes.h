@@ -36,6 +36,9 @@ private:
 
 		double m_latitude, m_longitude;
 		int m_calculationMethod;
+
+		QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa;
+		double m_qibla;
 };
  
 // This is the command that links your applet to the .desktop file
