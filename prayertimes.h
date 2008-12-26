@@ -2,6 +2,8 @@
 #ifndef PRAYERTIMES_HEADER
 #define PRAYERTIMES_HEADER
 
+#include <QString>
+#include <QTime>
 #include <KIcon>
 
 #include <Plasma/Applet>

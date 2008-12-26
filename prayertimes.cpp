@@ -5,8 +5,6 @@
 #include <QSizeF>
 #include <KLocale>
 
-#include <Plasma/DataEngine>
-#include <Plasma/Svg>
 #include <Plasma/Theme>
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
