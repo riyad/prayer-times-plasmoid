@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QFontMetrics>
 #include <QSizeF>
+#include <QTextOption>
 
 #include <KLocale>
 
@@ -68,21 +69,29 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 void PrayerTimes::paintInterface(QPainter *p,
         const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
-    p->setRenderHint(QPainter::SmoothPixmapTransform);
-    p->setRenderHint(QPainter::Antialiasing);
+	p->setRenderHint(QPainter::SmoothPixmapTransform);
+	p->setRenderHint(QPainter::Antialiasing);
 
-    // Now we draw the applet, starting with our svg
-    m_svg.resize((int)contentsRect.width(), (int)contentsRect.height());
-    m_svg.paint(p, (int)contentsRect.left(), (int)contentsRect.top());
+	// Now we draw the applet, starting with our svg
+	//m_svg.resize((int)contentsRect.width(), (int)contentsRect.height());
+	//m_svg.paint(p, (int)contentsRect.left(), (int)contentsRect.top());
 
-    // We place the icon and text
-    p->drawPixmap(7, 0, m_icon.pixmap((int)contentsRect.width(),(int)contentsRect.width()-14));
-    p->save();
-    p->setPen(Qt::white);
-    p->drawText(contentsRect,
-                Qt::AlignBottom | Qt::AlignHCenter,
-                i18n("Hello Plasmoid!"));
-    p->restore();
+	// We place the icon and text
+	//p->drawPixmap(7, 0, m_icon.pixmap((int)contentsRect.width(),(int)contentsRect.width()-14));
+	//p->save();
+	p->setPen(Qt::white);
+	QTextOption textOptions(Qt::AlignLeft | Qt::AlignHCenter);
+	textOptions.setWrapMode(QTextOption::WordWrap);
+	p->drawText(contentsRect,
+		i18n("%1 %2 %3 %4 %5 %6")
+			.arg(m_fajr.toString())
+			.arg(m_shorooq.toString())
+			.arg(m_dhuhr.toString())
+			.arg(m_asr.toString())
+			.arg(m_maghrib.toString())
+			.arg(m_ishaa.toString()),
+		textOptions);
+	//p->restore();
 }
 
 QString PrayerTimes::locationCoords()
