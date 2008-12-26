@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QFontMetrics>
 #include <QSizeF>
+
 #include <KLocale>
 
 #include <Plasma/Theme>
@@ -39,7 +40,13 @@ void PrayerTimes::init()
         setFailedToLaunch(true, i18n("No world to say hello"));
     }
 
-	dataEngine("prayertimes")->connectSource(locationCoords(), this, 1000*60, Plasma::AlignToMinute);
+	Plasma::DataEngine* prayerTimesEngine;
+	prayerTimesEngine = dataEngine("prayertimes");
+
+	prayerTimesEngine->setProperty("latitude", m_latitude);
+	prayerTimesEngine->setProperty("longitude", m_longitude);
+
+	prayerTimesEngine->connectSource(locationCoords(), this, 1000*60, Plasma::AlignToMinute);
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
 }
 
