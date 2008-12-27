@@ -85,12 +85,18 @@ void PrayerTimes::paintInterface(QPainter *p,
 	QRect labelsRect(contentsRect);
 	labelsRect.setWidth(contentsRect.width()/2);
 
-	QRect timesRect(contentsRect);
-	timesRect.setWidth(contentsRect.width()/2);
-	timesRect.setLeft(contentsRect.width()/2);
+	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
+	//textOptions.setWrapMode(QTextOption::WordWrap);
+	p->drawText(labelsRect,
+		i18n("Fajr:\nShorooq:\nDhuhr:\nAsr:\nMaghrib:\nIshaa:"),
+		labelsTextOption);
 
-	QTextOption textOptions(Qt::AlignLeft | Qt::AlignHCenter);
-	textOptions.setWrapMode(QTextOption::WordWrap);
+	QRect timesRect(contentsRect);
+	timesRect.setLeft(contentsRect.width()/2);
+	timesRect.setWidth(contentsRect.width()/2);
+
+	QTextOption timesTextOption(Qt::AlignLeft | Qt::AlignHCenter);
+	//textOptions.setWrapMode(QTextOption::WordWrap);
 	p->drawText(timesRect,
 		i18n("%1\n%2\n%3\n%4\n%5\n%6")
 			.arg(m_fajr.toString())
@@ -99,7 +105,7 @@ void PrayerTimes::paintInterface(QPainter *p,
 			.arg(m_asr.toString())
 			.arg(m_maghrib.toString())
 			.arg(m_ishaa.toString()),
-		textOptions);
+		timesTextOption);
 	//p->restore();
 }
 
