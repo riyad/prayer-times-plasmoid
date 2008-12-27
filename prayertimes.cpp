@@ -79,11 +79,20 @@ void PrayerTimes::paintInterface(QPainter *p,
 	// We place the icon and text
 	//p->drawPixmap(7, 0, m_icon.pixmap((int)contentsRect.width(),(int)contentsRect.width()-14));
 	//p->save();
+
 	p->setPen(Qt::white);
+
+	QRect labelsRect(contentsRect);
+	labelsRect.setWidth(contentsRect.width()/2);
+
+	QRect timesRect(contentsRect);
+	timesRect.setWidth(contentsRect.width()/2);
+	timesRect.setLeft(contentsRect.width()/2);
+
 	QTextOption textOptions(Qt::AlignLeft | Qt::AlignHCenter);
 	textOptions.setWrapMode(QTextOption::WordWrap);
-	p->drawText(contentsRect,
-		i18n("%1 %2 %3 %4 %5 %6")
+	p->drawText(timesRect,
+		i18n("%1\n%2\n%3\n%4\n%5\n%6")
 			.arg(m_fajr.toString())
 			.arg(m_shorooq.toString())
 			.arg(m_dhuhr.toString())
