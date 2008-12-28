@@ -6,7 +6,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="512"
@@ -16,7 +15,10 @@
    inkscape:version="0.46"
    sodipodi:docname="kaaba.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   version="1.0"
+   inkscape:export-filename="/home/riyad/src/PrayerTimes/hi16-app-prayertimes.png"
+   inkscape:export-xdpi="2.8125"
+   inkscape:export-ydpi="2.8125">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -69,14 +71,6 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <image
-       y="-98.780678"
-       x="-121.42857"
-       id="image2392"
-       height="72"
-       width="224"
-       sodipodi:absref="/home/riyad/src/PrayerTimes/QL1.png"
-       xlink:href="QL1.png" />
     <g
        id="g3443"
        transform="translate(-246.58686,-55.062879)">
@@ -468,7 +462,7 @@
     </g>
     <g
        id="g3901"
-       transform="matrix(7.9397662,0,0,7.9397662,-1037.7406,-883.41555)">
+       transform="matrix(7.9397662,0,0,7.9397662,-1051.7406,-889.41555)">
       <g
          style="fill:#000000;fill-opacity:1"
          transform="matrix(1.0791794,0,0,1.0825383,-13.090965,-11.972282)"
