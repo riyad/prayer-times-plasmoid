@@ -34,4 +34,7 @@ install(TARGETS plasma_applet_prayertimes
 install(FILES plasma-applet-prayertimes.desktop
         DESTINATION ${SERVICES_INSTALL_DIR})
 
-kde4_install_icons( ${ICON_INSTALL_DIR} )
+kde4_install_icons(${ICON_INSTALL_DIR})
+
+install(FILES prayertimes.svgz
+        DESTINATION ${DATA_INSTALL_DIR}/desktoptheme/default/widgets/)
