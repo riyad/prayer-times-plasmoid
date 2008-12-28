@@ -11,17 +11,17 @@
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
-	m_svg(this),
-	m_icon("document"),
+	m_kaabaSvg(this),
 	m_latitude(53.01),
 	m_longitude(8.8),
 	m_calculationMethod(5)
 {
-    // this will get us the standard applet background, for free!
-    setBackgroundHints(DefaultBackground);
-    m_svg.setImagePath("widgets/background");
-    setHasConfigurationInterface(true);  
-    resize(200, 200);
+	// this will get us the standard applet background, for free!
+	setBackgroundHints(DefaultBackground);
+	m_kaabaSvg.setImagePath("widgets/prayertimes");
+	m_kaabaSvg.setContainsMultipleImages(false);
+	setHasConfigurationInterface(true);
+	resize(300, 150);
 }
 
 
@@ -36,11 +36,6 @@ PrayerTimes::~PrayerTimes()
 
 void PrayerTimes::init()
 {
-    // A small demonstration of the setFailedToLaunch function
-    if (m_icon.isNull()) {
-        setFailedToLaunch(true, i18n("No world to say hello"));
-    }
-
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
 
@@ -69,21 +64,26 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 void PrayerTimes::paintInterface(QPainter *p,
         const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
+	QRect iconRect(contentsRect);
+	iconRect.setWidth(contentsRect.width()/2);
+	QRect labelsRect(contentsRect);
+	labelsRect.setLeft(contentsRect.width()/2 + 0*contentsRect.width()/4);
+	labelsRect.setWidth(contentsRect.width()/4);
+	QRect timesRect(contentsRect);
+	timesRect.setLeft(contentsRect.width()/2 + 1*contentsRect.width()/4);
+	timesRect.setWidth(contentsRect.width()/4);
+
 	p->setRenderHint(QPainter::SmoothPixmapTransform);
 	p->setRenderHint(QPainter::Antialiasing);
 
 	// Now we draw the applet, starting with our svg
-	//m_svg.resize((int)contentsRect.width(), (int)contentsRect.height());
-	//m_svg.paint(p, (int)contentsRect.left(), (int)contentsRect.top());
+	int kaabaSize = qMin(iconRect.width(), iconRect.height());
+	m_kaabaSvg.resize(kaabaSize, kaabaSize);
+	m_kaabaSvg.paint(p, iconRect.left(), iconRect.top(), "kaaba");
 
-	// We place the icon and text
-	//p->drawPixmap(7, 0, m_icon.pixmap((int)contentsRect.width(),(int)contentsRect.width()-14));
-	//p->save();
+	p->save();
 
 	p->setPen(Qt::white);
-
-	QRect labelsRect(contentsRect);
-	labelsRect.setWidth(contentsRect.width()/2);
 
 	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
 	//textOptions.setWrapMode(QTextOption::WordWrap);
@@ -91,14 +91,10 @@ void PrayerTimes::paintInterface(QPainter *p,
 		i18n("Fajr:\nShorooq:\nDhuhr:\nAsr:\nMaghrib:\nIshaa:"),
 		labelsTextOption);
 
-	QRect timesRect(contentsRect);
-	timesRect.setLeft(contentsRect.width()/2);
-	timesRect.setWidth(contentsRect.width()/2);
-
 	QTextOption timesTextOption(Qt::AlignLeft | Qt::AlignHCenter);
 	//textOptions.setWrapMode(QTextOption::WordWrap);
 	p->drawText(timesRect,
-		i18n("%1\n%2\n%3\n%4\n%5\n%6")
+		QString("%1\n%2\n%3\n%4\n%5\n%6")
 			.arg(m_fajr.toString())
 			.arg(m_shorooq.toString())
 			.arg(m_dhuhr.toString())
@@ -106,7 +102,8 @@ void PrayerTimes::paintInterface(QPainter *p,
 			.arg(m_maghrib.toString())
 			.arg(m_ishaa.toString()),
 		timesTextOption);
-	//p->restore();
+
+	p->restore();
 }
 
 QString PrayerTimes::locationCoords()

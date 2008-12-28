@@ -31,8 +31,7 @@ public slots:
 private:
 		QString locationCoords();
 
-		Plasma::Svg m_svg;
-		KIcon m_icon;
+		Plasma::Svg m_kaabaSvg;
 
 		double m_latitude, m_longitude;
 		int m_calculationMethod;
