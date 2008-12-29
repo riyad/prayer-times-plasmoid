@@ -65,7 +65,7 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 	QWidget *widget = new QWidget(parent);
 	ui.setupUi(widget);
-	parent->addPage(widget, i18n("General"), Applet::icon());
+	parent->addPage(widget, i18n("Location"), "marble");
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
 
