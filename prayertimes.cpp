@@ -13,15 +13,17 @@
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_kaabaSvg(this),
-	m_latitude(53.01),
-	m_longitude(8.8),
-	m_calculationMethod(5)
+	m_latitude(21.416667), m_longitude(39.816667), // Makkah
+	m_calculationMethod(5) // Muslim World League
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
+
 	m_kaabaSvg.setImagePath("widgets/prayertimes");
 	m_kaabaSvg.setContainsMultipleImages(false);
+
 	setHasConfigurationInterface(true);
+
 	resize(300, 150);
 }
 
