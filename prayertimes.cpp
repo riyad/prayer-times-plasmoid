@@ -25,7 +25,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 
 	setHasConfigurationInterface(true);
 
-	resize(300, 150);
+	resize(350, 170);
 }
 
 
@@ -146,6 +146,12 @@ void PrayerTimes::paintInterface(QPainter *p,
 			.arg(m_maghrib.toString())
 			.arg(m_ishaa.toString()),
 		timesTextOption);
+
+	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
+	//townTextOption.setWrapMode(QTextOption::WordWrap);
+	p->drawText(contentsRect,
+			i18n("Prayer times for %1 on %2").arg(m_town).arg(QDate::currentDate().toString()),
+			townTextOption);
 
 	p->restore();
 }
