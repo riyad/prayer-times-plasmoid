@@ -37,13 +37,6 @@ PrayerTimes::~PrayerTimes()
 
 void PrayerTimes::init()
 {
-	Plasma::DataEngine* prayerTimesEngine;
-	prayerTimesEngine = dataEngine("prayertimes");
-
-	prayerTimesEngine->setProperty("latitude", m_latitude);
-	prayerTimesEngine->setProperty("longitude", m_longitude);
-
-	prayerTimesEngine->connectSource(locationCoords(), this, 1000*60, Plasma::AlignToMinute);
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
 }
 
@@ -73,6 +66,12 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 }
 
 void PrayerTimes::configAccepted() {
+	disconnectSources();
+
+	m_latitude = ui.latitudeLineEdit->text().toDouble();
+	m_longitude = ui.longitudeLineEdit->text().toDouble();
+
+	connectSources();
 }
 
 void PrayerTimes::paintInterface(QPainter *p,
@@ -118,6 +117,18 @@ void PrayerTimes::paintInterface(QPainter *p,
 		timesTextOption);
 
 	p->restore();
+}
+
+void PrayerTimes::connectSources() {
+	Plasma::DataEngine* prayerTimesEngine;
+	prayerTimesEngine = dataEngine("prayertimes");
+	prayerTimesEngine->connectSource(locationCoords(), this, 1000*60, Plasma::AlignToMinute);
+}
+
+void PrayerTimes::disconnectSources() {
+	Plasma::DataEngine* prayerTimesEngine;
+	prayerTimesEngine = dataEngine("prayertimes");
+	prayerTimesEngine->disconnectSource(locationCoords(), this);
 }
 
 QString PrayerTimes::locationCoords()

@@ -37,6 +37,8 @@ class PrayerTimes : public Plasma::Applet
 		void createConfigurationInterface(KConfigDialog *parent);
 
 	private:
+		void connectSources();
+		void disconnectSources();
 		QString locationCoords();
 
 		Plasma::Svg m_kaabaSvg;
