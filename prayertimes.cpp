@@ -122,16 +122,16 @@ void PrayerTimes::paintInterface(QPainter *p,
 void PrayerTimes::connectSources() {
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
-	prayerTimesEngine->connectSource(locationCoords(), this, 1000*60, Plasma::AlignToMinute);
+	prayerTimesEngine->connectSource(sourceName(), this, 1000*60, Plasma::AlignToMinute);
 }
 
 void PrayerTimes::disconnectSources() {
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
-	prayerTimesEngine->disconnectSource(locationCoords(), this);
+	prayerTimesEngine->disconnectSource(sourceName(), this);
 }
 
-QString PrayerTimes::locationCoords()
+QString PrayerTimes::sourceName()
 {
 	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
 }

@@ -39,7 +39,7 @@ class PrayerTimes : public Plasma::Applet
 	private:
 		void connectSources();
 		void disconnectSources();
-		QString locationCoords();
+		QString sourceName();
 
 		Plasma::Svg m_kaabaSvg;
 
