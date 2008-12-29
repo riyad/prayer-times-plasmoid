@@ -39,7 +39,13 @@ PrayerTimes::~PrayerTimes()
 
 void PrayerTimes::init()
 {
+	KConfigGroup cg = config();
+	m_latitude = cg.readEntry("latitude", m_latitude);
+	m_longitude = cg.readEntry("longitude", m_longitude);
+
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
+
+	connectSources();
 }
 
 void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
@@ -70,10 +76,23 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 void PrayerTimes::configAccepted() {
 	disconnectSources();
 
-	m_latitude = ui.latitudeLineEdit->text().toDouble();
-	m_longitude = ui.longitudeLineEdit->text().toDouble();
+	KConfigGroup cg = config();
+
+	double latitude = ui.latitudeLineEdit->text().toDouble();
+	if(m_latitude != latitude) {
+		m_latitude = latitude;
+		cg.writeEntry("latitude", m_latitude);
+	}
+
+	double longitude = ui.longitudeLineEdit->text().toDouble();
+	if(m_longitude != longitude) {
+		m_longitude = longitude;
+		cg.writeEntry("longitude", m_longitude);
+	}
 
 	connectSources();
+
+	emit configNeedsSaving();
 }
 
 void PrayerTimes::paintInterface(QPainter *p,
