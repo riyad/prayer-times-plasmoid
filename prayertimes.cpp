@@ -6,6 +6,7 @@
 #include <QTextOption>
 
 #include <KLocale>
+#include <KConfigDialog>
 
 #include <Plasma/Theme>
 
@@ -60,6 +61,19 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 	m_qibla = data["Qibla"].toDouble();
 }
 
+void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
+	QWidget *widget = new QWidget(parent);
+	ui.setupUi(widget);
+	parent->addPage(widget, i18n("General"), Applet::icon());
+	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
+	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
+
+	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
+	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
+}
+
+void PrayerTimes::configAccepted() {
+}
 
 void PrayerTimes::paintInterface(QPainter *p,
         const QStyleOptionGraphicsItem *option, const QRect &contentsRect)

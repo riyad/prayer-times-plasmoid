@@ -10,13 +10,15 @@
 #include <Plasma/DataEngine>
 #include <Plasma/Svg>
 
+#include "ui_prayertimesLocationConfig.h"
+
 class QSizeF;
 
 // Define our plasma Applet
 class PrayerTimes : public Plasma::Applet
 {
 	Q_OBJECT
-public:
+	public:
 		// Basic Create/Destroy
 		PrayerTimes(QObject *parent, const QVariantList &args);
 		~PrayerTimes();
@@ -25,10 +27,16 @@ public:
 		void paintInterface(QPainter *painter, const QStyleOptionGraphicsItem *option, const QRect& contentsRect);
 		void init();
 
-public slots:
-	void dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
+	public slots:
+		void dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
 
-private:
+	protected Q_SLOTS:
+		void configAccepted();
+
+	protected:
+		void createConfigurationInterface(KConfigDialog *parent);
+
+	private:
 		QString locationCoords();
 
 		Plasma::Svg m_kaabaSvg;
@@ -38,6 +46,9 @@ private:
 
 		QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa;
 		double m_qibla;
+
+		// Configuration dialog
+		Ui::prayertimesLocationConfig ui;
 };
  
 // This is the command that links your applet to the .desktop file
