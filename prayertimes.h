@@ -43,6 +43,7 @@ class PrayerTimes : public Plasma::Applet
 
 		Plasma::Svg m_kaabaSvg;
 
+		QString m_town;
 		double m_latitude, m_longitude;
 		int m_calculationMethod;
 

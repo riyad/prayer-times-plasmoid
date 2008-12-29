@@ -13,6 +13,7 @@
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_kaabaSvg(this),
+	m_town("Makkah"),
 	m_latitude(21.416667), m_longitude(39.816667), // Makkah
 	m_calculationMethod(5) // Muslim World League
 {
@@ -40,6 +41,7 @@ PrayerTimes::~PrayerTimes()
 void PrayerTimes::init()
 {
 	KConfigGroup cg = config();
+	m_town = cg.readEntry("town", m_town);
 	m_latitude = cg.readEntry("latitude", m_latitude);
 	m_longitude = cg.readEntry("longitude", m_longitude);
 
@@ -67,6 +69,7 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 	ui.setupUi(widget);
 
 	parent->addPage(widget, i18n("Location"), "marble");
+	ui.townLineEdit->setText(m_town);
 	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
 	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
 
@@ -78,6 +81,12 @@ void PrayerTimes::configAccepted() {
 	disconnectSources();
 
 	KConfigGroup cg = config();
+
+	QString town = ui.townLineEdit->text();
+	if(m_town != town) {
+		m_town = town;
+		cg.writeEntry("town", m_town);
+	}
 
 	double latitude = ui.latitudeLineEdit->text().toDouble();
 	if(m_latitude != latitude) {
