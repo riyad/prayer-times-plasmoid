@@ -1,13 +1,20 @@
 #include "prayertimes.h"
 
+// Qt
 #include <QPainter>
-#include <QFontMetrics>
-#include <QSizeF>
+#include <QString>
 #include <QTextOption>
+#include <QTime>
 
-#include <KLocale>
+// KDE
 #include <KConfigDialog>
+#include <KIcon>
+#include <KLocale>
 
+// Plasma
+#include <Plasma/Applet>
+#include <Plasma/DataEngine>
+#include <Plasma/Svg>
 #include <Plasma/Theme>
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)

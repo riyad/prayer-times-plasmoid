@@ -2,17 +2,19 @@
 #ifndef PRAYERTIMES_HEADER
 #define PRAYERTIMES_HEADER
 
-#include <QString>
-#include <QTime>
-#include <KIcon>
-
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
 #include <Plasma/Svg>
 
 #include "ui_prayertimesLocationConfig.h"
 
-class QSizeF;
+class QPainter;
+class QRect;
+class QString;
+class QStyleOptionGraphicsItem;
+class QTime;
+
+class KConfigDialog;
 
 // Define our plasma Applet
 class PrayerTimes : public Plasma::Applet
