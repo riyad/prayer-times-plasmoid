@@ -1,3 +1,4 @@
+// mine
 #include "prayertimes.h"
 
 // Qt
@@ -18,6 +19,7 @@
 #include <Plasma/Theme>
 
 // Marble
+#include <marble/MarbleModel.h>
 #include <marble/MarbleWidget.h>
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
@@ -100,6 +102,8 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	map->setShowScaleBar   ( false );
 	map->setShowClouds     ( false );
 
+	connect(ui.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseMoveGeoPosition(QString)));
+
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
 }
@@ -131,6 +135,18 @@ void PrayerTimes::configAccepted()
 	connectSources();
 
 	emit configNeedsSaving();
+}
+
+void PrayerTimes::configMouseMoveGeoPosition(QString geopos) {
+	Marble::MarbleWidget* map = ui.mapWidget;
+	double lon = ui.mapWidget->centerLongitude();
+	double lat = ui.mapWidget->centerLatitude();
+	int x, y;
+	map->screenCoordinates(lon, lat, x, y);
+	QVector<QPersistentModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
+	if(!featureList.isEmpty()) {
+		ui.townLineEdit->setText(featureList.at(0).data().toString());
+	}
 }
 
 void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
