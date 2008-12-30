@@ -86,7 +86,7 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	ui.townLineEdit->setText(m_town);
 
 	Marble::MarbleWidget* map = ui.mapWidget;
-	map->setProjection(Marble::Equirectangular);
+	map->setProjection(Marble::Spherical);
 	//Set how we want the map to look
 	map->centerOn(m_longitude, m_latitude);
 	map->zoomView(map->maximumZoom());
