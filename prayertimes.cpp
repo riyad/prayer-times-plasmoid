@@ -25,7 +25,8 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	m_kaabaSvg(this),
 	m_town("Makkah"),
 	m_latitude(21.416667), m_longitude(39.816667), // Makkah
-	m_calculationMethod(5) // Muslim World League
+	m_calculationMethod(5), // Muslim World League
+	m_map(0)
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
