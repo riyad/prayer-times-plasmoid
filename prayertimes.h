@@ -38,7 +38,7 @@ class PrayerTimes : public Plasma::Applet
 
 	protected Q_SLOTS:
 		void configAccepted();
-		void configMouseMoveGeoPosition();
+		void configMouseGeoPositionChanged();
 
 	protected:
 		void createConfigurationInterface(KConfigDialog *parent);

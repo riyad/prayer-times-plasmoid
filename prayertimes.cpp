@@ -101,7 +101,7 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	map->setShowScaleBar   ( false );
 	map->setShowClouds     ( false );
 
-	connect(ui.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseMoveGeoPosition()));
+	connect(ui.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseGeoPositionChanged()));
 
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
@@ -136,7 +136,7 @@ void PrayerTimes::configAccepted()
 	emit configNeedsSaving();
 }
 
-void PrayerTimes::configMouseMoveGeoPosition() {
+void PrayerTimes::configMouseGeoPositionChanged() {
 	Marble::MarbleWidget* map = ui.mapWidget;
 	double lon = ui.mapWidget->centerLongitude();
 	double lat = ui.mapWidget->centerLatitude();
