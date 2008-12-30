@@ -137,8 +137,7 @@ void PrayerTimes::configAccepted()
 	emit configNeedsSaving();
 }
 
-void PrayerTimes::paintInterface(QPainter *p,
-        const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
+void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
 	QRect iconRect(contentsRect);
 	iconRect.setWidth(contentsRect.width()/2);
@@ -182,8 +181,8 @@ void PrayerTimes::paintInterface(QPainter *p,
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
 	p->drawText(contentsRect,
-			i18n("Prayer times for %1 on %2").arg(m_town).arg(QDate::currentDate().toString()),
-			townTextOption);
+		i18n("Prayer times for %1 on %2").arg(m_town).arg(QDate::currentDate().toString()),
+		townTextOption);
 
 	p->restore();
 }
