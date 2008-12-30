@@ -25,8 +25,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	m_kaabaSvg(this),
 	m_town("Makkah"),
 	m_latitude(21.416667), m_longitude(39.816667), // Makkah
-	m_calculationMethod(5), // Muslim World League
-	m_map(0)
+	m_calculationMethod(5) // Muslim World League
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -85,22 +84,24 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
 	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
 
-	m_map = new Marble::MarbleWidget(parent);
-	parent->addPage(m_map, i18n("Map"), "marble");
-	m_map->setProjection(Marble::Equirectangular);
+	Marble::MarbleWidget* map = ui.mapWidget;
+	map->setProjection(Marble::Equirectangular);
 	//Set how we want the map to look
-	m_map->centerOn(m_longitude, m_latitude);
-	m_map->zoomView(m_map->maximumZoom());
-	m_map->setMapThemeId( "earth/atlas/atlas.dgml" );
-	m_map->setShowGrid       ( true );
-	m_map->setShowPlaces     ( true );
-	m_map->setShowOtherPlaces( false );
-	//m_map->setShowBorders    ( true );
-	m_map->setShowCities     ( true );
-	m_map->setShowCompass    ( false );
-	m_map->setShowCrosshairs ( true );
-	m_map->setShowScaleBar   ( false );
-	m_map->setShowClouds     ( false );
+	map->centerOn(m_longitude, m_latitude);
+	map->zoomView(map->maximumZoom());
+	map->setMapThemeId( "earth/atlas/atlas.dgml" );
+	map->setShowGrid       ( true );
+	map->setShowPlaces     ( true );
+	map->setShowOtherPlaces( false );
+	//map->setShowBorders    ( true );
+	map->setShowCities     ( true );
+	map->setShowCompass    ( false );
+	map->setShowCrosshairs ( true );
+	map->setShowScaleBar   ( false );
+	map->setShowClouds     ( false );
+
+	map->update();
+	map->setNeedsUpdate();
 
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
@@ -118,15 +119,13 @@ void PrayerTimes::configAccepted()
 		cg.writeEntry("town", m_town);
 	}
 
-// 	double latitude = ui.latitudeLineEdit->text().toDouble();
-	double latitude = m_map->centerLatitude();
+	double latitude = ui.mapWidget->centerLatitude();
 	if(m_latitude != latitude) {
 		m_latitude = latitude;
 		cg.writeEntry("latitude", m_latitude);
 	}
 
-// 	double longitude = ui.longitudeLineEdit->text().toDouble();
-	double longitude = m_map->centerLongitude();
+	double longitude = ui.mapWidget->centerLongitude();
 	if(m_longitude != longitude) {
 		m_longitude = longitude;
 		cg.writeEntry("longitude", m_longitude);

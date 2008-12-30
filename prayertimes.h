@@ -58,7 +58,6 @@ class PrayerTimes : public Plasma::Applet
 
 		// Configuration dialog
 		Ui::prayertimesLocationConfig ui;
-		Marble::MarbleWidget* m_map;
 };
  
 // This is the command that links your applet to the .desktop file
