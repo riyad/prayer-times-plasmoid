@@ -25,7 +25,7 @@
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_kaabaSvg(this),
-	m_town("Makkah"),
+	m_locationName("Makkah"),
 	m_latitude(21.416667), m_longitude(39.816667), // Makkah
 	m_calculationMethod(5) // Muslim World League
 {
@@ -54,7 +54,7 @@ PrayerTimes::~PrayerTimes()
 void PrayerTimes::init()
 {
 	KConfigGroup cg = config();
-	m_town = cg.readEntry("town", m_town);
+	m_locationName = cg.readEntry("locationName", m_locationName);
 	m_latitude = cg.readEntry("latitude", m_latitude);
 	m_longitude = cg.readEntry("longitude", m_longitude);
 
@@ -83,7 +83,7 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	ui.setupUi(widget);
 
 	parent->addPage(widget, i18n("Location"), "marble");
-	ui.townLineEdit->setText(m_town);
+	ui.locationNameLineEdit->setText(m_locationName);
 
 	Marble::MarbleWidget* map = ui.mapWidget;
 	map->setProjection(Marble::Spherical);
@@ -114,10 +114,10 @@ void PrayerTimes::configAccepted()
 
 	KConfigGroup cg = config();
 
-	QString town = ui.townLineEdit->text();
-	if(m_town != town) {
-		m_town = town;
-		cg.writeEntry("town", m_town);
+	QString locationName = ui.locationNameLineEdit->text();
+	if(m_locationName != locationName) {
+		m_locationName = locationName;
+		cg.writeEntry("locationName", m_locationName);
 	}
 
 	double latitude = ui.mapWidget->centerLatitude();
@@ -145,7 +145,7 @@ void PrayerTimes::configMouseGeoPositionChanged() {
 	map->screenCoordinates(lon, lat, x, y);
 	QVector<QPersistentModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
 	if(!featureList.isEmpty()) {
-		ui.townLineEdit->setText(featureList.at(0).data().toString());
+		ui.locationNameLineEdit->setText(featureList.at(0).data().toString());
 	}
 }
 
@@ -193,7 +193,7 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
 	p->drawText(contentsRect,
-		i18n("Prayer times for %1 on %2").arg(m_town).arg(QDate::currentDate().toString()),
+		i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()),
 		townTextOption);
 
 	p->restore();
