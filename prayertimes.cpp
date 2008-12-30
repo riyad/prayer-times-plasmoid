@@ -83,11 +83,12 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
 	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
 
-	Marble::MarbleWidget *m_map = new Marble::MarbleWidget(parent);
+	m_map = new Marble::MarbleWidget(parent);
 	parent->addPage(m_map, i18n("Map"), "marble");
 	m_map->setProjection(Marble::Equirectangular);
 	//Set how we want the map to look
-	m_map->centerOn( -20, 0 );
+	m_map->centerOn(m_longitude, m_latitude);
+	m_map->zoomView(m_map->maximumZoom());
 	m_map->setMapThemeId( "earth/atlas/atlas.dgml" );
 	m_map->setShowGrid       ( true );
 	m_map->setShowPlaces     ( true );
@@ -114,13 +115,15 @@ void PrayerTimes::configAccepted() {
 		cg.writeEntry("town", m_town);
 	}
 
-	double latitude = ui.latitudeLineEdit->text().toDouble();
+// 	double latitude = ui.latitudeLineEdit->text().toDouble();
+	double latitude = m_map->centerLatitude();
 	if(m_latitude != latitude) {
 		m_latitude = latitude;
 		cg.writeEntry("latitude", m_latitude);
 	}
 
-	double longitude = ui.longitudeLineEdit->text().toDouble();
+// 	double longitude = ui.longitudeLineEdit->text().toDouble();
+	double longitude = m_map->centerLongitude();
 	if(m_longitude != longitude) {
 		m_longitude = longitude;
 		cg.writeEntry("longitude", m_longitude);
