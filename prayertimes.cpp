@@ -1,3 +1,4 @@
+// mine
 #include "prayertimes.h"
 
 // Qt
@@ -16,6 +17,10 @@
 #include <Plasma/DataEngine>
 #include <Plasma/Svg>
 #include <Plasma/Theme>
+
+// Marble
+#include <marble/MarbleModel.h>
+#include <marble/MarbleWidget.h>
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
@@ -72,20 +77,38 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 	m_qibla = data["Qibla"].toDouble();
 }
 
-void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
+void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
+{
 	QWidget *widget = new QWidget(parent);
 	ui.setupUi(widget);
 
 	parent->addPage(widget, i18n("Location"), "marble");
 	ui.townLineEdit->setText(m_town);
-	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
-	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
+
+	Marble::MarbleWidget* map = ui.mapWidget;
+	map->setProjection(Marble::Equirectangular);
+	//Set how we want the map to look
+	map->centerOn(m_longitude, m_latitude);
+	map->zoomView(map->maximumZoom());
+	map->setMapThemeId( "earth/atlas/atlas.dgml" );
+	map->setShowGrid       ( true );
+	map->setShowPlaces     ( true );
+	map->setShowOtherPlaces( false );
+	//map->setShowBorders    ( true );
+	map->setShowCities     ( true );
+	map->setShowCompass    ( false );
+	map->setShowCrosshairs ( true );
+	map->setShowScaleBar   ( false );
+	map->setShowClouds     ( false );
+
+	connect(ui.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseMoveGeoPosition(QString)));
 
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
 }
 
-void PrayerTimes::configAccepted() {
+void PrayerTimes::configAccepted()
+{
 	disconnectSources();
 
 	KConfigGroup cg = config();
@@ -96,13 +119,13 @@ void PrayerTimes::configAccepted() {
 		cg.writeEntry("town", m_town);
 	}
 
-	double latitude = ui.latitudeLineEdit->text().toDouble();
+	double latitude = ui.mapWidget->centerLatitude();
 	if(m_latitude != latitude) {
 		m_latitude = latitude;
 		cg.writeEntry("latitude", m_latitude);
 	}
 
-	double longitude = ui.longitudeLineEdit->text().toDouble();
+	double longitude = ui.mapWidget->centerLongitude();
 	if(m_longitude != longitude) {
 		m_longitude = longitude;
 		cg.writeEntry("longitude", m_longitude);
@@ -113,8 +136,19 @@ void PrayerTimes::configAccepted() {
 	emit configNeedsSaving();
 }
 
-void PrayerTimes::paintInterface(QPainter *p,
-        const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
+void PrayerTimes::configMouseMoveGeoPosition(QString geopos) {
+	Marble::MarbleWidget* map = ui.mapWidget;
+	double lon = ui.mapWidget->centerLongitude();
+	double lat = ui.mapWidget->centerLatitude();
+	int x, y;
+	map->screenCoordinates(lon, lat, x, y);
+	QVector<QPersistentModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
+	if(!featureList.isEmpty()) {
+		ui.townLineEdit->setText(featureList.at(0).data().toString());
+	}
+}
+
+void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
 	QRect iconRect(contentsRect);
 	iconRect.setWidth(contentsRect.width()/2);
@@ -158,19 +192,21 @@ void PrayerTimes::paintInterface(QPainter *p,
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
 	p->drawText(contentsRect,
-			i18n("Prayer times for %1 on %2").arg(m_town).arg(QDate::currentDate().toString()),
-			townTextOption);
+		i18n("Prayer times for %1 on %2").arg(m_town).arg(QDate::currentDate().toString()),
+		townTextOption);
 
 	p->restore();
 }
 
-void PrayerTimes::connectSources() {
+void PrayerTimes::connectSources()
+{
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
 	prayerTimesEngine->connectSource(sourceName(), this, 1000*60, Plasma::AlignToMinute);
 }
 
-void PrayerTimes::disconnectSources() {
+void PrayerTimes::disconnectSources()
+{
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
 	prayerTimesEngine->disconnectSource(sourceName(), this);

@@ -16,7 +16,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
   ${KDE4_INCLUDES}
-  )
+	${ITL_INCLUDE_DIR}
+  ${MARBLE_INCLUDE_DIR})
 
 # We include the data engine
 add_subdirectory(dataengine)

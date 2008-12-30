@@ -16,6 +16,10 @@ class QTime;
 
 class KConfigDialog;
 
+namespace Marble {
+	class MarbleWidget;
+}
+
 // Define our plasma Applet
 class PrayerTimes : public Plasma::Applet
 {
@@ -34,6 +38,7 @@ class PrayerTimes : public Plasma::Applet
 
 	protected Q_SLOTS:
 		void configAccepted();
+		void configMouseMoveGeoPosition(QString geopos);
 
 	protected:
 		void createConfigurationInterface(KConfigDialog *parent);
