@@ -83,8 +83,6 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 
 	parent->addPage(widget, i18n("Location"), "marble");
 	ui.townLineEdit->setText(m_town);
-	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
-	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
 
 	Marble::MarbleWidget* map = ui.mapWidget;
 	map->setProjection(Marble::Equirectangular);
