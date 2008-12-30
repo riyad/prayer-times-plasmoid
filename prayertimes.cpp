@@ -74,7 +74,8 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 	m_qibla = data["Qibla"].toDouble();
 }
 
-void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
+void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
+{
 	QWidget *widget = new QWidget(parent);
 	ui.setupUi(widget);
 
@@ -104,7 +105,8 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
 }
 
-void PrayerTimes::configAccepted() {
+void PrayerTimes::configAccepted()
+{
 	disconnectSources();
 
 	KConfigGroup cg = config();
@@ -185,13 +187,15 @@ void PrayerTimes::paintInterface(QPainter *p,
 	p->restore();
 }
 
-void PrayerTimes::connectSources() {
+void PrayerTimes::connectSources()
+{
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
 	prayerTimesEngine->connectSource(sourceName(), this, 1000*60, Plasma::AlignToMinute);
 }
 
-void PrayerTimes::disconnectSources() {
+void PrayerTimes::disconnectSources()
+{
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
 	prayerTimesEngine->disconnectSource(sourceName(), this);
