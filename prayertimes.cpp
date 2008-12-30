@@ -32,6 +32,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 
 	setHasConfigurationInterface(true);
 
+	setMinimumSize(320, 170);
 	resize(350, 170);
 }
 
