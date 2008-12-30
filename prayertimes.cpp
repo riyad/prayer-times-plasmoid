@@ -17,6 +17,9 @@
 #include <Plasma/Svg>
 #include <Plasma/Theme>
 
+// Marble
+#include <marble/MarbleWidget.h>
+
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_kaabaSvg(this),
@@ -79,6 +82,22 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent) {
 	ui.townLineEdit->setText(m_town);
 	ui.latitudeLineEdit->setText(QString("%1").arg(m_latitude));
 	ui.longitudeLineEdit->setText(QString("%1").arg(m_longitude));
+
+	Marble::MarbleWidget *m_map = new Marble::MarbleWidget(parent);
+	parent->addPage(m_map, i18n("Map"), "marble");
+	m_map->setProjection(Marble::Equirectangular);
+	//Set how we want the map to look
+	m_map->centerOn( -20, 0 );
+	m_map->setMapThemeId( "earth/atlas/atlas.dgml" );
+	m_map->setShowGrid       ( true );
+	m_map->setShowPlaces     ( true );
+	m_map->setShowOtherPlaces( false );
+	//m_map->setShowBorders    ( true );
+	m_map->setShowCities     ( true );
+	m_map->setShowCompass    ( false );
+	m_map->setShowCrosshairs ( true );
+	m_map->setShowScaleBar   ( false );
+	m_map->setShowClouds     ( false );
 
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
