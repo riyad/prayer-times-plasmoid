@@ -150,19 +150,19 @@ void PrayerTimes::configMouseMoveGeoPosition(QString geopos) {
 
 void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
-	int fontSize = p->font().pixelSize();
+	int fontSize = 20;
 
 	QRect iconRect(contentsRect);
 	iconRect.setWidth(contentsRect.width()/2);
-	iconRect.setHeight(iconRect.height() - fontSize);
+	iconRect.setHeight(contentsRect.height() - fontSize);
 	QRect labelsRect(contentsRect);
 	labelsRect.setLeft(contentsRect.width()/2 + 0*contentsRect.width()/4);
 	labelsRect.setWidth(contentsRect.width()/4);
-	labelsRect.setHeight(labelsRect.height() - fontSize);
+	labelsRect.setHeight(contentsRect.height() - fontSize);
 	QRect timesRect(contentsRect);
 	timesRect.setLeft(contentsRect.width()/2 + 1*contentsRect.width()/4);
 	timesRect.setWidth(contentsRect.width()/4);
-	timesRect.setHeight(timesRect.height() - fontSize);
+	timesRect.setHeight(contentsRect.height() - fontSize);
 
 	p->setRenderHint(QPainter::SmoothPixmapTransform);
 	p->setRenderHint(QPainter::Antialiasing);
@@ -176,23 +176,37 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 
 	p->setPen(Qt::white);
 
-	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
-	//textOptions.setWrapMode(QTextOption::WordWrap);
-	p->drawText(labelsRect,
-		i18n("Fajr:\nShorooq:\nDhuhr:\nAsr:\nMaghrib:\nIshaa:"),
-		labelsTextOption);
+	QString labels[6] = {i18n("Fajr"), i18n("Shorooq"), i18n("Dhuhr"), i18n("Asr"), i18n("Maghrib"), i18n("Ishaa")};
+	QTime times[6] = {m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa};
 
+	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
 	QTextOption timesTextOption(Qt::AlignLeft | Qt::AlignHCenter);
-	//textOptions.setWrapMode(QTextOption::WordWrap);
-	p->drawText(timesRect,
-		QString("%1\n%2\n%3\n%4\n%5\n%6")
-			.arg(m_fajr.toString())
-			.arg(m_shorooq.toString())
-			.arg(m_dhuhr.toString())
-			.arg(m_asr.toString())
-			.arg(m_maghrib.toString())
-			.arg(m_ishaa.toString()),
-		timesTextOption);
+
+	QFont normalFont = p->font();
+	QFont boldFont(p->font());
+	boldFont.setBold(true);
+
+	for(int i=0; i < 6; ++i) {
+		if(times[i] <= QTime::currentTime() && QTime::currentTime() > times[(i+1)%6]) {
+			p->setFont(boldFont);
+		} else {
+			p->setFont(normalFont);
+		}
+
+		QRect labelRect(labelsRect);
+		labelRect.setTop(labelsRect.top() + i*labelsRect.height()/6);
+		labelRect.setHeight(labelsRect.height()/6);
+		p->drawText(labelRect,
+			QString("%1:").arg(labels[i]),
+			labelsTextOption);
+
+		QRect timeRect(timesRect);
+		timeRect.setTop(timesRect.top() + i*timesRect.height()/6);
+		timeRect.setHeight(timesRect.height()/6);
+		p->drawText(timeRect,
+			QString("%1").arg(times[i].toString()),
+			timesTextOption);
+	}
 
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
