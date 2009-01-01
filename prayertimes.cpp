@@ -150,14 +150,19 @@ void PrayerTimes::configMouseMoveGeoPosition(QString geopos) {
 
 void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
+	int fontSize = p->font().pixelSize();
+
 	QRect iconRect(contentsRect);
 	iconRect.setWidth(contentsRect.width()/2);
+	iconRect.setHeight(iconRect.height() - fontSize);
 	QRect labelsRect(contentsRect);
 	labelsRect.setLeft(contentsRect.width()/2 + 0*contentsRect.width()/4);
 	labelsRect.setWidth(contentsRect.width()/4);
+	labelsRect.setHeight(labelsRect.height() - fontSize);
 	QRect timesRect(contentsRect);
 	timesRect.setLeft(contentsRect.width()/2 + 1*contentsRect.width()/4);
 	timesRect.setWidth(contentsRect.width()/4);
+	timesRect.setHeight(timesRect.height() - fontSize);
 
 	p->setRenderHint(QPainter::SmoothPixmapTransform);
 	p->setRenderHint(QPainter::Antialiasing);
