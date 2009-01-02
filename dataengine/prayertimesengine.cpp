@@ -27,6 +27,8 @@
 #include <KSystemTimeZone>
 #include <KTimeZone>
 
+#define PRAYERS 7
+
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 	: Plasma::DataEngine(parent),
 	localTimeZone(0)
@@ -84,6 +86,7 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 	setData(name, I18N_NOOP("Asr"),     prayerTimes[3]);
 	setData(name, I18N_NOOP("Maghrib"), prayerTimes[4]);
 	setData(name, I18N_NOOP("Ishaa"),   prayerTimes[5]);
+	setData(name, I18N_NOOP("NextFajr"), prayerTimes[6]);
 
 	setData(name, I18N_NOOP("Qibla"), qiblaDegrees);
 
@@ -142,7 +145,7 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 	}
 
 	// for retrieving the results of the calculation
-	Prayer prayers[6];
+	Prayer prayers[PRAYERS];
 
 	// filling in the parameters for the "calculationMethod" method
 	Method method;
@@ -161,10 +164,11 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 
 	// the actual prayer times calculation
 	getPrayerTimes(location, &method, &date, prayers);
+	getNextDayFajr(location, &method, &date, &prayers[6]);
 
 	// transfering the calculation result into our result structure
-	prayerTimes->resize(6);
-	for(int i = 0; i < 6; ++i) {
+	prayerTimes->resize(PRAYERS);
+	for(int i = 0; i < PRAYERS; ++i) {
 		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
 	}
 }
