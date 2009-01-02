@@ -40,12 +40,13 @@ PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 
 PrayerTimesEngine::~PrayerTimesEngine()
 {
+	delete localTimeZone;
 }
 
 void  PrayerTimesEngine::init()
 {
 	// use local time zone for prayer time calculations
-	localTimeZone = &KSystemTimeZones::local();
+	localTimeZone = new KTimeZone(KSystemTimeZones::local());
 	
 	// default to Mulim World League method
 	calculationMethod = 5;
