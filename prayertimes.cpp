@@ -75,6 +75,7 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 	m_asr = data["Asr"].toTime();
 	m_maghrib = data["Maghrib"].toTime();
 	m_ishaa = data["Ishaa"].toTime();
+	m_nextFajr = data["NextFajr"].toTime();
 
 	m_qibla = data["Qibla"].toDouble();
 }
@@ -161,11 +162,17 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	QRect labelsRect(contentsRect);
 	labelsRect.setLeft(contentsRect.width()/2 + 0*contentsRect.width()/4);
 	labelsRect.setWidth(contentsRect.width()/4);
-	labelsRect.setHeight(contentsRect.height() - fontSize);
+	labelsRect.setHeight(contentsRect.height() - 2*fontSize);
 	QRect timesRect(contentsRect);
 	timesRect.setLeft(contentsRect.width()/2 + 1*contentsRect.width()/4);
 	timesRect.setWidth(contentsRect.width()/4);
-	timesRect.setHeight(contentsRect.height() - fontSize);
+	timesRect.setHeight(contentsRect.height() - 2*fontSize);
+	QRect nextPrayerRect(contentsRect);
+	nextPrayerRect.setTop(contentsRect.bottom() - 2*fontSize);
+	nextPrayerRect.setHeight(fontSize);
+	QRect locationRect(contentsRect);
+	locationRect.setTop(contentsRect.bottom() - 1*fontSize);
+	locationRect.setHeight(fontSize);
 
 	p->setRenderHint(QPainter::SmoothPixmapTransform);
 	p->setRenderHint(QPainter::Antialiasing);
@@ -186,8 +193,8 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	QFont boldFont(p->font());
 	boldFont.setBold(true);
 
-	for(int prayer=Fajr; prayer < NextFajr; ++prayer) {
-		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor((prayer+1)%NextFajr)) {
+	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
+		if(prayer == currentPrayer()) {
 			p->setFont(boldFont);
 		} else {
 			p->setFont(normalFont);
@@ -212,7 +219,10 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
-	p->drawText(contentsRect,
+	p->drawText(nextPrayerRect,
+		i18n("%1 to %2").arg(prayerTimeFor(currentPrayer()+1).toString()).arg(labelFor((currentPrayer()+1)%NextFajr)),
+		townTextOption);
+	p->drawText(locationRect,
 		i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()),
 		townTextOption);
 
@@ -239,7 +249,12 @@ QString PrayerTimes::sourceName()
 }
 
 const int PrayerTimes::currentPrayer() {
-
+	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
+		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor((prayer+1)%PRAYER_TIMES)) {
+			return prayer;
+		}
+	}
+	return Ishaa;
 }
 
 const QString& PrayerTimes::labelFor(int prayer)
