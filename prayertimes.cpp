@@ -218,7 +218,8 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 
 	p->setFont(normalFont);
 
-	QTime nextPrayerTime(prayerTimeFor(nextPrayer()));
+	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
+	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
 
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
