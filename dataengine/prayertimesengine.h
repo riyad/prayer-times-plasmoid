@@ -18,13 +18,25 @@
 #ifndef PRAYERTIMESENGINE_H
 #define PRAYERTIMESENGINE_H
 
+#define PRAYER_TIMES 7
+
+enum PrayerTime {
+	Fajr,
+	Shorooq,
+	Dhuhr,
+	Asr,
+	Maghrib,
+	Ishaa,
+	NextFajr
+};
+
 #include <itl/prayer.h>
 
-#include <QString>
-#include <QTime>
-#include <QVector>
+class QString;
+class QTime;
+template <typename T> class QVector;
 
-#include <KTimeZone>
+class KTimeZone;
 
 #include <Plasma/DataEngine>
 
@@ -32,7 +44,7 @@ class PrayerTimesEngine : public Plasma::DataEngine
 {
 	Q_OBJECT
 
-	KTimeZone localTimeZone;
+	KTimeZone* localTimeZone;
 	int calculationMethod;
 
 public:

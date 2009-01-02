@@ -20,16 +20,6 @@ namespace Marble {
 	class MarbleWidget;
 }
 
-enum PrayerTime {
-	Fajr,
-	Shorooq,
-	Dhuhr,
-	Asr,
-	Maghrib,
-	Ishaa,
-	NextFajr
-};
-
 // Define our plasma Applet
 class PrayerTimes : public Plasma::Applet
 {

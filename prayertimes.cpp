@@ -1,6 +1,8 @@
 // mine
 #include "prayertimes.h"
 
+#include "dataengine/prayertimesengine.h"
+
 // Qt
 #include <QPainter>
 #include <QString>
@@ -241,7 +243,7 @@ const int PrayerTimes::currentPrayer() {
 
 const QString& PrayerTimes::labelFor(int prayer)
 {
-	static const QString labels[7] = {i18n("Fajr"),
+	static const QString labels[PRAYER_TIMES] = {i18n("Fajr"),
 		i18n("Shorooq"),
 		i18n("Dhuhr"),
 		i18n("Asr"),
@@ -254,7 +256,7 @@ const QString& PrayerTimes::labelFor(int prayer)
 
 const QTime& PrayerTimes::prayerTimeFor(int prayer)
 {
-	const QTime* times[7] = {&m_fajr,
+	const QTime* times[PRAYER_TIMES] = {&m_fajr,
 		&m_shorooq,
 		&m_dhuhr,
 		&m_asr,
