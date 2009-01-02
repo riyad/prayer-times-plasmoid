@@ -6,13 +6,11 @@ Plasmoid:
 - Prayer times tab:
   - Find nice icon/image to place next to the prayer times
 - Qibla tab:
-  - Find nice Kaaba image
   - Find nice Kompas image
 
 Data Engine:
 - Check for valid arguments
 
 Configuration:
-- Location (using Marble widget)
 - Calculation
 - Notification (Athan, message 15min before, ...)
