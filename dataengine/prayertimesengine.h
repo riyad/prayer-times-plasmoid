@@ -18,6 +18,18 @@
 #ifndef PRAYERTIMESENGINE_H
 #define PRAYERTIMESENGINE_H
 
+#define PRAYER_TIMES 7
+
+enum PrayerTime {
+	Fajr,
+	Shorooq,
+	Dhuhr,
+	Asr,
+	Maghrib,
+	Ishaa,
+	NextFajr
+};
+
 #include <itl/prayer.h>
 
 class QString;
@@ -25,8 +37,6 @@ class QTime;
 template <typename T> class QVector;
 
 class KTimeZone;
-
-#define PRAYER_TIMES 7
 
 #include <Plasma/DataEngine>
 
