@@ -50,6 +50,7 @@ class PrayerTimes : public Plasma::Applet
 
 		const int currentPrayer();
 		static const QString& labelFor(int prayer);
+		const int nextPrayer();
 		const QTime& prayerTimeFor(int prayer);
 
 		Plasma::Svg m_kaabaSvg;

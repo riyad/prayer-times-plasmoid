@@ -217,10 +217,12 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 
 	p->setFont(normalFont);
 
+	QTime nextPrayerTime(prayerTimeFor(nextPrayer()));
+
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
 	p->drawText(nextPrayerRect,
-		i18n("%1 to %2").arg(prayerTimeFor(currentPrayer()+1).toString()).arg(labelFor((currentPrayer()+1)%NextFajr)),
+		i18n("%1 to %2").arg(nextPrayerTime.toString()).arg(labelFor(nextPrayer())),
 		townTextOption);
 	p->drawText(locationRect,
 		i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()),
@@ -268,6 +270,11 @@ const QString& PrayerTimes::labelFor(int prayer)
 		i18n("Next Fajr")};
 
 	return labels[prayer];
+}
+
+const int PrayerTimes::nextPrayer()
+{
+	return (currentPrayer()+1)%PRAYER_TIMES;
 }
 
 const QTime& PrayerTimes::prayerTimeFor(int prayer)
