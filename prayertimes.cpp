@@ -182,7 +182,7 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
 	QTextOption timesTextOption(Qt::AlignLeft | Qt::AlignHCenter);
 
-	QFont normalFont = p->font();
+	QFont normalFont(p->font());
 	QFont boldFont(p->font());
 	boldFont.setBold(true);
 
@@ -207,6 +207,8 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 			QString("%1").arg(times[i].toString()),
 			timesTextOption);
 	}
+
+	p->setFont(normalFont);
 
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
