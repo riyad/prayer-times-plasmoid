@@ -38,7 +38,7 @@
    <item row="1" column="1" >
     <layout class="QHBoxLayout" name="horizontalLayout_3" >
      <item>
-      <widget class="QLineEdit" name="townLineEdit" />
+      <widget class="QLineEdit" name="locationNameLineEdit" />
      </item>
      <item>
       <spacer name="horizontalSpacer" >

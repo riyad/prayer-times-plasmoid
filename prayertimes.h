@@ -38,7 +38,7 @@ class PrayerTimes : public Plasma::Applet
 
 	protected Q_SLOTS:
 		void configAccepted();
-		void configMouseMoveGeoPosition(QString geopos);
+		void configMouseGeoPositionChanged();
 
 	protected:
 		void createConfigurationInterface(KConfigDialog *parent);
@@ -54,7 +54,7 @@ class PrayerTimes : public Plasma::Applet
 
 		Plasma::Svg m_kaabaSvg;
 
-		QString m_town;
+		QString m_locationName;
 		double m_latitude, m_longitude;
 		int m_calculationMethod;
 
