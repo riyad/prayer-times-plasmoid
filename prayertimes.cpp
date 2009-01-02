@@ -187,7 +187,7 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	boldFont.setBold(true);
 
 	for(int i=0; i < 6; ++i) {
-		if(times[i] <= QTime::currentTime() && QTime::currentTime() > times[(i+1)%6]) {
+		if(times[i] <= QTime::currentTime() && QTime::currentTime() < times[(i+1)%6]) {
 			p->setFont(boldFont);
 		} else {
 			p->setFont(normalFont);
