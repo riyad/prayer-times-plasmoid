@@ -17,12 +17,19 @@
 
 #include "prayertimesengine.h"
 
+// Qt
 #include <QDate>
+#include <QString>
+#include <QTime>
+#include <QVector>
 
+// KDE
 #include <KSystemTimeZone>
+#include <KTimeZone>
 
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
-    : Plasma::DataEngine(parent)
+	: Plasma::DataEngine(parent),
+	localTimeZone(0)
 {
 	// We ignore any arguments - data engines do not have much use for them
 	Q_UNUSED(args);
@@ -37,7 +44,7 @@ PrayerTimesEngine::~PrayerTimesEngine()
 
 void  PrayerTimesEngine::init() {
 	// use local time zone for prayer time calculations
-	localTimeZone = KSystemTimeZones::local();
+	localTimeZone = &KSystemTimeZones::local();
 	
 	// default to Mulim World League method
 	calculationMethod = 5;
@@ -107,8 +114,8 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 	location->degreeLat = splitCoords[0].toDouble();
 	location->degreeLong = splitCoords[1].toDouble();
 
-	location->gmtDiff = double(localTimeZone.currentOffset())/3600;
-	location->dst = localTimeZone.isDstAtUtc(localTimeZone.toUtc(QDateTime::currentDateTime())) ? 1 : 0;
+	location->gmtDiff = double(localTimeZone->currentOffset())/3600;
+	location->dst = localTimeZone->isDstAtUtc(localTimeZone->toUtc(QDateTime::currentDateTime())) ? 1 : 0;
 
 	location->seaLevel = 0; // just for simplicity
 	location->pressure = 1010; // default from itl's prayer.h
