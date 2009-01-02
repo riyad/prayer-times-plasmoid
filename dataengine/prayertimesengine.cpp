@@ -42,7 +42,8 @@ PrayerTimesEngine::~PrayerTimesEngine()
 {
 }
 
-void  PrayerTimesEngine::init() {
+void  PrayerTimesEngine::init()
+{
 	// use local time zone for prayer time calculations
 	localTimeZone = &KSystemTimeZones::local();
 	
