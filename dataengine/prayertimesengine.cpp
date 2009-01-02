@@ -166,8 +166,8 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 
 	// transfering the calculation result into our result structure
 	prayerTimes->resize(PRAYER_TIMES);
-	for(int i = 0; i < PRAYER_TIMES; ++i) {
-		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
+	for(int prayer = Fajr; prayer <= NextFajr; ++prayer) {
+		(*prayerTimes)[prayer].setHMS(prayers[prayer].hour, prayers[prayer].minute, prayers[prayer].second);
 	}
 }
 
