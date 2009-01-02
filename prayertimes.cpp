@@ -140,7 +140,8 @@ void PrayerTimes::configAccepted()
 	emit configNeedsSaving();
 }
 
-void PrayerTimes::configMouseGeoPositionChanged() {
+void PrayerTimes::configMouseGeoPositionChanged()
+{
 	Marble::MarbleWidget* map = ui.mapWidget;
 	double lon = ui.mapWidget->centerLongitude();
 	double lat = ui.mapWidget->centerLatitude();
@@ -250,7 +251,8 @@ QString PrayerTimes::sourceName()
 	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
 }
 
-const int PrayerTimes::currentPrayer() {
+const int PrayerTimes::currentPrayer()
+{
 	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
 		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor((prayer+1)%PRAYER_TIMES)) {
 			return prayer;
