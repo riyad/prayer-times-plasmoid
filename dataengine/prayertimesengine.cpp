@@ -27,8 +27,6 @@
 #include <KSystemTimeZone>
 #include <KTimeZone>
 
-#define PRAYERS 7
-
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 	: Plasma::DataEngine(parent),
 	localTimeZone(0)
@@ -145,7 +143,7 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 	}
 
 	// for retrieving the results of the calculation
-	Prayer prayers[PRAYERS];
+	Prayer prayers[PRAYER_TIMES];
 
 	// filling in the parameters for the "calculationMethod" method
 	Method method;
@@ -167,8 +165,8 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 	getNextDayFajr(location, &method, &date, &prayers[6]);
 
 	// transfering the calculation result into our result structure
-	prayerTimes->resize(PRAYERS);
-	for(int i = 0; i < PRAYERS; ++i) {
+	prayerTimes->resize(PRAYER_TIMES);
+	for(int i = 0; i < PRAYER_TIMES; ++i) {
 		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
 	}
 }

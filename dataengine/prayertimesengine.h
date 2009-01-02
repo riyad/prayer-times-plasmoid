@@ -26,6 +26,8 @@ template <typename T> class QVector;
 
 class KTimeZone;
 
+#define PRAYER_TIMES 7
+
 #include <Plasma/DataEngine>
 
 class PrayerTimesEngine : public Plasma::DataEngine
