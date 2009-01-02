@@ -78,6 +78,8 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 	m_nextFajr = data["NextFajr"].toTime();
 
 	m_qibla = data["Qibla"].toDouble();
+
+	update();
 }
 
 void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
