@@ -17,12 +17,19 @@
 
 #include "prayertimesengine.h"
 
+// Qt
 #include <QDate>
+#include <QString>
+#include <QTime>
+#include <QVector>
 
+// KDE
 #include <KSystemTimeZone>
+#include <KTimeZone>
 
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
-    : Plasma::DataEngine(parent)
+	: Plasma::DataEngine(parent),
+	localTimeZone(0)
 {
 	// We ignore any arguments - data engines do not have much use for them
 	Q_UNUSED(args);
@@ -33,11 +40,13 @@ PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 
 PrayerTimesEngine::~PrayerTimesEngine()
 {
+	delete localTimeZone;
 }
 
-void  PrayerTimesEngine::init() {
+void  PrayerTimesEngine::init()
+{
 	// use local time zone for prayer time calculations
-	localTimeZone = KSystemTimeZones::local();
+	localTimeZone = new KTimeZone(KSystemTimeZones::local());
 	
 	// default to Mulim World League method
 	calculationMethod = 5;
@@ -75,6 +84,7 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 	setData(name, I18N_NOOP("Asr"),     prayerTimes[3]);
 	setData(name, I18N_NOOP("Maghrib"), prayerTimes[4]);
 	setData(name, I18N_NOOP("Ishaa"),   prayerTimes[5]);
+	setData(name, I18N_NOOP("NextFajr"), prayerTimes[6]);
 
 	setData(name, I18N_NOOP("Qibla"), qiblaDegrees);
 
@@ -107,8 +117,8 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
 	location->degreeLat = splitCoords[0].toDouble();
 	location->degreeLong = splitCoords[1].toDouble();
 
-	location->gmtDiff = double(localTimeZone.currentOffset())/3600;
-	location->dst = localTimeZone.isDstAtUtc(localTimeZone.toUtc(QDateTime::currentDateTime())) ? 1 : 0;
+	location->gmtDiff = double(localTimeZone->currentOffset())/3600;
+	location->dst = localTimeZone->isDstAtUtc(localTimeZone->toUtc(QDateTime::currentDateTime())) ? 1 : 0;
 
 	location->seaLevel = 0; // just for simplicity
 	location->pressure = 1010; // default from itl's prayer.h
@@ -133,7 +143,7 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 	}
 
 	// for retrieving the results of the calculation
-	Prayer prayers[6];
+	Prayer prayers[PRAYER_TIMES];
 
 	// filling in the parameters for the "calculationMethod" method
 	Method method;
@@ -152,11 +162,12 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 
 	// the actual prayer times calculation
 	getPrayerTimes(location, &method, &date, prayers);
+	getNextDayFajr(location, &method, &date, &prayers[6]);
 
 	// transfering the calculation result into our result structure
-	prayerTimes->resize(6);
-	for(int i = 0; i < 6; ++i) {
-		(*prayerTimes)[i].setHMS(prayers[i].hour, prayers[i].minute, prayers[i].second);
+	prayerTimes->resize(PRAYER_TIMES);
+	for(int prayer = Fajr; prayer <= NextFajr; ++prayer) {
+		(*prayerTimes)[prayer].setHMS(prayers[prayer].hour, prayers[prayer].minute, prayers[prayer].second);
 	}
 }
 
