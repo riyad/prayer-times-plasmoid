@@ -29,7 +29,8 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	m_kaabaSvg(this),
 	m_locationName("Makkah"),
 	m_latitude(21.416667), m_longitude(39.816667), // Makkah
-	m_calculationMethod(5) // Muslim World League
+	m_calculationMethod(5), // Muslim World League
+	m_updateTimer(0)
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -46,11 +47,14 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 
 PrayerTimes::~PrayerTimes()
 {
-    if (hasFailedToLaunch()) {
-        // Do some cleanup here
-    } else {
-        // Save settings
-    }
+	if (hasFailedToLaunch()) {
+		// Do some cleanup here
+	} else {
+		// Save settings
+	}
+
+	m_updateTimer->stop();
+	delete m_updateTimer;
 }
 
 void PrayerTimes::init()
@@ -61,6 +65,10 @@ void PrayerTimes::init()
 	m_longitude = cg.readEntry("longitude", m_longitude);
 
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
+
+	m_updateTimer = new QTimer(this);
+	connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(repaintNeeded()));
+	m_updateTimer->start(60*1000);
 
 	connectSources();
 }
@@ -155,6 +163,10 @@ void PrayerTimes::configMouseGeoPositionChanged()
 	}
 }
 
+void PrayerTimes::repaintNeeded() {
+	update();
+}
+
 void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
 {
 	int fontSize = 20;
@@ -214,7 +226,7 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 		timeRect.setTop(timesRect.top() + prayer*timesRect.height()/6);
 		timeRect.setHeight(timesRect.height()/6);
 		p->drawText(timeRect,
-			QString("%1").arg(prayerTimeFor(prayer).toString()),
+			QString("%1").arg(prayerTimeFor(prayer).toString("hh:mm")),
 			timesTextOption);
 	}
 
@@ -226,7 +238,7 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
 	//townTextOption.setWrapMode(QTextOption::WordWrap);
 	p->drawText(nextPrayerRect,
-		i18n("%1 to %2").arg(nextPrayerTime.toString()).arg(labelFor(nextPrayer())),
+		i18n("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer())),
 		townTextOption);
 	p->drawText(locationRect,
 		i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()),

@@ -13,6 +13,7 @@ class QRect;
 class QString;
 class QStyleOptionGraphicsItem;
 class QTime;
+class QTimer;
 
 class KConfigDialog;
 
@@ -39,6 +40,7 @@ class PrayerTimes : public Plasma::Applet
 	protected Q_SLOTS:
 		void configAccepted();
 		void configMouseGeoPositionChanged();
+		void repaintNeeded();
 
 	protected:
 		void createConfigurationInterface(KConfigDialog *parent);
@@ -61,6 +63,8 @@ class PrayerTimes : public Plasma::Applet
 
 		QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
 		double m_qibla;
+
+		QTimer* m_updateTimer;
 
 		// Configuration dialog
 		Ui::prayertimesLocationConfig ui;
