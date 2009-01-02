@@ -176,9 +176,6 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 
 	p->setPen(Qt::white);
 
-	QString labels[6] = {i18n("Fajr"), i18n("Shorooq"), i18n("Dhuhr"), i18n("Asr"), i18n("Maghrib"), i18n("Ishaa")};
-	QTime times[6] = {m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa};
-
 	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
 	QTextOption timesTextOption(Qt::AlignLeft | Qt::AlignHCenter);
 
@@ -186,25 +183,25 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	QFont boldFont(p->font());
 	boldFont.setBold(true);
 
-	for(int i=0; i < 6; ++i) {
-		if(times[i] <= QTime::currentTime() && QTime::currentTime() < times[(i+1)%6]) {
+	for(int prayer=Fajr; prayer < NextFajr; ++prayer) {
+		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor((prayer+1)%NextFajr)) {
 			p->setFont(boldFont);
 		} else {
 			p->setFont(normalFont);
 		}
 
 		QRect labelRect(labelsRect);
-		labelRect.setTop(labelsRect.top() + i*labelsRect.height()/6);
+		labelRect.setTop(labelsRect.top() + prayer*labelsRect.height()/6);
 		labelRect.setHeight(labelsRect.height()/6);
 		p->drawText(labelRect,
-			QString("%1:").arg(labels[i]),
+			QString("%1:").arg(labelFor(prayer)),
 			labelsTextOption);
 
 		QRect timeRect(timesRect);
-		timeRect.setTop(timesRect.top() + i*timesRect.height()/6);
+		timeRect.setTop(timesRect.top() + prayer*timesRect.height()/6);
 		timeRect.setHeight(timesRect.height()/6);
 		p->drawText(timeRect,
-			QString("%1").arg(times[i].toString()),
+			QString("%1").arg(prayerTimeFor(prayer).toString()),
 			timesTextOption);
 	}
 
@@ -236,6 +233,36 @@ void PrayerTimes::disconnectSources()
 QString PrayerTimes::sourceName()
 {
 	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
+}
+
+const int PrayerTimes::currentPrayer() {
+
+}
+
+const QString& PrayerTimes::labelFor(int prayer)
+{
+	static const QString labels[7] = {i18n("Fajr"),
+		i18n("Shorooq"),
+		i18n("Dhuhr"),
+		i18n("Asr"),
+		i18n("Maghrib"),
+		i18n("Ishaa"),
+		i18n("Next Fajr")};
+
+	return labels[prayer];
+}
+
+const QTime& PrayerTimes::prayerTimeFor(int prayer)
+{
+	const QTime* times[7] = {&m_fajr,
+		&m_shorooq,
+		&m_dhuhr,
+		&m_asr,
+		&m_maghrib,
+		&m_ishaa,
+		&m_nextFajr};
+
+	return *times[prayer];
 }
 
 #include "prayertimes.moc"

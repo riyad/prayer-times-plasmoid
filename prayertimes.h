@@ -20,6 +20,16 @@ namespace Marble {
 	class MarbleWidget;
 }
 
+enum PrayerTime {
+	Fajr,
+	Shorooq,
+	Dhuhr,
+	Asr,
+	Maghrib,
+	Ishaa,
+	NextFajr
+};
+
 // Define our plasma Applet
 class PrayerTimes : public Plasma::Applet
 {
@@ -48,13 +58,17 @@ class PrayerTimes : public Plasma::Applet
 		void disconnectSources();
 		QString sourceName();
 
+		const int currentPrayer();
+		static const QString& labelFor(int prayer);
+		const QTime& prayerTimeFor(int prayer);
+
 		Plasma::Svg m_kaabaSvg;
 
 		QString m_town;
 		double m_latitude, m_longitude;
 		int m_calculationMethod;
 
-		QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa;
+		QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
 		double m_qibla;
 
 		// Configuration dialog
