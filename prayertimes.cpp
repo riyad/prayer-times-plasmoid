@@ -4,6 +4,9 @@
 #include "dataengine/prayertimesengine.h"
 
 // Qt
+#include <QGraphicsGridLayout>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsWidget>
 #include <QPainter>
 #include <QString>
 #include <QTextOption>
@@ -17,7 +20,10 @@
 // Plasma
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
+#include <Plasma/IconWidget>
+#include <Plasma/Label>
 #include <Plasma/Svg>
+#include <Plasma/TabBar>
 #include <Plasma/Theme>
 
 // Marble
@@ -72,6 +78,18 @@ void PrayerTimes::init()
 	m_updateTimer->start(60*1000);
 
 	connectSources();
+
+	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
+	tabbar->addTab("Prayer Times", prayerTimesWidget());
+	//tabbar->addTab("Qibla", qiblaWidget());
+
+	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
+	layout->addItem(tabbar);
+	setLayout(layout);
+
+	resize(layout->preferredSize());
+
+	repaintNeeded();
 }
 
 void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
@@ -165,88 +183,68 @@ void PrayerTimes::configMouseGeoPositionChanged()
 }
 
 void PrayerTimes::repaintNeeded() {
-	update();
-}
-
-void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *option, const QRect &contentsRect)
-{
-	int fontSize = 20;
-
-	QRect iconRect(contentsRect);
-	iconRect.setWidth(contentsRect.width()/2);
-	iconRect.setHeight(contentsRect.height() - fontSize);
-	QRect labelsRect(contentsRect);
-	labelsRect.setLeft(contentsRect.width()/2 + 0*contentsRect.width()/4);
-	labelsRect.setWidth(contentsRect.width()/4);
-	labelsRect.setHeight(contentsRect.height() - 2*fontSize);
-	QRect timesRect(contentsRect);
-	timesRect.setLeft(contentsRect.width()/2 + 1*contentsRect.width()/4);
-	timesRect.setWidth(contentsRect.width()/4);
-	timesRect.setHeight(contentsRect.height() - 2*fontSize);
-	QRect nextPrayerRect(contentsRect);
-	nextPrayerRect.setTop(contentsRect.bottom() - 2*fontSize);
-	nextPrayerRect.setHeight(fontSize);
-	QRect locationRect(contentsRect);
-	locationRect.setTop(contentsRect.bottom() - 1*fontSize);
-	locationRect.setHeight(fontSize);
-
-	p->setRenderHint(QPainter::SmoothPixmapTransform);
-	p->setRenderHint(QPainter::Antialiasing);
-
-	// Now we draw the applet, starting with our svg
-	int kaabaSize = qMin(iconRect.width(), iconRect.height());
-	m_kaabaSvg.resize(kaabaSize, kaabaSize);
-	m_kaabaSvg.paint(p, iconRect.left(), iconRect.top(), "kaaba");
-
-	p->save();
-
-	p->setPen(Qt::white);
-
-	QTextOption labelsTextOption(Qt::AlignRight | Qt::AlignHCenter);
-	QTextOption timesTextOption(Qt::AlignLeft | Qt::AlignHCenter);
-
-	QFont normalFont(p->font());
-	QFont boldFont(p->font());
+	QFont normalFont(font());
+	QFont boldFont(font());
 	boldFont.setBold(true);
 
-	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
+	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
+		m_prayerTimeLabels[prayer]->setText(prayerTimeFor(prayer).toString("hh:mm"));
 		if(prayer != Shorooq && prayer == currentPrayer()) {
-			p->setFont(boldFont);
+			m_prayerLabels[prayer]->setFont(boldFont);
+			m_prayerTimeLabels[prayer]->setFont(boldFont);
 		} else {
-			p->setFont(normalFont);
+			m_prayerLabels[prayer]->setFont(normalFont);
+			m_prayerTimeLabels[prayer]->setFont(boldFont);
 		}
-
-		QRect labelRect(labelsRect);
-		labelRect.setTop(labelsRect.top() + prayer*labelsRect.height()/6);
-		labelRect.setHeight(labelsRect.height()/6);
-		p->drawText(labelRect,
-			labelFor(prayer),
-			labelsTextOption);
-
-		QRect timeRect(timesRect);
-		timeRect.setTop(timesRect.top() + prayer*timesRect.height()/6);
-		timeRect.setHeight(timesRect.height()/6);
-		p->drawText(timeRect,
-			prayerTimeFor(prayer).toString("hh:mm"),
-			timesTextOption);
 	}
-
-	p->setFont(normalFont);
-
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
-
-	QTextOption townTextOption(Qt::AlignCenter | Qt::AlignBottom);
-	//townTextOption.setWrapMode(QTextOption::WordWrap);
-	p->drawText(nextPrayerRect,
-		i18n("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())),
-		townTextOption);
-	p->drawText(locationRect,
-		i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()),
-		townTextOption);
-
-	p->restore();
+	m_nextPrayerLabel->setText(QString("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
+	m_locationLabel->setText(QString("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
 }
+
+QGraphicsWidget* PrayerTimes::prayerTimesWidget()
+{
+	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
+	layout->setVerticalSpacing(0);
+
+	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(KIcon("prayertimes"), QString(), this);
+	layout->addItem(kaabaIconWidget, 0, 0, 6, 1);
+
+	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
+		Plasma::Label *prayerLabel = new Plasma::Label(this);
+		prayerLabel->setAlignment(Qt::AlignRight);
+		prayerLabel->setText(labelFor(prayer));
+		layout->addItem(prayerLabel, prayer, 1);
+		m_prayerLabels.append(prayerLabel);
+
+		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
+		//prayerTimesLabel->setAlignment(Qt::AlignLeft);
+		prayerTimesLabel->setText("%1");
+		layout->addItem(prayerTimesLabel, prayer, 2);
+		m_prayerTimeLabels.append(prayerTimesLabel);
+	}
+
+	m_nextPrayerLabel = new Plasma::Label(this);
+	m_nextPrayerLabel->setAlignment(Qt::AlignCenter);
+	m_nextPrayerLabel->setText(i18n("%1 to %2"));
+	layout->addItem(m_nextPrayerLabel, 6, 0, 1, 3);
+
+	m_locationLabel = new Plasma::Label(this);
+	m_locationLabel->setAlignment(Qt::AlignCenter);
+	m_locationLabel->setText(i18n("Prayer times for %1 on %2"));
+	layout->addItem(m_locationLabel, 7, 0, 1, 3);
+
+	QGraphicsWidget* widget = new QGraphicsWidget(this);
+	widget->setLayout(layout);
+	return widget;
+}
+
+QGraphicsWidget* PrayerTimes::qiblaWidget()
+{
+	return 0;
+}
+
 
 void PrayerTimes::connectSources()
 {
