@@ -220,14 +220,14 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 		labelRect.setTop(labelsRect.top() + prayer*labelsRect.height()/6);
 		labelRect.setHeight(labelsRect.height()/6);
 		p->drawText(labelRect,
-			QString("%1:").arg(labelFor(prayer)),
+			labelFor(prayer),
 			labelsTextOption);
 
 		QRect timeRect(timesRect);
 		timeRect.setTop(timesRect.top() + prayer*timesRect.height()/6);
 		timeRect.setHeight(timesRect.height()/6);
 		p->drawText(timeRect,
-			QString("%1").arg(prayerTimeFor(prayer).toString("hh:mm")),
+			prayerTimeFor(prayer).toString("hh:mm"),
 			timesTextOption);
 	}
 
