@@ -209,7 +209,7 @@ void PrayerTimes::paintInterface(QPainter *p, const QStyleOptionGraphicsItem *op
 	boldFont.setBold(true);
 
 	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
-		if(prayer == currentPrayer()) {
+		if(prayer != Shorooq && prayer == currentPrayer()) {
 			p->setFont(boldFont);
 		} else {
 			p->setFont(normalFont);
