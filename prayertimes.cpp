@@ -190,13 +190,14 @@ void PrayerTimes::repaintNeeded()
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
 		m_prayerTimeLabels[prayer]->setText(prayerTimeFor(prayer).toString("hh:mm"));
+		QFont* prayerFont = 0;
 		if(prayer != Shorooq && prayer == currentPrayer()) {
-			m_prayerLabels[prayer]->setFont(boldFont);
-			m_prayerTimeLabels[prayer]->setFont(boldFont);
+			prayerFont = &boldFont;
 		} else {
-			m_prayerLabels[prayer]->setFont(normalFont);
-			m_prayerTimeLabels[prayer]->setFont(boldFont);
+			prayerFont = &normalFont;
 		}
+		static_cast<QLabel*>(m_prayerLabels[prayer]->widget())->setFont(*prayerFont);
+		static_cast<QLabel*>(m_prayerTimeLabels[prayer]->widget())->setFont(*prayerFont);
 	}
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
