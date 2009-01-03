@@ -182,7 +182,8 @@ void PrayerTimes::configMouseGeoPositionChanged()
 	}
 }
 
-void PrayerTimes::repaintNeeded() {
+void PrayerTimes::repaintNeeded()
+{
 	QFont normalFont(font());
 	QFont boldFont(font());
 	boldFont.setBold(true);
