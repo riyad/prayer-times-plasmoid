@@ -35,11 +35,20 @@ void QiblaGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsIte
 {
   QGraphicsWidget::paint(painter, option, widget);
 
-	int compassSize = qMin(size().width(), size().height());
-	m_prayertimesSvg->resize(compassSize, compassSize);
-	painter->drawPixmap(0, 0, m_prayertimesSvg->pixmap("compass"));
+	double compassSize = qMin(size().width(), size().height());
+	m_prayertimesSvg->resize(QSizeF(compassSize, compassSize));
 
-	painter->drawPixmap(0, 0, m_prayertimesSvg->pixmap("compass_needle"));
+	QRectF compassElementRect = m_prayertimesSvg->elementRect("compass");
+	QPointF compassTopleft((size().width()-compassSize)/2.0, (size().height()-compassSize)/2.0);
+	m_prayertimesSvg->paint(painter, compassTopleft, "compass");
+
+	QRectF pointElementRect = m_prayertimesSvg->elementRect("compass_point");
+	QPointF pointTopleft((compassElementRect.width() - pointElementRect.width())/2.0,
+		(compassElementRect.height() - pointElementRect.height())/2.0);
+	m_prayertimesSvg->paint(painter, compassTopleft + pointTopleft, "compass_point");
+
+	QRectF needleElementRect = m_prayertimesSvg->elementRect("compass_needle");
+	m_prayertimesSvg->paint(painter, 0, 0, "compass_needle");
 }
 
 #include "QiblaGraphicsWidget.moc"
