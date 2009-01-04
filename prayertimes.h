@@ -4,7 +4,6 @@
 
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
-#include <Plasma/Svg>
 
 #include "ui_prayertimesLocationConfig.h"
 
@@ -21,6 +20,7 @@ class KConfigDialog;
 
 namespace Plasma {
 	class Label;
+	class Svg;
 	class TabBar;
 }
 
@@ -67,7 +67,7 @@ class PrayerTimes : public Plasma::Applet
 		QList<Plasma::Label*> m_prayerTimeLabels;
 		Plasma::Label *m_locationLabel;
 		Plasma::Label *m_nextPrayerLabel;
-		Plasma::Svg m_kaabaSvg;
+		Plasma::Svg *m_prayertimesSvg;
 
 		QString m_locationName;
 		double m_latitude, m_longitude;

@@ -32,7 +32,7 @@
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
-	m_kaabaSvg(this),
+	m_prayertimesSvg(0),
 	m_locationName("Makkah"),
 	m_latitude(21.416667), m_longitude(39.816667), // Makkah
 	m_calculationMethod(5), // Muslim World League
@@ -41,8 +41,9 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
 
-	m_kaabaSvg.setImagePath("widgets/prayertimes");
-	m_kaabaSvg.setContainsMultipleImages(true);
+	m_prayertimesSvg = new Plasma::Svg(this);
+	m_prayertimesSvg->setImagePath("widgets/prayertimes");
+	m_prayertimesSvg->setContainsMultipleImages(true);
 
 	setHasConfigurationInterface(true);
 
@@ -211,7 +212,7 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 	layout->setVerticalSpacing(0);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
-	kaabaIconWidget->setSvg(m_kaabaSvg.imagePath(), "kaaba");
+	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 0, 0, 6, 1);
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
@@ -248,11 +249,11 @@ QGraphicsWidget* PrayerTimes::qiblaWidget()
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Horizontal);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
-	kaabaIconWidget->setSvg(m_kaabaSvg.imagePath(), "kaaba");
+	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget);
 
 	Plasma::IconWidget* qiblaIconWidget = new Plasma::IconWidget(this);
-	qiblaIconWidget->setSvg(m_kaabaSvg.imagePath(), "compass");
+	qiblaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "compass");
 	layout->addItem(qiblaIconWidget);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
