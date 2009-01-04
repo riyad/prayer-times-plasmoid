@@ -8,6 +8,8 @@
 
 #include "ui_prayertimesLocationConfig.h"
 
+class QGraphicsLinearLayout;
+class QGraphicsWidget;
 class QPainter;
 class QRect;
 class QString;
@@ -16,6 +18,11 @@ class QTime;
 class QTimer;
 
 class KConfigDialog;
+
+namespace Plasma {
+	class Label;
+	class TabBar;
+}
 
 namespace Marble {
 	class MarbleWidget;
@@ -30,8 +37,6 @@ class PrayerTimes : public Plasma::Applet
 		PrayerTimes(QObject *parent, const QVariantList &args);
 		~PrayerTimes();
 
-		// The paintInterface procedure paints the applet to screen
-		void paintInterface(QPainter *painter, const QStyleOptionGraphicsItem *option, const QRect& contentsRect);
 		void init();
 
 	public slots:
@@ -46,6 +51,9 @@ class PrayerTimes : public Plasma::Applet
 		void createConfigurationInterface(KConfigDialog *parent);
 
 	private:
+		QGraphicsWidget* prayerTimesWidget();
+		QGraphicsWidget* qiblaWidget();
+
 		void connectSources();
 		void disconnectSources();
 		QString sourceName();
@@ -55,6 +63,10 @@ class PrayerTimes : public Plasma::Applet
 		const int nextPrayer();
 		const QTime& prayerTimeFor(int prayer);
 
+		QList<Plasma::Label*> m_prayerLabels;
+		QList<Plasma::Label*> m_prayerTimeLabels;
+		Plasma::Label *m_locationLabel;
+		Plasma::Label *m_nextPrayerLabel;
 		Plasma::Svg m_kaabaSvg;
 
 		QString m_locationName;
