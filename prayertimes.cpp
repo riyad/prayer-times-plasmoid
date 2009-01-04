@@ -81,7 +81,7 @@ void PrayerTimes::init()
 
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
 	tabbar->addTab("Times", prayerTimesWidget());
-	//tabbar->addTab("Qibla", qiblaWidget());
+	tabbar->addTab("Qibla", qiblaWidget());
 
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
 	layout->addItem(tabbar);
@@ -245,7 +245,15 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 
 QGraphicsWidget* PrayerTimes::qiblaWidget()
 {
-	return 0;
+	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Horizontal);
+
+	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
+	kaabaIconWidget->setSvg(m_kaabaSvg.imagePath(), "kaaba");
+	layout->addItem(kaabaIconWidget);
+
+	QGraphicsWidget* widget = new QGraphicsWidget(this);
+	widget->setLayout(layout);
+	return widget;
 }
 
 
