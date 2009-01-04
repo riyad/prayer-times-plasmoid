@@ -80,7 +80,7 @@ void PrayerTimes::init()
 	connectSources();
 
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
-	tabbar->addTab("Prayer Times", prayerTimesWidget());
+	tabbar->addTab("Times", prayerTimesWidget());
 	//tabbar->addTab("Qibla", qiblaWidget());
 
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
