@@ -42,7 +42,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	setBackgroundHints(DefaultBackground);
 
 	m_kaabaSvg.setImagePath("widgets/prayertimes");
-	m_kaabaSvg.setContainsMultipleImages(false);
+	m_kaabaSvg.setContainsMultipleImages(true);
 
 	setHasConfigurationInterface(true);
 
@@ -250,6 +250,10 @@ QGraphicsWidget* PrayerTimes::qiblaWidget()
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_kaabaSvg.imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget);
+
+	Plasma::IconWidget* qiblaIconWidget = new Plasma::IconWidget(this);
+	qiblaIconWidget->setSvg(m_kaabaSvg.imagePath(), "compass");
+	layout->addItem(qiblaIconWidget);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
