@@ -62,7 +62,6 @@ PrayerTimes::~PrayerTimes()
 	}
 
 	m_updateTimer->stop();
-	delete m_updateTimer;
 }
 
 void PrayerTimes::init()
