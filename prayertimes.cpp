@@ -221,13 +221,13 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
 		Plasma::Label *prayerLabel = new Plasma::Label(this);
-		prayerLabel->setAlignment(Qt::AlignRight);
+		prayerLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);
 		prayerLabel->setText(labelFor(prayer));
 		layout->addItem(prayerLabel, prayer, 1);
 		m_prayerLabels.append(prayerLabel);
 
 		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
-		//prayerTimesLabel->setAlignment(Qt::AlignLeft);
+		prayerTimesLabel->setAlignment(Qt::AlignLeft | Qt::AlignHCenter);
 		prayerTimesLabel->setText("%1");
 		layout->addItem(prayerTimesLabel, prayer, 2);
 		m_prayerTimeLabels.append(prayerTimesLabel);
