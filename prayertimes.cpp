@@ -210,7 +210,8 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setVerticalSpacing(0);
 
-	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(KIcon("prayertimes"), QString(), this);
+	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
+	kaabaIconWidget->setSvg(m_kaabaSvg.imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 0, 0, 6, 1);
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
