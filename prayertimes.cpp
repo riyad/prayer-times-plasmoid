@@ -217,33 +217,33 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 	layout->setColumnStretchFactor(1, 1);
 	layout->setColumnStretchFactor(2, 1);
 
+	m_locationLabel = new Plasma::Label(this);
+	m_locationLabel->setAlignment(Qt::AlignCenter);
+	m_locationLabel->setText(i18n("Prayer times for %1 on %2"));
+	layout->addItem(m_locationLabel, 0, 0, 1, 3);
+
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
-	layout->addItem(kaabaIconWidget, 0, 0, 6, 1);
+	layout->addItem(kaabaIconWidget, 1, 0, 5, 1);
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
 		Plasma::Label *prayerLabel = new Plasma::Label(this);
 		prayerLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);
 		prayerLabel->setText(labelFor(prayer));
-		layout->addItem(prayerLabel, prayer, 1);
+		layout->addItem(prayerLabel, 1+prayer, 1);
 		m_prayerLabels.append(prayerLabel);
 
 		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
 		prayerTimesLabel->setAlignment(Qt::AlignLeft | Qt::AlignHCenter);
 		prayerTimesLabel->setText("%1");
-		layout->addItem(prayerTimesLabel, prayer, 2);
+		layout->addItem(prayerTimesLabel, 1+prayer, 2);
 		m_prayerTimeLabels.append(prayerTimesLabel);
 	}
 
 	m_nextPrayerLabel = new Plasma::Label(this);
-	m_nextPrayerLabel->setAlignment(Qt::AlignCenter);
+	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
 	m_nextPrayerLabel->setText(i18n("%1 to %2"));
-	layout->addItem(m_nextPrayerLabel, 6, 0, 1, 3);
-
-	m_locationLabel = new Plasma::Label(this);
-	m_locationLabel->setAlignment(Qt::AlignCenter);
-	m_locationLabel->setText(i18n("Prayer times for %1 on %2"));
-	layout->addItem(m_locationLabel, 7, 0, 1, 3);
+	layout->addItem(m_nextPrayerLabel, 6, 0, 1, 1);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
