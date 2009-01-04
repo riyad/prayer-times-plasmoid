@@ -204,6 +204,8 @@ void PrayerTimes::repaintNeeded()
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
 	m_nextPrayerLabel->setText(QString("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
 	m_locationLabel->setText(QString("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
+
+	m_qiblaWidget->setQibla(m_qibla);
 }
 
 QGraphicsWidget* PrayerTimes::prayerTimesWidget()
@@ -256,7 +258,7 @@ QGraphicsWidget* PrayerTimes::qiblaWidget()
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget);
 
-	QiblaGraphicsWidget* m_qiblaWidget = new QiblaGraphicsWidget(this);
+	m_qiblaWidget = new QiblaGraphicsWidget(this);
 	layout->addItem(m_qiblaWidget);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
