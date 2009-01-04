@@ -16,6 +16,8 @@
 
 #include "QiblaGraphicsWidget.h"
 
+#include <math.h>
+
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QWidget>
@@ -33,22 +35,45 @@ QiblaGraphicsWidget::QiblaGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags 
 
 void QiblaGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-  QGraphicsWidget::paint(painter, option, widget);
+	QGraphicsWidget::paint(painter, option, widget);
+
+	painter->setRenderHint(QPainter::SmoothPixmapTransform);
+	painter->setRenderHint(QPainter::Antialiasing);
 
 	double compassSize = qMin(size().width(), size().height());
 	m_prayertimesSvg->resize(QSizeF(compassSize, compassSize));
 
 	QRectF compassElementRect = m_prayertimesSvg->elementRect("compass");
-	QPointF compassTopleft((size().width()-compassSize)/2.0, (size().height()-compassSize)/2.0);
-	m_prayertimesSvg->paint(painter, compassTopleft, "compass");
-
+	QRectF needleElementRect = m_prayertimesSvg->elementRect("compass_needle");
 	QRectF pointElementRect = m_prayertimesSvg->elementRect("compass_point");
+
+	QPointF compassTopleft((size().width()-compassSize)/2.0, (size().height()-compassSize)/2.0);
 	QPointF pointTopleft((compassElementRect.width() - pointElementRect.width())/2.0,
 		(compassElementRect.height() - pointElementRect.height())/2.0);
-	m_prayertimesSvg->paint(painter, compassTopleft + pointTopleft, "compass_point");
+	QPointF needleTopleft((compassElementRect.width() - needleElementRect.width())/2.0, 0);
 
-	QRectF needleElementRect = m_prayertimesSvg->elementRect("compass_needle");
-	m_prayertimesSvg->paint(painter, 0, 0, "compass_needle");
+	double degrees = qibla();
+	double h = fabs(needleTopleft.y()-pointTopleft.y()-pointElementRect.height()/2.0);
+	double x = needleTopleft.x()-(h*sin(-degrees*3.14/180.)+(needleElementRect.width()/2.0)*cos(-degrees*3.14/180.))+(needleElementRect.width()/2.0);
+	double y = needleTopleft.y()+h-h*cos(-degrees*3.14/180.)+(needleElementRect.width()/2.0)*sin(-degrees*3.14/180.);
+
+	painter->save();
+	{
+		painter->translate(compassTopleft);
+
+		m_prayertimesSvg->paint(painter, 0, 0, "compass");
+
+		painter->save();
+		{
+			painter->translate(x, y);
+			painter->rotate(degrees);
+			m_prayertimesSvg->paint(painter, QRectF(QPointF(0, 0), needleElementRect.size()), "compass_needle");
+		}
+		painter->restore();
+
+		m_prayertimesSvg->paint(painter, pointTopleft, "compass_point");
+	}
+	painter->restore();
 }
 
 double QiblaGraphicsWidget::qibla() const
