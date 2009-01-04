@@ -210,6 +210,10 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setVerticalSpacing(0);
 
+	layout->setColumnStretchFactor(0, 2);
+	layout->setColumnStretchFactor(1, 1);
+	layout->setColumnStretchFactor(2, 1);
+
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 0, 0, 6, 1);
