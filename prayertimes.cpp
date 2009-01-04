@@ -1,6 +1,7 @@
 // mine
 #include "prayertimes.h"
 
+#include "QiblaGraphicsWidget.h"
 #include "dataengine/prayertimesengine.h"
 
 // Qt
@@ -255,9 +256,8 @@ QGraphicsWidget* PrayerTimes::qiblaWidget()
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget);
 
-	Plasma::IconWidget* qiblaIconWidget = new Plasma::IconWidget(this);
-	qiblaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "compass");
-	layout->addItem(qiblaIconWidget);
+	QiblaGraphicsWidget* m_qiblaWidget = new QiblaGraphicsWidget(this);
+	layout->addItem(m_qiblaWidget);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
