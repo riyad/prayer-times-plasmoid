@@ -49,8 +49,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	setHasConfigurationInterface(true);
 
 	setAspectRatioMode(Plasma::IgnoreAspectRatio);
-	setMinimumSize(320, 170);
-	resize(350, 170);
+	setMinimumSize(270, 150);
 }
 
 
