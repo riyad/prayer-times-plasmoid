@@ -31,12 +31,16 @@ class QiblaGraphicsWidget : public QGraphicsWidget
 {
 	Q_OBJECT
 
+	double m_qibla;
+
+	Plasma::Svg *m_prayertimesSvg;
+
 	public:
 		QiblaGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
 		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-	private:
-		Plasma::Svg *m_prayertimesSvg;
+		double qibla() const;
+		void setQibla(const double qibla);
 };
 
 #endif // QIBLAGRAPHICSWIDGET_H

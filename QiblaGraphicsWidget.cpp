@@ -51,4 +51,14 @@ void QiblaGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsIte
 	m_prayertimesSvg->paint(painter, 0, 0, "compass_needle");
 }
 
+double QiblaGraphicsWidget::qibla() const
+{
+	return m_qibla;
+}
+
+void QiblaGraphicsWidget::setQibla(const double newQibla)
+{
+	m_qibla = newQibla;
+}
+
 #include "QiblaGraphicsWidget.moc"
