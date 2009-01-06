@@ -6,7 +6,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
 # Find the required Libaries
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
-find_package(Plasma REQUIRED)
 
 find_package(ITL REQUIRED)
 find_package(Marble REQUIRED)
@@ -16,7 +15,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
   ${KDE4_INCLUDES}
-	${ITL_INCLUDE_DIR}
+  ${ITL_INCLUDE_DIR}
   ${MARBLE_INCLUDE_DIR})
 
 # We include the data engine
