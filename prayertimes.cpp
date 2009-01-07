@@ -280,7 +280,7 @@ void PrayerTimes::disconnectSources()
 	prayerTimesEngine->disconnectSource(sourceName(), this);
 }
 
-QString PrayerTimes::sourceName()
+const QString PrayerTimes::sourceName() const
 {
 	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
 }

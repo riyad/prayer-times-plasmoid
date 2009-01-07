@@ -58,7 +58,7 @@ class PrayerTimes : public Plasma::Applet
 
 		void connectSources();
 		void disconnectSources();
-		QString sourceName();
+		const QString sourceName() const;
 
 		int currentPrayer() const;
 		static const QString& labelFor(int prayer);
