@@ -166,6 +166,8 @@ void PrayerTimes::configAccepted()
 
 	connectSources();
 
+	updateInterface();
+
 	emit configNeedsSaving();
 }
 
