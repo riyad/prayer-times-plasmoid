@@ -53,8 +53,8 @@ class PrayerTimes : public Plasma::Applet
 		void createConfigurationInterface(KConfigDialog *parent);
 
 	private:
-		QGraphicsWidget* prayerTimesWidget();
-		QGraphicsWidget* qiblaWidget();
+		QGraphicsWidget* createPrayerTimesWidget();
+		QGraphicsWidget* createQiblaWidget();
 
 		void connectSources();
 		void disconnectSources();

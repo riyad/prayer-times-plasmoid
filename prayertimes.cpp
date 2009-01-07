@@ -52,8 +52,8 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	setMinimumSize(270, 150);
 
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
-	tabbar->addTab("Times", prayerTimesWidget());
-	tabbar->addTab("Qibla", qiblaWidget());
+	tabbar->addTab("Times", createPrayerTimesWidget());
+	tabbar->addTab("Qibla", createQiblaWidget());
 
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
 	layout->addItem(tabbar);
@@ -209,7 +209,7 @@ void PrayerTimes::updateInterface()
 	m_qiblaWidget->setQibla(m_qibla);
 }
 
-QGraphicsWidget* PrayerTimes::prayerTimesWidget()
+QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 {
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setVerticalSpacing(0);
@@ -251,7 +251,7 @@ QGraphicsWidget* PrayerTimes::prayerTimesWidget()
 	return widget;
 }
 
-QGraphicsWidget* PrayerTimes::qiblaWidget()
+QGraphicsWidget* PrayerTimes::createQiblaWidget()
 {
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Horizontal);
 
