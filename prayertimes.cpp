@@ -285,7 +285,7 @@ QString PrayerTimes::sourceName()
 	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
 }
 
-const int PrayerTimes::currentPrayer()
+int PrayerTimes::currentPrayer() const
 {
 	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
 		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor((prayer+1)%PRAYER_TIMES)) {
@@ -308,12 +308,12 @@ const QString& PrayerTimes::labelFor(int prayer)
 	return labels[prayer];
 }
 
-const int PrayerTimes::nextPrayer()
+int PrayerTimes::nextPrayer() const
 {
 	return (currentPrayer()+1)%PRAYER_TIMES;
 }
 
-const QTime& PrayerTimes::prayerTimeFor(int prayer)
+const QTime& PrayerTimes::prayerTimeFor(int prayer) const
 {
 	const QTime* times[PRAYER_TIMES] = {&m_fajr,
 		&m_shorooq,

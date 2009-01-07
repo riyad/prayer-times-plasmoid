@@ -60,10 +60,10 @@ class PrayerTimes : public Plasma::Applet
 		void disconnectSources();
 		QString sourceName();
 
-		const int currentPrayer();
+		int currentPrayer() const;
 		static const QString& labelFor(int prayer);
-		const int nextPrayer();
-		const QTime& prayerTimeFor(int prayer);
+		int nextPrayer() const;
+		const QTime& prayerTimeFor(int prayer) const;
 
 		QList<Plasma::Label*> m_prayerLabels;
 		QList<Plasma::Label*> m_prayerTimeLabels;
