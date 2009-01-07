@@ -34,6 +34,26 @@ namespace Marble {
 class PrayerTimes : public Plasma::Applet
 {
 	Q_OBJECT
+
+	QList<Plasma::Label*> m_prayerLabels;
+	QList<Plasma::Label*> m_prayerTimeLabels;
+	Plasma::Label *m_locationLabel;
+	Plasma::Label *m_nextPrayerLabel;
+	Plasma::Svg *m_prayertimesSvg;
+	QiblaGraphicsWidget *m_qiblaWidget;
+
+	QString m_locationName;
+	double m_latitude, m_longitude;
+	int m_calculationMethod;
+
+	QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
+	double m_qibla;
+
+	QTimer* m_updateTimer;
+
+	// Configuration dialog
+	Ui::prayertimesLocationConfig ui;
+
 	public:
 		// Basic Create/Destroy
 		PrayerTimes(QObject *parent, const QVariantList &args);
@@ -64,25 +84,6 @@ class PrayerTimes : public Plasma::Applet
 		static const QString& labelFor(int prayer);
 		int nextPrayer() const;
 		const QTime& prayerTimeFor(int prayer) const;
-
-		QList<Plasma::Label*> m_prayerLabels;
-		QList<Plasma::Label*> m_prayerTimeLabels;
-		Plasma::Label *m_locationLabel;
-		Plasma::Label *m_nextPrayerLabel;
-		Plasma::Svg *m_prayertimesSvg;
-		QiblaGraphicsWidget *m_qiblaWidget;
-
-		QString m_locationName;
-		double m_latitude, m_longitude;
-		int m_calculationMethod;
-
-		QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
-		double m_qibla;
-
-		QTimer* m_updateTimer;
-
-		// Configuration dialog
-		Ui::prayertimesLocationConfig ui;
 };
  
 // This is the command that links your applet to the .desktop file
