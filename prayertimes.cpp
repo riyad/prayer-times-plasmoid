@@ -106,7 +106,7 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 
 	m_qibla = data["Qibla"].toDouble();
 
-	update();
+	updateInterface();
 }
 
 void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
