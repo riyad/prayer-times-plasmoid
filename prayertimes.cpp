@@ -88,8 +88,6 @@ void PrayerTimes::init()
 	m_updateTimer->start(60*1000);
 
 	connectSources();
-
-	updateInterface();
 }
 
 void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
