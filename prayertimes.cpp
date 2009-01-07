@@ -50,6 +50,16 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 
 	setAspectRatioMode(Plasma::IgnoreAspectRatio);
 	setMinimumSize(270, 150);
+
+	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
+	tabbar->addTab("Times", prayerTimesWidget());
+	tabbar->addTab("Qibla", qiblaWidget());
+
+	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
+	layout->addItem(tabbar);
+	setLayout(layout);
+
+	resize(layout->preferredSize());
 }
 
 
@@ -78,16 +88,6 @@ void PrayerTimes::init()
 	m_updateTimer->start(60*1000);
 
 	connectSources();
-
-	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
-	tabbar->addTab("Times", prayerTimesWidget());
-	tabbar->addTab("Qibla", qiblaWidget());
-
-	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
-	layout->addItem(tabbar);
-	setLayout(layout);
-
-	resize(layout->preferredSize());
 
 	repaintNeeded();
 }
