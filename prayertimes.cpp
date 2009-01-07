@@ -84,12 +84,12 @@ void PrayerTimes::init()
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
 
 	m_updateTimer = new QTimer(this);
-	connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(repaintNeeded()));
+	connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(updateInterface()));
 	m_updateTimer->start(60*1000);
 
 	connectSources();
 
-	repaintNeeded();
+	updateInterface();
 }
 
 void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
@@ -182,7 +182,7 @@ void PrayerTimes::configMouseGeoPositionChanged()
 	}
 }
 
-void PrayerTimes::repaintNeeded()
+void PrayerTimes::updateInterface()
 {
 	QFont normalFont(font());
 	QFont boldFont(font());
