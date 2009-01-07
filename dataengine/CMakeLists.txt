@@ -11,7 +11,8 @@ set(prayertimes_engine_SRCS prayertimesengine.cpp)
 kde4_add_plugin(plasma_engine_prayertimes ${prayertimes_engine_SRCS})
 target_link_libraries(plasma_engine_prayertimes
                       ${KDE4_KDECORE_LIBS}
-                      ${PLASMA_LIBS}
+                      ${KDE4_KDEUI_LIBS}
+                      ${KDE4_PLASMA_LIBS}
                       ${ITL_LIBRARY})
 
 install(TARGETS plasma_engine_prayertimes
