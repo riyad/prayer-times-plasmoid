@@ -52,7 +52,7 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 		(compassElementRect.height() - pointElementRect.height())/2.0);
 	QPointF needleTopleft((compassElementRect.width() - needleElementRect.width())/2.0, 0);
 
-	double degrees = qibla();
+	double degrees = needle();
 	double h = fabs(needleTopleft.y()-pointTopleft.y()-pointElementRect.height()/2.0);
 	double x = needleTopleft.x()-(h*sin(-degrees*3.14/180.)+(needleElementRect.width()/2.0)*cos(-degrees*3.14/180.))+(needleElementRect.width()/2.0);
 	double y = needleTopleft.y()+h-h*cos(-degrees*3.14/180.)+(needleElementRect.width()/2.0)*sin(-degrees*3.14/180.);
@@ -76,14 +76,14 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	painter->restore();
 }
 
-double CompassGraphicsWidget::qibla() const
+double CompassGraphicsWidget::needle() const
 {
-	return m_qibla;
+	return m_needle;
 }
 
-void CompassGraphicsWidget::setQibla(const double newQibla)
+void CompassGraphicsWidget::setNeedle(const double degrees)
 {
-	m_qibla = newQibla;
+	m_needle = degrees;
 }
 
 #include "CompassGraphicsWidget.moc"

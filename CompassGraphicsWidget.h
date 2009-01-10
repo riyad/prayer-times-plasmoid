@@ -31,7 +31,7 @@ class CompassGraphicsWidget : public QGraphicsWidget
 {
 	Q_OBJECT
 
-	double m_qibla;
+	double m_needle;
 
 	Plasma::Svg *m_prayertimesSvg;
 
@@ -39,8 +39,8 @@ class CompassGraphicsWidget : public QGraphicsWidget
 		CompassGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
 		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-		double qibla() const;
-		void setQibla(const double qibla);
+		double needle() const;
+		void setNeedle(const double degrees);
 };
 
 #endif // QIBLAGRAPHICSWIDGET_H
