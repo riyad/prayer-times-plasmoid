@@ -25,6 +25,8 @@ CompassWidget::CompassWidget(QWidget* parent, Qt::WindowFlags wFlags)
 
 void CompassWidget::paintEvent(QPaintEvent *event)
 {
+	Q_UNUSED(event);
+
 	QPainter painter(this);
 
 	painter.setRenderHint(QPainter::SmoothPixmapTransform);
