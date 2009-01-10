@@ -1,7 +1,7 @@
 // mine
 #include "prayertimes.h"
 
-#include "CompassGraphicsWidget.h"
+#include "compassgraphicswidget.h"
 #include "dataengine/prayertimesengine.h"
 
 // Qt
