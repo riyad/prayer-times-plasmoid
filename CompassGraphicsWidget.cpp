@@ -26,11 +26,11 @@
 
 CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 	: QGraphicsWidget(parent, wFlags),
-	m_prayertimesSvg(0)
+	m_comassSvg(0)
 {
-	m_prayertimesSvg = new Plasma::Svg(this);
-	m_prayertimesSvg->setImagePath("widgets/prayertimes");
-	m_prayertimesSvg->setContainsMultipleImages(true);
+	m_comassSvg = new Plasma::Svg(this);
+	m_comassSvg->setImagePath("widgets/compass");
+	m_comassSvg->setContainsMultipleImages(true);
 }
 
 void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -41,19 +41,18 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	painter->setRenderHint(QPainter::Antialiasing);
 
 	double compassSize = qMin(size().width(), size().height());
-	m_prayertimesSvg->resize(QSizeF(compassSize, compassSize));
+	m_comassSvg->resize(QSizeF(compassSize, compassSize));
 
-	QRectF compassElementRect = m_prayertimesSvg->elementRect("compass");
-	QRectF needleElementRect = m_prayertimesSvg->elementRect("compass_needle");
-	QRectF pointElementRect = m_prayertimesSvg->elementRect("compass_point");
+	QRectF compassElementRect = m_comassSvg->elementRect("compass");
+	QRectF needleElementRect = m_comassSvg->elementRect("needle");
 
 	QPointF compassTopleft((size().width()-compassSize)/2.0, (size().height()-compassSize)/2.0);
-	QPointF pointTopleft((compassElementRect.width() - pointElementRect.width())/2.0,
-		(compassElementRect.height() - pointElementRect.height())/2.0);
-	QPointF needleTopleft((compassElementRect.width() - needleElementRect.width())/2.0, 0);
+	QPointF needleTopleft((compassElementRect.width() - needleElementRect.width())/2.0,
+		(compassElementRect.height() - needleElementRect.height())/2.0);
 
 	double degrees = needle();
-	double h = fabs(needleTopleft.y()-pointTopleft.y()-pointElementRect.height()/2.0);
+// 	double h = fabs(needleTopleft.y()-pointTopleft.y()-pointElementRect.height()/2.0);
+	double h = fabs(needleElementRect.height()/2.0);
 	double x = needleTopleft.x()-(h*sin(-degrees*3.14/180.)+(needleElementRect.width()/2.0)*cos(-degrees*3.14/180.))+(needleElementRect.width()/2.0);
 	double y = needleTopleft.y()+h-h*cos(-degrees*3.14/180.)+(needleElementRect.width()/2.0)*sin(-degrees*3.14/180.);
 
@@ -61,17 +60,15 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	{
 		painter->translate(compassTopleft);
 
-		m_prayertimesSvg->paint(painter, 0, 0, "compass");
+		m_comassSvg->paint(painter, 0, 0, "compass");
 
 		painter->save();
 		{
 			painter->translate(x, y);
 			painter->rotate(degrees);
-			m_prayertimesSvg->paint(painter, QRectF(QPointF(0, 0), needleElementRect.size()), "compass_needle");
+			m_comassSvg->paint(painter, QRectF(QPointF(0, 0), needleElementRect.size()), "needle");
 		}
 		painter->restore();
-
-		m_prayertimesSvg->paint(painter, pointTopleft, "compass_point");
 	}
 	painter->restore();
 }

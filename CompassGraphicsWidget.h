@@ -33,7 +33,7 @@ class CompassGraphicsWidget : public QGraphicsWidget
 
 	double m_needle;
 
-	Plasma::Svg *m_prayertimesSvg;
+	Plasma::Svg *m_comassSvg;
 
 	public:
 		CompassGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
