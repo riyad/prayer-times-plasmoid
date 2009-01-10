@@ -14,7 +14,7 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include "QiblaGraphicsWidget.h"
+#include "CompassGraphicsWidget.h"
 
 #include <math.h>
 
@@ -24,7 +24,7 @@
 
 #include <Plasma/Svg>
 
-QiblaGraphicsWidget::QiblaGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 	: QGraphicsWidget(parent, wFlags),
 	m_prayertimesSvg(0)
 {
@@ -33,7 +33,7 @@ QiblaGraphicsWidget::QiblaGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags 
 	m_prayertimesSvg->setContainsMultipleImages(true);
 }
 
-void QiblaGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	QGraphicsWidget::paint(painter, option, widget);
 
@@ -76,14 +76,14 @@ void QiblaGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsIte
 	painter->restore();
 }
 
-double QiblaGraphicsWidget::qibla() const
+double CompassGraphicsWidget::qibla() const
 {
 	return m_qibla;
 }
 
-void QiblaGraphicsWidget::setQibla(const double newQibla)
+void CompassGraphicsWidget::setQibla(const double newQibla)
 {
 	m_qibla = newQibla;
 }
 
-#include "QiblaGraphicsWidget.moc"
+#include "CompassGraphicsWidget.moc"

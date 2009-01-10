@@ -27,7 +27,7 @@ namespace Plasma {
 	class Svg;
 }
 
-class QiblaGraphicsWidget : public QGraphicsWidget
+class CompassGraphicsWidget : public QGraphicsWidget
 {
 	Q_OBJECT
 
@@ -36,7 +36,7 @@ class QiblaGraphicsWidget : public QGraphicsWidget
 	Plasma::Svg *m_prayertimesSvg;
 
 	public:
-		QiblaGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
+		CompassGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
 		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 		double qibla() const;
