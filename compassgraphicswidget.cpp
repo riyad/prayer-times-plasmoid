@@ -14,33 +14,26 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef QIBLAGRAPHICSWIDGET_H
-#define QIBLAGRAPHICSWIDGET_H
+#include "compassgraphicswidget.h"
 
-#include <QGraphicsWidget>
+#include "compasswidget.h"
 
-class QPainter;
-class QWidget;
-class QStyleOptionGraphicsItem;
-
-namespace Plasma {
-	class Svg;
+CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
+	: QGraphicsProxyWidget(parent, wFlags),
+	m_compassWidget(0)
+{
+	m_compassWidget = new CompassWidget();
+	setWidget(m_compassWidget);
 }
 
-class CompassGraphicsWidget : public QGraphicsWidget
+double CompassGraphicsWidget::needle() const
 {
-	Q_OBJECT
+	return m_compassWidget->needle();
+}
 
-	double m_needle;
+void CompassGraphicsWidget::setNeedle(const double degrees)
+{
+	m_compassWidget->setNeedle(degrees);
+}
 
-	Plasma::Svg *m_comassSvg;
-
-	public:
-		CompassGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
-		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
-
-		double needle() const;
-		void setNeedle(const double degrees);
-};
-
-#endif // QIBLAGRAPHICSWIDGET_H
+#include "compassgraphicswidget.moc"
