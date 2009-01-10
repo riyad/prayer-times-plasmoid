@@ -7,7 +7,7 @@
 
 #include "ui_prayertimesLocationConfig.h"
 
-class QiblaGraphicsWidget;
+class CompassGraphicsWidget;
 
 class QGraphicsLinearLayout;
 class QGraphicsWidget;
@@ -40,7 +40,7 @@ class PrayerTimes : public Plasma::Applet
 	Plasma::Label *m_locationLabel;
 	Plasma::Label *m_nextPrayerLabel;
 	Plasma::Svg *m_prayertimesSvg;
-	QiblaGraphicsWidget *m_qiblaWidget;
+	CompassGraphicsWidget *m_qiblaWidget;
 
 	QString m_locationName;
 	double m_latitude, m_longitude;

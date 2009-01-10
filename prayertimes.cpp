@@ -1,7 +1,7 @@
 // mine
 #include "prayertimes.h"
 
-#include "QiblaGraphicsWidget.h"
+#include "CompassGraphicsWidget.h"
 #include "dataengine/prayertimesengine.h"
 
 // Qt
@@ -204,7 +204,7 @@ void PrayerTimes::updateInterface()
 	m_nextPrayerLabel->setText(QString("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
 	m_locationLabel->setText(QString("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
 
-	m_qiblaWidget->setQibla(m_qibla);
+	m_qiblaWidget->setNeedle(m_qibla);
 }
 
 QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
@@ -257,7 +257,7 @@ QGraphicsWidget* PrayerTimes::createQiblaWidget()
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget);
 
-	m_qiblaWidget = new QiblaGraphicsWidget(this);
+	m_qiblaWidget = new CompassGraphicsWidget(this);
 	layout->addItem(m_qiblaWidget);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
