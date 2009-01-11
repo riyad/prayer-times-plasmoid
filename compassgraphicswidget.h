@@ -19,16 +19,22 @@
 
 #include <QGraphicsProxyWidget>
 
-class CompassWidget;
+namespace Plasma {
+	class Svg;
+}
 
-class CompassGraphicsWidget : public QGraphicsProxyWidget
+class CompassGraphicsWidget : public QGraphicsWidget
 {
 	Q_OBJECT
 
-	CompassWidget *m_compassWidget;
+	double m_needle;
+
+	Plasma::Svg *m_compassSvg;
 
 	public:
 		CompassGraphicsWidget(QGraphicsItem *parent=0, Qt::WindowFlags wFlags=0);
+
+		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget=0);
 
 		double needle() const;
 		void setNeedle(const double degrees);

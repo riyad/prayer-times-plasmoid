@@ -16,27 +16,77 @@
 
 #include "compassgraphicswidget.h"
 
-#include "compasswidget.h"
+#include <QPainter>
+#include <QPointF>
+#include <QRectF>
 
-#include <Plasma/Theme>
+#include <Plasma/Svg>
 
 CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
-	: QGraphicsProxyWidget(parent, wFlags),
-	m_compassWidget(0)
+	: QGraphicsWidget(parent, wFlags),
+	m_compassSvg(0),
+	m_needle(0)
 {
-	m_compassWidget = new CompassWidget();
-	m_compassWidget->setImagePath(Plasma::Theme::defaultTheme()->imagePath("widgets/compass"));
-	setWidget(m_compassWidget);
+	m_compassSvg = new Plasma::Svg(this);
+	m_compassSvg->setImagePath("widgets/compass");
+	m_compassSvg->setContainsMultipleImages(true);
+}
+
+void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+	Q_UNUSED(option);
+	Q_UNUSED(widget);
+
+	painter->setRenderHint(QPainter::SmoothPixmapTransform);
+	painter->setRenderHint(QPainter::Antialiasing);
+
+	QRectF viewBox = QRectF(QPointF(0, 0), m_compassSvg->size());
+	QRectF layerRect = m_compassSvg->elementRect("layer1");
+	QRectF backgroundRect = m_compassSvg->elementRect("background");
+	QRectF outerRingRect = m_compassSvg->elementRect("outer_ring");
+	QRectF shadingRect = m_compassSvg->elementRect("shading");
+	QRectF degreesRect = m_compassSvg->elementRect("degrees");
+	QRectF orientationRect = m_compassSvg->elementRect("orientation");
+	QRectF needleRect = m_compassSvg->elementRect("needle");
+	QRectF glossRect = m_compassSvg->elementRect("gloss");
+	QPointF compassCenterPoint = backgroundRect.topLeft() + QPointF(backgroundRect.width(), backgroundRect.height())/2;
+
+	double widgetSide = qMin(size().width(), size().height());
+	double imageSide = qMin(viewBox.width(), viewBox.height());
+
+	painter->scale(widgetSide/imageSide, widgetSide/imageSide);
+
+	painter->save();
+	{
+		painter->translate(-2.5*layerRect.topLeft());
+
+		m_compassSvg->paint(painter, backgroundRect, "background");
+		m_compassSvg->paint(painter, outerRingRect, "outer_ring");
+		m_compassSvg->paint(painter, shadingRect, "shading");
+		m_compassSvg->paint(painter, degreesRect, "degrees");
+		m_compassSvg->paint(painter, orientationRect, "orientation");
+
+		painter->save();
+		{
+			painter->translate(compassCenterPoint);
+			painter->rotate(needle());
+			m_compassSvg->paint(painter, needleRect.translated(-compassCenterPoint), "needle");
+		}
+		painter->restore();
+
+		m_compassSvg->paint(painter, glossRect, "gloss");
+	}
+	painter->restore();
 }
 
 double CompassGraphicsWidget::needle() const
 {
-	return m_compassWidget->needle();
+	return m_needle;
 }
 
 void CompassGraphicsWidget::setNeedle(const double degrees)
 {
-	m_compassWidget->setNeedle(degrees);
+	m_needle = degrees;
 }
 
 #include "compassgraphicswidget.moc"
