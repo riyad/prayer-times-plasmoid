@@ -16,6 +16,7 @@ class CompassWidget : public QWidget
 	Q_OBJECT
 
 	double m_needle;
+	QString m_imagePath;
 
 	QSvgRenderer* m_compassSvg;
 
@@ -26,6 +27,9 @@ class CompassWidget : public QWidget
 
 		double needle() const;
 		void setNeedle(const double degrees);
+
+		QString imagePath();
+		void setImagePath(const QString& imagePath);
 };
 
 #endif // _COMPASSWIDGET_H_

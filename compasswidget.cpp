@@ -7,7 +7,6 @@
 
 #include <math.h>
 
-#include <QColor>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPointF>
@@ -19,13 +18,16 @@ CompassWidget::CompassWidget(QWidget* parent, Qt::WindowFlags wFlags)
 	m_compassSvg(0),
 	m_needle(0)
 {
-	m_compassSvg = new QSvgRenderer(this);
-	m_compassSvg->load(QString("/home/riyad/src/CompassWidget/compass.svg"));
 }
 
 void CompassWidget::paintEvent(QPaintEvent *event)
 {
 	Q_UNUSED(event);
+
+	if(m_compassSvg == 0) {
+		QWidget::paintEvent(event);
+		return;
+	}
 
 	QPainter painter(this);
 
@@ -79,6 +81,25 @@ double CompassWidget::needle() const
 void CompassWidget::setNeedle(const double degrees)
 {
 	m_needle = degrees;
+}
+
+QString CompassWidget::imagePath() {
+	return m_imagePath;
+}
+
+void CompassWidget::setImagePath(const QString& imagePath) {
+	if(m_compassSvg != 0) {
+		delete m_compassSvg;
+		m_compassSvg = 0;
+	}
+
+	m_imagePath = imagePath;
+
+	if(!imagePath.isEmpty()) {
+		m_compassSvg = new QSvgRenderer(this);
+		m_compassSvg->load(m_imagePath);
+		resize(m_compassSvg->defaultSize());
+	}
 }
 
 #include "compasswidget.moc"
