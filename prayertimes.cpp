@@ -8,7 +8,6 @@
 #include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
-#include <QPainter>
 #include <QString>
 #include <QTextOption>
 #include <QTime>
