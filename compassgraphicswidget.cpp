@@ -18,11 +18,14 @@
 
 #include "compasswidget.h"
 
+#include <Plasma/Theme>
+
 CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 	: QGraphicsProxyWidget(parent, wFlags),
 	m_compassWidget(0)
 {
 	m_compassWidget = new CompassWidget();
+	m_compassWidget->setImagePath(Plasma::Theme::defaultTheme()->imagePath("widgets/compass"));
 	setWidget(m_compassWidget);
 }
 
