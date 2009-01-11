@@ -83,11 +83,13 @@ void CompassWidget::setNeedle(const double degrees)
 	m_needle = degrees;
 }
 
-QString CompassWidget::imagePath() {
+QString CompassWidget::imagePath()
+{
 	return m_imagePath;
 }
 
-void CompassWidget::setImagePath(const QString& imagePath) {
+void CompassWidget::setImagePath(const QString& imagePath)
+{
 	if(m_compassSvg != 0) {
 		delete m_compassSvg;
 		m_compassSvg = 0;
