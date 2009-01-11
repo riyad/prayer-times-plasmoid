@@ -24,8 +24,8 @@
 
 CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
 	: QGraphicsWidget(parent, wFlags),
-	m_compassSvg(0),
-	m_needle(0)
+	m_needle(0),
+	m_compassSvg(0)
 {
 	m_compassSvg = new Plasma::Svg(this);
 	m_compassSvg->setImagePath("widgets/compass");
@@ -40,7 +40,9 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	painter->setRenderHint(QPainter::SmoothPixmapTransform);
 	painter->setRenderHint(QPainter::Antialiasing);
 
-	QRectF viewBox = QRectF(QPointF(0, 0), m_compassSvg->size());
+	double widgetSide = qMin(size().width(), size().height());
+	m_compassSvg->resize(widgetSide, widgetSide);
+
 	QRectF layerRect = m_compassSvg->elementRect("layer1");
 	QRectF backgroundRect = m_compassSvg->elementRect("background");
 	QRectF outerRingRect = m_compassSvg->elementRect("outer_ring");
@@ -50,11 +52,6 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	QRectF needleRect = m_compassSvg->elementRect("needle");
 	QRectF glossRect = m_compassSvg->elementRect("gloss");
 	QPointF compassCenterPoint = backgroundRect.topLeft() + QPointF(backgroundRect.width(), backgroundRect.height())/2;
-
-	double widgetSide = qMin(size().width(), size().height());
-	double imageSide = qMin(viewBox.width(), viewBox.height());
-
-	m_compassSvg->resize(widgetSide, widgetSide);
 
 	painter->translate((size().width()-widgetSide)/2, (size().height()-widgetSide)/2);
 
