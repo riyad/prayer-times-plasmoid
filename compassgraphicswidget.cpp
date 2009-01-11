@@ -54,7 +54,9 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	double widgetSide = qMin(size().width(), size().height());
 	double imageSide = qMin(viewBox.width(), viewBox.height());
 
-	painter->scale(widgetSide/imageSide, widgetSide/imageSide);
+	m_compassSvg->resize(widgetSide, widgetSide);
+
+	painter->translate((size().width()-widgetSide)/2, (size().height()-widgetSide)/2);
 
 	painter->save();
 	{
