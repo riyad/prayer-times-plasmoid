@@ -66,7 +66,14 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 		m_compassSvg->paint(painter, outerRingRect, "outer_ring");
 		m_compassSvg->paint(painter, shadingRect, "shading");
 		m_compassSvg->paint(painter, degreesRect, "degrees");
-		m_compassSvg->paint(painter, orientationRect, "orientation");
+
+		painter->save();
+		{
+			painter->translate(compassCenterPoint);
+			painter->rotate(0); // possibility to rotate orientation ring
+			m_compassSvg->paint(painter, orientationRect.translated(-compassCenterPoint), "orientation");
+		}
+		painter->restore();
 
 		painter->save();
 		{
