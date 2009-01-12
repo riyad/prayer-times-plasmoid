@@ -255,7 +255,7 @@ QGraphicsWidget* PrayerTimes::createQiblaWidget()
 
 	m_qiblaOrientationLabel = new Plasma::Label(this);
 	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
-	m_qiblaOrientationLabel->setText(i18n("Qibla direction is %1"));
+	m_qiblaOrientationLabel->setText(QString("Qibla direction is %1"));
 	layout->addItem(m_qiblaOrientationLabel, 0, 0, 1, 2);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
