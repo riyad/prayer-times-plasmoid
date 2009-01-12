@@ -252,6 +252,8 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 QGraphicsWidget* PrayerTimes::createQiblaWidget()
 {
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
+	layout->setRowStretchFactor(0, 1);
+	layout->setRowStretchFactor(1, 6);
 
 	m_qiblaOrientationLabel = new Plasma::Label(this);
 	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
