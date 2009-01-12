@@ -200,11 +200,11 @@ void PrayerTimes::updateInterface()
 	}
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
-	m_nextPrayerLabel->setText(QString("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
-	m_locationLabel->setText(QString("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
+	m_nextPrayerLabel->setText(i18n("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
+	m_locationLabel->setText(i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
 
 	m_qiblaWidget->setNeedle(m_qibla);
-	m_qiblaOrientationLabel->setText(QString("Qibla direction is %1").arg(m_qiblaWidget->needleOrientation()));
+	m_qiblaOrientationLabel->setText(i18n("Qibla direction is %1").arg(m_qiblaWidget->needleOrientation()));
 }
 
 QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
@@ -218,7 +218,7 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_locationLabel = new Plasma::Label(this);
 	m_locationLabel->setAlignment(Qt::AlignCenter);
-	m_locationLabel->setText(i18n("Prayer times for %1 on %2"));
+	m_locationLabel->setText(QString("Prayer times for %1 on %2"));
 	layout->addItem(m_locationLabel, 0, 0, 1, 3);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
@@ -241,7 +241,7 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-	m_nextPrayerLabel->setText(i18n("%1 to %2"));
+	m_nextPrayerLabel->setText(QString("%1 to %2"));
 	layout->addItem(m_nextPrayerLabel, 6, 0, 1, 1);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
@@ -255,6 +255,7 @@ QGraphicsWidget* PrayerTimes::createQiblaWidget()
 
 	m_qiblaOrientationLabel = new Plasma::Label(this);
 	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
+	m_qiblaOrientationLabel->setText(i18n("Qibla direction is %1"));
 	layout->addItem(m_qiblaOrientationLabel, 0, 0, 1, 2);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
