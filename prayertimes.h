@@ -9,12 +9,8 @@
 
 class CompassGraphicsWidget;
 
-class QGraphicsLinearLayout;
 class QGraphicsWidget;
-class QPainter;
-class QRect;
 class QString;
-class QStyleOptionGraphicsItem;
 class QTime;
 class QTimer;
 

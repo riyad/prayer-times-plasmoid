@@ -1,4 +1,4 @@
-// mine
+// Own
 #include "prayertimes.h"
 
 #include "compassgraphicswidget.h"
@@ -6,7 +6,6 @@
 
 // Qt
 #include <QGraphicsGridLayout>
-#include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
 #include <QString>
 #include <QTextOption>
