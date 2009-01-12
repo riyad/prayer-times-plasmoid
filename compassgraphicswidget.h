@@ -19,6 +19,12 @@
 
 #include <QGraphicsProxyWidget>
 
+class QGraphicsItem;
+class QPainter;
+class QString;
+class QStyleOptionGraphicsItem;
+class QWidget;
+
 namespace Plasma {
 	class Svg;
 }

@@ -16,9 +16,13 @@
 
 #include "compassgraphicswidget.h"
 
+#include <QGraphicsItem>
 #include <QPainter>
 #include <QPointF>
 #include <QRectF>
+#include <QString>
+#include <QStyleOptionGraphicsItem>
+#include <QWidget>
 
 #include <KLocalizedString>
 
