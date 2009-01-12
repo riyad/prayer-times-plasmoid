@@ -204,6 +204,7 @@ void PrayerTimes::updateInterface()
 	m_locationLabel->setText(QString("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
 
 	m_qiblaWidget->setNeedle(m_qibla);
+	m_qiblaOrientationLabel->setText(QString("Qibla direction is %1").arg(m_qiblaWidget->needleOrientation()));
 }
 
 QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
@@ -250,14 +251,18 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 QGraphicsWidget* PrayerTimes::createQiblaWidget()
 {
-	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Horizontal);
+	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
+
+	m_qiblaOrientationLabel = new Plasma::Label(this);
+	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
+	layout->addItem(m_qiblaOrientationLabel, 0, 0, 1, 2);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
-	layout->addItem(kaabaIconWidget);
+	layout->addItem(kaabaIconWidget, 1, 0);
 
 	m_qiblaWidget = new CompassGraphicsWidget(this);
-	layout->addItem(m_qiblaWidget);
+	layout->addItem(m_qiblaWidget, 1, 1);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);

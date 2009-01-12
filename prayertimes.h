@@ -39,6 +39,7 @@ class PrayerTimes : public Plasma::Applet
 	QList<Plasma::Label*> m_prayerTimeLabels;
 	Plasma::Label *m_locationLabel;
 	Plasma::Label *m_nextPrayerLabel;
+	Plasma::Label *m_qiblaOrientationLabel;
 	Plasma::Svg *m_prayertimesSvg;
 	CompassGraphicsWidget *m_qiblaWidget;
 
