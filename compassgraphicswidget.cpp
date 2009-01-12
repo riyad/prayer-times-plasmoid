@@ -99,14 +99,14 @@ double CompassGraphicsWidget::needle() const
 const QString& CompassGraphicsWidget::needleOrientation() const
 {
 	#define ORIENTATIONS 8
-	static const QString orientations[ORIENTATIONS] = {i18n("N"),
-		i18n("NE"),
-		i18n("E"),
-		i18n("SE"),
-		i18n("S"),
-		i18n("SW"),
-		i18n("W"),
-		i18n("NW")};
+	static const QString orientations[ORIENTATIONS] = {i18nc("North", "N"),
+		i18nc("North East", "NE"),
+		i18nc("East", "E"),
+		i18nc("South East", "SE"),
+		i18nc("South", "S"),
+		i18nc("South West", "SW"),
+		i18nc("West", "W"),
+		i18nc("North West", "NW")};
 
 	static const double degreePerOrientation = 360/ORIENTATIONS;
 	static const double degreeOffset = -degreePerOrientation/2;
