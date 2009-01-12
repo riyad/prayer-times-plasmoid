@@ -115,7 +115,7 @@ const QString& CompassGraphicsWidget::needleOrientation() const
 
 void CompassGraphicsWidget::setNeedle(const double degrees)
 {
-	m_needle = degrees;
+	m_needle = degrees%360;
 }
 
 #include "compassgraphicswidget.moc"
