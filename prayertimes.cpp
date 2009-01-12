@@ -200,11 +200,11 @@ void PrayerTimes::updateInterface()
 	}
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
-	m_nextPrayerLabel->setText(i18n("%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
-	m_locationLabel->setText(i18n("Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
+	m_nextPrayerLabel->setText(i18nc("<time> to <prayer>", "%1 to %2").arg(nextPrayerTime.toString("hh:mm")).arg(labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
+	m_locationLabel->setText(i18nc("Prayer times for <town> on <date>", "Prayer times for %1 on %2").arg(m_locationName).arg(QDate::currentDate().toString()));
 
 	m_qiblaWidget->setNeedle(m_qibla);
-	m_qiblaOrientationLabel->setText(i18n("Qibla direction is %1").arg(m_qiblaWidget->needleOrientation()));
+	m_qiblaOrientationLabel->setText(i18nc("Qibla direction is <orientation>", "Qibla direction is %1").arg(m_qiblaWidget->needleOrientation()));
 }
 
 QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
