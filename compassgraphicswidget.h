@@ -37,6 +37,7 @@ class CompassGraphicsWidget : public QGraphicsWidget
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget=0);
 
 		double needle() const;
+		const QString& needleOrientation() const;
 		void setNeedle(const double degrees);
 };
 

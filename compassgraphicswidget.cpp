@@ -19,6 +19,7 @@
 #include <QPainter>
 #include <QPointF>
 #include <QRectF>
+#include <QStringList>
 
 #include <Plasma/Svg>
 
@@ -88,6 +89,16 @@ void CompassGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 double CompassGraphicsWidget::needle() const
 {
 	return m_needle;
+}
+
+const QString& CompassGraphicsWidget::needleOrientation() const
+{
+	static QStringList orientations;
+	orientations << "N" << "NE" << "E" << "SE" << "S" << "SW" << "W" << "NW";
+
+	static const double degreePerOrientation = 360/orientations.size();
+	static const double degreeOffset = -degreePerOrientation/2;
+	return orientations[(int)(needle()-degreeOffset)/degreePerOrientation];
 }
 
 void CompassGraphicsWidget::setNeedle(const double degrees)
