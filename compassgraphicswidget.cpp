@@ -20,6 +20,8 @@
 #include <QPointF>
 #include <QRectF>
 
+#include <KLocalizedString>
+
 #include <Plasma/Svg>
 
 CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)
@@ -92,7 +94,8 @@ double CompassGraphicsWidget::needle() const
 
 const QString& CompassGraphicsWidget::needleOrientation() const
 {
-	static const QString orientations[8] = {i18n("N"),
+	#define ORIENTATIONS 8
+	static const QString orientations[ORIENTATIONS] = {i18n("N"),
 		i18n("NE"),
 		i18n("E"),
 		i18n("SE"),
@@ -101,9 +104,9 @@ const QString& CompassGraphicsWidget::needleOrientation() const
 		i18n("W"),
 		i18n("NW")};
 
-	static const double degreePerOrientation = 360/orientations.size();
+	static const double degreePerOrientation = 360/ORIENTATIONS;
 	static const double degreeOffset = -degreePerOrientation/2;
-	return orientations[(int)(needle()-degreeOffset)/degreePerOrientation];
+	return orientations[(int)((needle()-degreeOffset)/degreePerOrientation)];
 }
 
 void CompassGraphicsWidget::setNeedle(const double degrees)
