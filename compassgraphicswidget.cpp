@@ -19,7 +19,6 @@
 #include <QPainter>
 #include <QPointF>
 #include <QRectF>
-#include <QStringList>
 
 #include <Plasma/Svg>
 
@@ -93,8 +92,14 @@ double CompassGraphicsWidget::needle() const
 
 const QString& CompassGraphicsWidget::needleOrientation() const
 {
-	static QStringList orientations;
-	orientations << "N" << "NE" << "E" << "SE" << "S" << "SW" << "W" << "NW";
+	static const QString orientations[8] = {i18n("N"),
+		i18n("NE"),
+		i18n("E"),
+		i18n("SE"),
+		i18n("S"),
+		i18n("SW"),
+		i18n("W"),
+		i18n("NW")};
 
 	static const double degreePerOrientation = 360/orientations.size();
 	static const double degreeOffset = -degreePerOrientation/2;
