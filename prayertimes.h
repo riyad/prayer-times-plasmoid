@@ -6,6 +6,7 @@
 #include <Plasma/DataEngine>
 
 #include "ui_prayertimesLocationConfig.h"
+#include "ui_prayertimesCalculationMethodConfig.h"
 
 class CompassGraphicsWidget;
 
@@ -50,6 +51,7 @@ class PrayerTimes : public Plasma::Applet
 
 	// Configuration dialog
 	Ui::prayertimesLocationConfig locationConfigUi;
+	Ui::prayertimesCalculationMethodConfig calculationMethodConfigUi;
 
 	public:
 		// Basic Create/Destroy

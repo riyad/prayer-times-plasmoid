@@ -108,10 +108,10 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 
 void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 {
-	QWidget *widget = new QWidget(parent);
-	locationConfigUi.setupUi(widget);
+	QWidget *locationWidget = new QWidget(parent);
+	locationConfigUi.setupUi(locationWidget);
 
-	parent->addPage(widget, i18n("Location"), "marble");
+	parent->addPage(locationWidget, i18n("Location"), "marble");
 	locationConfigUi.locationNameLineEdit->setText(m_locationName);
 
 	Marble::MarbleWidget* map = locationConfigUi.mapWidget;
@@ -132,6 +132,12 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 
 	connect(locationConfigUi.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseGeoPositionChanged()));
 	connect(locationConfigUi.mapWidget, SIGNAL(zoomChanged(int)), this, SLOT(configMouseGeoPositionChanged()));
+
+	QWidget *methodWidget = new QWidget(parent);
+	calculationMethodConfigUi.setupUi(methodWidget);
+
+	parent->addPage(methodWidget, i18n("Calculation Method"), "prayertimes");
+	calculationMethodConfigUi.methodComboBox->setCurrentIndex(m_calculationMethod);
 
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
