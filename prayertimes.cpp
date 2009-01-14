@@ -79,6 +79,7 @@ void PrayerTimes::init()
 	m_locationName = cg.readEntry("locationName", m_locationName);
 	m_latitude = cg.readEntry("latitude", m_latitude);
 	m_longitude = cg.readEntry("longitude", m_longitude);
+	m_calculationMethod = cg.readEntry("calculationMethod", m_calculationMethod);
 
 	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
 
@@ -165,6 +166,12 @@ void PrayerTimes::configAccepted()
 	if(m_longitude != longitude) {
 		m_longitude = longitude;
 		cg.writeEntry("longitude", m_longitude);
+	}
+
+	double method = calculationMethodConfigUi.methodComboBox->currentIndex();
+	if(m_calculationMethod != method) {
+		m_calculationMethod = method;
+		cg.writeEntry("calculationMethod", m_calculationMethod);
 	}
 
 	connectSources();
@@ -295,7 +302,7 @@ void PrayerTimes::disconnectSources()
 
 const QString PrayerTimes::sourceName() const
 {
-	return QString("%1,%2").arg(m_latitude).arg(m_longitude);
+	return QString("%1/%2,%3").arg(calculationMethodName[m_calculationMethod]).arg(m_latitude).arg(m_longitude);
 }
 
 int PrayerTimes::currentPrayer() const
