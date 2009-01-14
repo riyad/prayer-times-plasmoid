@@ -48,7 +48,7 @@ void  PrayerTimesEngine::init()
 	// use local time zone for prayer time calculations
 	localTimeZone = new KTimeZone(KSystemTimeZones::local());
 	
-	// default to Mulim World League method
+	// default to Muslim World League method
 	calculationMethod = 5;
 	// TODO: read method from config files
 }
