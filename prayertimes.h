@@ -49,7 +49,7 @@ class PrayerTimes : public Plasma::Applet
 	QTimer* m_updateTimer;
 
 	// Configuration dialog
-	Ui::prayertimesLocationConfig ui;
+	Ui::prayertimesLocationConfig locationConfigUi;
 
 	public:
 		// Basic Create/Destroy
