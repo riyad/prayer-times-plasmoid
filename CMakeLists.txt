@@ -27,7 +27,9 @@ set(prayertimes_SRCS
     compassgraphicswidget.cpp)
 
 # Adding configuration ui files
-kde4_add_ui_files(prayertimes_SRCS prayertimesLocationConfig.ui)
+kde4_add_ui_files(prayertimes_SRCS
+                  prayertimesLocationConfig.ui
+                  prayertimesCalculationMethodConfig.ui)
 
 # Now make sure all files get to the right place
 kde4_add_plugin(plasma_applet_prayertimes ${prayertimes_SRCS})
