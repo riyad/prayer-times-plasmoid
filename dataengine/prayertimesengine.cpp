@@ -117,7 +117,7 @@ void PrayerTimesEngine::parseSource(const QString& source, Location* location, i
 	}
 
 	// looking up the requested calculation method
-	*methodNum = CALCULATION_METHODS;
+	*methodNum = CALCULATION_METHODS-1;
 	while(*methodNum) {
 		if(methodName == calculationMethodName[*methodNum]) {
 			break;
