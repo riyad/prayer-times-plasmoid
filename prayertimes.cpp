@@ -5,6 +5,7 @@
 #include "dataengine/prayertimesengine.h"
 
 // Qt
+#include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 #include <QGraphicsWidget>
 #include <QString>
