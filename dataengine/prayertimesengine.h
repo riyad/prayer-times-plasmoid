@@ -18,6 +18,29 @@
 #ifndef PRAYERTIMESENGINE_H
 #define PRAYERTIMESENGINE_H
 
+#include <itl/prayer.h>
+
+class QString;
+class QTime;
+template <typename T> class QVector;
+
+class KTimeZone;
+
+#include <KLocalizedString>
+
+#define CALCULATION_METHODS 8
+// according to itl/prayer.h
+static const QString calculationMethodName[] = {
+      i18nc("No calculation method specified.", "None"),
+      i18n("Egyptian General Authority of Survey"),
+      i18n("University of Islamic Sciences, Karachi (Shaf'i)"),
+      i18n("University of Islamic Sciences, Karachi (Hanafi)"),
+      i18n("Islamic Society of North America"),
+      i18n("Muslim World League (MWL)"),
+      i18n("Umm Al-Qurra, Saudi Arabia"),
+      i18n("Fixed Ishaa Interval (always 90)")
+};
+
 #define PRAYER_TIMES 7
 
 enum PrayerTime {
@@ -30,14 +53,6 @@ enum PrayerTime {
 	NextFajr
 };
 
-#include <itl/prayer.h>
-
-class QString;
-class QTime;
-template <typename T> class QVector;
-
-class KTimeZone;
-
 #include <Plasma/DataEngine>
 
 class PrayerTimesEngine : public Plasma::DataEngine
@@ -45,7 +60,6 @@ class PrayerTimesEngine : public Plasma::DataEngine
 	Q_OBJECT
 
 	KTimeZone* localTimeZone;
-	int calculationMethod;
 
 public:
 		PrayerTimesEngine(QObject* parent, const QVariantList& args);
@@ -58,8 +72,8 @@ protected:
 		bool updateSourceEvent(const QString& source);
 
 private:
-	void parseLocation(const QString& coords, Location* location);
-	void calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes);
+	void parseSource(const QString& coords, Location* location, int* methodNum);
+	void calculatePrayerTimes(const Location* location, const int methodNum, QVector<QTime>* prayerTimes);
 	void calculateQibla(const Location* location, double* qiblaDegrees);
 };
 

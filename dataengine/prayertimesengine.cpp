@@ -47,12 +47,7 @@ void  PrayerTimesEngine::init()
 {
 	// use local time zone for prayer time calculations
 	localTimeZone = new KTimeZone(KSystemTimeZones::local());
-	
-	// default to Muslim World League method
-	calculationMethod = 5;
-	// TODO: read method from config files
 }
-
 
 bool PrayerTimesEngine::sourceRequestEvent(const QString& name)
 {
@@ -69,13 +64,14 @@ bool PrayerTimesEngine::sourceRequestEvent(const QString& name)
 bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 {
 	Location location;
+	int methodNum;
 	QVector<QTime> prayerTimes;
 	double qiblaDegrees;
 
 	// populate the location struct
-	parseLocation(name, &location);
+	parseSource(name, &location, &methodNum);
 
-	calculatePrayerTimes(&location, &prayerTimes);
+	calculatePrayerTimes(&location, methodNum, &prayerTimes);
 	calculateQibla(&location, &qiblaDegrees);
 
 	setData(name, I18N_NOOP("Fajr"),    prayerTimes[0]);
@@ -93,26 +89,43 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 
 /**
  * Generates a Location from the given coordinates.
- * @param coords the coordinats in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
- * @param location the resulting location
+ * @param source the source to parse consits of 2 parts separated by "/" namely:
+ *               - the calculation method
+ *               - coordinates in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
+ * @param location for setting the requested location
+ * @param methodNum for setting the requested calculation method
  * @note uses the local time zone for setting the corresponding fields in location
  * @note location will be overwritten
  */
-void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
+void PrayerTimesEngine::parseSource(const QString& source, Location* location, int* methodNum)
 {
-	if(coords.isEmpty()) {
+	QStringList sourceParts = source.split("/");
+	QString methodName = sourceParts[0];
+	QString coords = sourceParts[1];
+
+	if(source.isEmpty()) {
 		kDebug() << "Error: coords is empty: " << coords;
-		return;
-	}
-	if(coords.isNull()) {
-		kDebug() << "Error: coords is null";
 		return;
 	}
 	if(location == 0L) {
 		kDebug() << "Error: location is null";
 		return;
 	}
-	
+	if(methodNum == 0L) {
+		kDebug() << "Error: methodNum is null";
+		return;
+	}
+
+	// looking up the requested calculation method
+	*methodNum = CALCULATION_METHODS;
+	while(*methodNum) {
+		if(methodName == calculationMethodName[*methodNum]) {
+			break;
+		}
+		--*methodNum;
+	}
+
+	// extracting latitude and longitude
 	QStringList splitCoords = QString(coords).remove(" ").split(",");
 	location->degreeLat = splitCoords[0].toDouble();
 	location->degreeLong = splitCoords[1].toDouble();
@@ -131,7 +144,7 @@ void PrayerTimesEngine::parseLocation(const QString& coords, Location* location)
  * @param prayerTimes the six times (i.e. fajr, shorook, dhuhr, ..., ishaa) for the current day
  * @note prayerTimes will be overwritten
  */
-void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<QTime>* prayerTimes)
+void PrayerTimesEngine::calculatePrayerTimes(const Location* location, const int methodNum, QVector<QTime>* prayerTimes)
 {
 	if(location == 0L) {
 		kDebug() << "Error: location is null";
@@ -147,18 +160,13 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, QVector<Q
 
 	// filling in the parameters for the "calculationMethod" method
 	Method method;
-	getMethod(calculationMethod, &method);
+	getMethod(methodNum, &method);
 
 	// the date of the day the prayer times are goign to be calculated for
 	Date date;
 	date.day = QDate::currentDate().day();
 	date.month = QDate::currentDate().month();
 	date.year = QDate::currentDate().year();
-
-	// some debug output
-	kDebug() << "Latitude: " << location->degreeLat;
-	kDebug() << "Longitude: " << location->degreeLong;
-	kDebug() << "Method: " << calculationMethod;
 
 	// the actual prayer times calculation
 	getPrayerTimes(location, &method, &date, prayers);
