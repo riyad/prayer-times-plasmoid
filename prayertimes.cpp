@@ -5,6 +5,7 @@
 #include "dataengine/prayertimesengine.h"
 
 // Qt
+#include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 #include <QGraphicsWidget>
 #include <QString>
@@ -107,13 +108,13 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 
 void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 {
-	QWidget *widget = new QWidget(parent);
-	ui.setupUi(widget);
+	QWidget *locationWidget = new QWidget(parent);
+	locationConfigUi.setupUi(locationWidget);
 
-	parent->addPage(widget, i18n("Location"), "marble");
-	ui.locationNameLineEdit->setText(m_locationName);
+	parent->addPage(locationWidget, i18n("Location"), "marble");
+	locationConfigUi.locationNameLineEdit->setText(m_locationName);
 
-	Marble::MarbleWidget* map = ui.mapWidget;
+	Marble::MarbleWidget* map = locationConfigUi.mapWidget;
 	map->setProjection(Marble::Spherical);
 	//Set how we want the map to look
 	map->centerOn(m_longitude, m_latitude);
@@ -129,8 +130,14 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	map->setShowScaleBar   ( false );
 	map->setShowClouds     ( false );
 
-	connect(ui.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseGeoPositionChanged()));
-	connect(ui.mapWidget, SIGNAL(zoomChanged(int)), this, SLOT(configMouseGeoPositionChanged()));
+	connect(locationConfigUi.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseGeoPositionChanged()));
+	connect(locationConfigUi.mapWidget, SIGNAL(zoomChanged(int)), this, SLOT(configMouseGeoPositionChanged()));
+
+	QWidget *methodWidget = new QWidget(parent);
+	calculationMethodConfigUi.setupUi(methodWidget);
+
+	parent->addPage(methodWidget, i18n("Calculation Method"), "prayertimes");
+	calculationMethodConfigUi.methodComboBox->setCurrentIndex(m_calculationMethod);
 
 	connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
@@ -142,19 +149,19 @@ void PrayerTimes::configAccepted()
 
 	KConfigGroup cg = config();
 
-	QString locationName = ui.locationNameLineEdit->text();
+	QString locationName = locationConfigUi.locationNameLineEdit->text();
 	if(m_locationName != locationName) {
 		m_locationName = locationName;
 		cg.writeEntry("locationName", m_locationName);
 	}
 
-	double latitude = ui.mapWidget->centerLatitude();
+	double latitude = locationConfigUi.mapWidget->centerLatitude();
 	if(m_latitude != latitude) {
 		m_latitude = latitude;
 		cg.writeEntry("latitude", m_latitude);
 	}
 
-	double longitude = ui.mapWidget->centerLongitude();
+	double longitude = locationConfigUi.mapWidget->centerLongitude();
 	if(m_longitude != longitude) {
 		m_longitude = longitude;
 		cg.writeEntry("longitude", m_longitude);
@@ -169,14 +176,14 @@ void PrayerTimes::configAccepted()
 
 void PrayerTimes::configMouseGeoPositionChanged()
 {
-	Marble::MarbleWidget* map = ui.mapWidget;
-	double lon = ui.mapWidget->centerLongitude();
-	double lat = ui.mapWidget->centerLatitude();
+	Marble::MarbleWidget* map = locationConfigUi.mapWidget;
+	double lon = locationConfigUi.mapWidget->centerLongitude();
+	double lat = locationConfigUi.mapWidget->centerLatitude();
 	int x, y;
 	map->screenCoordinates(lon, lat, x, y);
 	QVector<QPersistentModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
 	if(!featureList.isEmpty()) {
-		ui.locationNameLineEdit->setText(featureList.at(0).data().toString());
+		locationConfigUi.locationNameLineEdit->setText(featureList.at(0).data().toString());
 	}
 }
 
