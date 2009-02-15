@@ -188,7 +188,7 @@ void PrayerTimes::configMouseGeoPositionChanged()
 	double lat = locationConfigUi.mapWidget->centerLatitude();
 	int x, y;
 	map->screenCoordinates(lon, lat, x, y);
-	QVector<QPersistentModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
+	QVector<QModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
 	if(!featureList.isEmpty()) {
 		locationConfigUi.locationNameLineEdit->setText(featureList.at(0).data().toString());
 	}
