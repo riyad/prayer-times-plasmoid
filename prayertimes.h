@@ -60,7 +60,7 @@ class PrayerTimes : public Plasma::Applet
 
 		void init();
 
-	public slots:
+	public Q_SLOTS:
 		void dataUpdated(const QString &source, const Plasma::DataEngine::Data &data);
 
 	protected Q_SLOTS:
