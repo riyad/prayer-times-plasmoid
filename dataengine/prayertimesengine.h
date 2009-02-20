@@ -72,9 +72,9 @@ protected:
 		bool updateSourceEvent(const QString& source);
 
 private:
-	void parseSource(const QString& coords, Location* location, int* methodNum);
-	void calculatePrayerTimes(const Location* location, const int methodNum, QVector<QTime>* prayerTimes);
-	void calculateQibla(const Location* location, double* qiblaDegrees);
+	void parseSource(const QString& coords, Location& location, int& methodNum);
+	void calculatePrayerTimes(const Location& location, const int& methodNum, QVector<QTime>& prayerTimes);
+	void calculateQibla(const Location& location, double& qiblaDegrees);
 };
 
 #endif

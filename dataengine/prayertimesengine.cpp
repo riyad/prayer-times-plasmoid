@@ -69,10 +69,10 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 	double qiblaDegrees;
 
 	// populate the location struct
-	parseSource(name, &location, &methodNum);
+	parseSource(name, location, methodNum);
 
-	calculatePrayerTimes(&location, methodNum, &prayerTimes);
-	calculateQibla(&location, &qiblaDegrees);
+	calculatePrayerTimes(location, methodNum, prayerTimes);
+	calculateQibla(location, qiblaDegrees);
 
 	setData(name, I18N_NOOP("Fajr"),    prayerTimes[0]);
 	setData(name, I18N_NOOP("Shorooq"), prayerTimes[1]);
@@ -97,7 +97,7 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
  * @note uses the local time zone for setting the corresponding fields in location
  * @note location will be overwritten
  */
-void PrayerTimesEngine::parseSource(const QString& source, Location* location, int* methodNum)
+void PrayerTimesEngine::parseSource(const QString& source, Location& location, int& methodNum)
 {
 	QStringList sourceParts = source.split("/");
 	QString methodName = sourceParts[0];
@@ -107,35 +107,27 @@ void PrayerTimesEngine::parseSource(const QString& source, Location* location, i
 		kDebug() << "Error: coords is empty: " << coords;
 		return;
 	}
-	if(location == 0L) {
-		kDebug() << "Error: location is null";
-		return;
-	}
-	if(methodNum == 0L) {
-		kDebug() << "Error: methodNum is null";
-		return;
-	}
 
 	// looking up the requested calculation method
-	*methodNum = CALCULATION_METHODS-1;
-	while(*methodNum) {
-		if(methodName == calculationMethodName[*methodNum]) {
+	methodNum = CALCULATION_METHODS-1;
+	while(methodNum) {
+		if(methodName == calculationMethodName[methodNum]) {
 			break;
 		}
-		--*methodNum;
+		--methodNum;
 	}
 
 	// extracting latitude and longitude
 	QStringList splitCoords = QString(coords).remove(" ").split(",");
-	location->degreeLat = splitCoords[0].toDouble();
-	location->degreeLong = splitCoords[1].toDouble();
+	location.degreeLat = splitCoords[0].toDouble();
+	location.degreeLong = splitCoords[1].toDouble();
 
-	location->gmtDiff = double(localTimeZone->currentOffset())/3600;
-	location->dst = localTimeZone->isDstAtUtc(localTimeZone->toUtc(QDateTime::currentDateTime())) ? 1 : 0;
+	location.gmtDiff = double(localTimeZone->currentOffset())/3600;
+	location.dst = localTimeZone->isDstAtUtc(localTimeZone->toUtc(QDateTime::currentDateTime())) ? 1 : 0;
 
-	location->seaLevel = 0; // just for simplicity
-	location->pressure = 1010; // default from itl's prayer.h
-	location->temperature = 10; // default from itl's prayer.
+	location.seaLevel = 0; // just for simplicity
+	location.pressure = 1010; // default from itl's prayer.h
+	location.temperature = 10; // default from itl's prayer.
 }
 
 /**
@@ -144,17 +136,8 @@ void PrayerTimesEngine::parseSource(const QString& source, Location* location, i
  * @param prayerTimes the six times (i.e. fajr, shorook, dhuhr, ..., ishaa) for the current day
  * @note prayerTimes will be overwritten
  */
-void PrayerTimesEngine::calculatePrayerTimes(const Location* location, const int methodNum, QVector<QTime>* prayerTimes)
+void PrayerTimesEngine::calculatePrayerTimes(const Location& location, const int& methodNum, QVector<QTime>& prayerTimes)
 {
-	if(location == 0L) {
-		kDebug() << "Error: location is null";
-		return;
-	}
-	if(prayerTimes == 0L) {
-		kDebug() << "Error: prayerTimes is null";
-		return;
-	}
-
 	// for retrieving the results of the calculation
 	Prayer prayers[PRAYER_TIMES];
 
@@ -169,13 +152,13 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, const int
 	date.year = QDate::currentDate().year();
 
 	// the actual prayer times calculation
-	getPrayerTimes(location, &method, &date, prayers);
-	getNextDayFajr(location, &method, &date, &prayers[6]);
+	getPrayerTimes(&location, &method, &date, prayers);
+	getNextDayFajr(&location, &method, &date, &prayers[6]);
 
 	// transfering the calculation result into our result structure
-	prayerTimes->resize(PRAYER_TIMES);
+	prayerTimes.resize(PRAYER_TIMES);
 	for(int prayer = Fajr; prayer <= NextFajr; ++prayer) {
-		(*prayerTimes)[prayer].setHMS(prayers[prayer].hour, prayers[prayer].minute, prayers[prayer].second);
+		prayerTimes[prayer].setHMS(prayers[prayer].hour, prayers[prayer].minute, prayers[prayer].second);
 	}
 }
 
@@ -185,18 +168,9 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location* location, const int
  * @param qiblaDegrees the qibla from the location in degrees
  * @note qiblaDegrees will be overwritten
  */
-void PrayerTimesEngine::calculateQibla(const Location* location, double* qiblaDegrees)
+void PrayerTimesEngine::calculateQibla(const Location& location, double& qiblaDegrees)
 {
-	if(location == 0L) {
-		kDebug() << "Error: location is null";
-		return;
-	}
-	if(qiblaDegrees == 0L) {
-		kDebug() << "Error: qiblaDegrees is null";
-		return;
-	}
-
-	*qiblaDegrees = -getNorthQibla(location);
+	qiblaDegrees = -getNorthQibla(&location);
 }
 
 // This does the magic that allows Plasma to load this plugin.
