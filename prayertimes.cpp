@@ -32,11 +32,9 @@
 
 PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
-	m_prayertimesSvg(0),
-	m_locationName("Makkah"),
-	m_latitude(21.416667), m_longitude(39.816667), // Makkah
-	m_calculationMethod(5), // Muslim World League
-	m_updateTimer(0)
+	m_locationName(""),
+	m_latitude(21.431536), m_longitude(39.819145), // Makkah
+	m_calculationMethod(5) // Muslim World League
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -174,6 +172,8 @@ void PrayerTimes::configAccepted()
 		cg.writeEntry("calculationMethod", m_calculationMethod);
 	}
 
+	setConfigurationRequired(m_locationName.isEmpty());
+
 	connectSources();
 
 	updateInterface();
@@ -288,9 +288,13 @@ QGraphicsWidget* PrayerTimes::createQiblaWidget()
 
 void PrayerTimes::connectSources()
 {
-	Plasma::DataEngine* prayerTimesEngine;
-	prayerTimesEngine = dataEngine("prayertimes");
-	prayerTimesEngine->connectSource(sourceName(), this, 1000*60, Plasma::AlignToMinute);
+	if(m_locationName.isEmpty()) {
+		setConfigurationRequired(true, i18n("Please setup your location."));
+	} else {
+		Plasma::DataEngine* prayerTimesEngine;
+		prayerTimesEngine = dataEngine("prayertimes");
+		prayerTimesEngine->connectSource(sourceName(), this, 1000*60, Plasma::AlignToMinute);
+	}
 }
 
 void PrayerTimes::disconnectSources()
