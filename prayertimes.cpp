@@ -231,7 +231,7 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_locationLabel = new Plasma::Label(this);
 	m_locationLabel->setAlignment(Qt::AlignCenter);
-	m_locationLabel->setText(QString("Prayer times for %1 on %2"));
+	m_locationLabel->setText("");
 	layout->addItem(m_locationLabel, 0, 0, 1, 3);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
@@ -247,14 +247,14 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
 		prayerTimesLabel->setAlignment(Qt::AlignLeft | Qt::AlignHCenter);
-		prayerTimesLabel->setText("%1");
+		prayerTimesLabel->setText("");
 		layout->addItem(prayerTimesLabel, 1+prayer, 2);
 		m_prayerTimeLabels.append(prayerTimesLabel);
 	}
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-	m_nextPrayerLabel->setText(QString("%1 to %2"));
+	m_nextPrayerLabel->setText(QString(""));
 	layout->addItem(m_nextPrayerLabel, 6, 0, 1, 1);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
@@ -270,7 +270,7 @@ QGraphicsWidget* PrayerTimes::createQiblaWidget()
 
 	m_qiblaOrientationLabel = new Plasma::Label(this);
 	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
-	m_qiblaOrientationLabel->setText(QString("Qibla direction is %1"));
+	m_qiblaOrientationLabel->setText("");
 	layout->addItem(m_qiblaOrientationLabel, 0, 0, 1, 2);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
