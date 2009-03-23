@@ -48,6 +48,6 @@ install(FILES plasma-applet-prayertimes.desktop
 kde4_install_icons(${ICON_INSTALL_DIR})
 
 install(FILES prayertimes.svgz
-        DESTINATION ${DATA_INSTALL_DIR}/desktoptheme/default/widgets/)
+        DESTINATION ${DATA_INSTALL_DIR}/desktoptheme/default/prayertimes/)
 install(FILES compass.svgz
         DESTINATION ${DATA_INSTALL_DIR}/desktoptheme/default/widgets/)
