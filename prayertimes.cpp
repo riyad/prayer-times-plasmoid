@@ -14,7 +14,7 @@
 
 // KDE
 #include <KConfigDialog>
-#include <KIcon>
+#include <KIconLoader>
 #include <KLocale>
 
 // Plasma
@@ -205,8 +205,10 @@ void PrayerTimes::updateInterface()
 		QFont* prayerFont = 0;
 		if(prayer != Shorooq && prayer == currentPrayer()) {
 			prayerFont = &boldFont;
+			m_iconLabels[prayer]->setVisible(true);
 		} else {
 			prayerFont = &normalFont;
+			m_iconLabels[prayer]->setVisible(false);
 		}
 		static_cast<QLabel*>(m_prayerLabels[prayer]->widget())->setFont(*prayerFont);
 		static_cast<QLabel*>(m_prayerTimeLabels[prayer]->widget())->setFont(*prayerFont);
@@ -226,29 +228,37 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	layout->setVerticalSpacing(0);
 
 	layout->setColumnStretchFactor(0, 2);
-	layout->setColumnStretchFactor(1, 1);
+	layout->setColumnStretchFactor(1, 0.5);
 	layout->setColumnStretchFactor(2, 1);
+	layout->setColumnStretchFactor(3, 1);
 
 	m_locationLabel = new Plasma::Label(this);
 	m_locationLabel->setAlignment(Qt::AlignCenter);
 	m_locationLabel->setText("");
-	layout->addItem(m_locationLabel, 0, 0, 1, 3);
+	layout->addItem(m_locationLabel, 0, 0, 1, 4);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 1, 0, 5, 1);
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
+		Plasma::Label *iconLabel = new Plasma::Label(this);
+		iconLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);
+		iconLabel->setImage(KIconLoader::global()->iconPath("arrow-right", KIconLoader::NoGroup));
+		iconLabel->setVisible(false);
+		layout->addItem(iconLabel, 1+prayer, 1);
+		m_iconLabels.append(iconLabel);
+
 		Plasma::Label *prayerLabel = new Plasma::Label(this);
 		prayerLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);
 		prayerLabel->setText(labelFor(prayer));
-		layout->addItem(prayerLabel, 1+prayer, 1);
+		layout->addItem(prayerLabel, 1+prayer, 2);
 		m_prayerLabels.append(prayerLabel);
 
 		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
 		prayerTimesLabel->setAlignment(Qt::AlignLeft | Qt::AlignHCenter);
 		prayerTimesLabel->setText("");
-		layout->addItem(prayerTimesLabel, 1+prayer, 2);
+		layout->addItem(prayerTimesLabel, 1+prayer, 3);
 		m_prayerTimeLabels.append(prayerTimesLabel);
 	}
 

@@ -32,6 +32,7 @@ class PrayerTimes : public Plasma::Applet
 {
 	Q_OBJECT
 
+	QList<Plasma::Label*> m_iconLabels;
 	QList<Plasma::Label*> m_prayerLabels;
 	QList<Plasma::Label*> m_prayerTimeLabels;
 	Plasma::Label *m_locationLabel;
