@@ -40,7 +40,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	setBackgroundHints(DefaultBackground);
 
 	m_prayertimesSvg = new Plasma::Svg(this);
-	m_prayertimesSvg->setImagePath("widgets/prayertimes");
+	m_prayertimesSvg->setImagePath("prayertimes/prayertimes");
 	m_prayertimesSvg->setContainsMultipleImages(true);
 
 	setHasConfigurationInterface(true);
