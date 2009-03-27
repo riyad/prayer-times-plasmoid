@@ -46,7 +46,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	setHasConfigurationInterface(true);
 
 	setAspectRatioMode(Plasma::IgnoreAspectRatio);
-	setMinimumSize(270, 150);
+	setMinimumSize(280, 220);
 
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
 	tabbar->addTab("Times", createPrayerTimesWidget());
@@ -56,7 +56,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	layout->addItem(tabbar);
 	setLayout(layout);
 
-	resize(layout->preferredSize());
+	resize(350, 220);
 }
 
 
