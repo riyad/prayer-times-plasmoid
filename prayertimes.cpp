@@ -11,6 +11,7 @@
 #include <QString>
 #include <QTextOption>
 #include <QTime>
+#include <QTimer>
 
 // KDE
 #include <KConfigDialog>
