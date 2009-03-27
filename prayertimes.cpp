@@ -16,7 +16,6 @@
 // KDE
 #include <KConfigDialog>
 #include <KIconLoader>
-#include <KLocale>
 
 // Plasma
 #include <Plasma/Applet>
@@ -206,10 +205,10 @@ void PrayerTimes::updateInterface()
 		QFont* prayerFont = 0;
 		if(prayer != Shorooq && prayer == currentPrayer()) {
 			prayerFont = &boldFont;
-			m_iconLabels[prayer]->setVisible(true);
+			m_prayerIcons[prayer]->setVisible(true);
 		} else {
 			prayerFont = &normalFont;
-			m_iconLabels[prayer]->setVisible(false);
+			m_prayerIcons[prayer]->setVisible(false);
 		}
 		static_cast<QLabel*>(m_prayerLabels[prayer]->widget())->setFont(*prayerFont);
 		static_cast<QLabel*>(m_prayerTimeLabels[prayer]->widget())->setFont(*prayerFont);
@@ -243,12 +242,12 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	layout->addItem(kaabaIconWidget, 1, 0, 5, 1);
 
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
-		Plasma::Label *iconLabel = new Plasma::Label(this);
-		iconLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);
-		iconLabel->setImage(KIconLoader::global()->iconPath("arrow-right", KIconLoader::NoGroup));
-		iconLabel->setVisible(false);
-		layout->addItem(iconLabel, 1+prayer, 1);
-		m_iconLabels.append(iconLabel);
+		Plasma::IconWidget *prayerIcon = new Plasma::IconWidget(this);
+		prayerIcon->setIcon("arrow-right");
+		//iconLabel->setImage(KIconLoader::global()->iconPath("arrow-right", KIconLoader::NoGroup));
+		prayerIcon->setVisible(false);
+		layout->addItem(prayerIcon, 1+prayer, 1);
+		m_prayerIcons.append(prayerIcon);
 
 		Plasma::Label *prayerLabel = new Plasma::Label(this);
 		prayerLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);

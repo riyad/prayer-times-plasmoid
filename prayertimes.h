@@ -18,6 +18,7 @@ class QTimer;
 class KConfigDialog;
 
 namespace Plasma {
+	class IconWidget;
 	class Label;
 	class Svg;
 	class TabBar;
@@ -32,7 +33,7 @@ class PrayerTimes : public Plasma::Applet
 {
 	Q_OBJECT
 
-	QList<Plasma::Label*> m_iconLabels;
+	QList<Plasma::IconWidget*> m_prayerIcons;
 	QList<Plasma::Label*> m_prayerLabels;
 	QList<Plasma::Label*> m_prayerTimeLabels;
 	Plasma::Label *m_locationLabel;
