@@ -172,8 +172,6 @@ void PrayerTimes::configAccepted()
 		cg.writeEntry("calculationMethod", m_calculationMethod);
 	}
 
-	setConfigurationRequired(m_locationName.isEmpty());
-
 	connectSources();
 
 	updateInterface();
@@ -234,7 +232,6 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_locationLabel = new Plasma::Label(this);
 	m_locationLabel->setAlignment(Qt::AlignCenter);
-	m_locationLabel->setText("");
 	layout->addItem(m_locationLabel, 0, 0, 1, 4);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
@@ -244,7 +241,6 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
 		Plasma::IconWidget *prayerIcon = new Plasma::IconWidget(this);
 		prayerIcon->setIcon("arrow-right");
-		//iconLabel->setImage(KIconLoader::global()->iconPath("arrow-right", KIconLoader::NoGroup));
 		prayerIcon->setVisible(false);
 		layout->addItem(prayerIcon, 1+prayer, 1);
 		m_prayerIcons.append(prayerIcon);
@@ -257,14 +253,12 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
 		prayerTimesLabel->setAlignment(Qt::AlignLeft | Qt::AlignHCenter);
-		prayerTimesLabel->setText("");
 		layout->addItem(prayerTimesLabel, 1+prayer, 3);
 		m_prayerTimeLabels.append(prayerTimesLabel);
 	}
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-	m_nextPrayerLabel->setText(QString(""));
 	layout->addItem(m_nextPrayerLabel, 6, 0, 1, 1);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
@@ -304,6 +298,7 @@ void PrayerTimes::connectSources()
 		Plasma::DataEngine* prayerTimesEngine;
 		prayerTimesEngine = dataEngine("prayertimes");
 		prayerTimesEngine->connectSource(sourceName(), this, 1000*60, Plasma::AlignToMinute);
+		setConfigurationRequired(false);
 	}
 }
 
