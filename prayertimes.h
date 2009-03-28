@@ -9,6 +9,7 @@
 #include "ui_prayertimesCalculationMethodConfig.h"
 
 class CompassGraphicsWidget;
+class PrayerTimesView;
 
 class QGraphicsWidget;
 class QString;
@@ -18,7 +19,6 @@ class QTimer;
 class KConfigDialog;
 
 namespace Plasma {
-	class IconWidget;
 	class Label;
 	class Svg;
 	class TabBar;
@@ -33,9 +33,7 @@ class PrayerTimes : public Plasma::Applet
 {
 	Q_OBJECT
 
-	QList<Plasma::IconWidget*> m_prayerIcons;
-	QList<Plasma::Label*> m_prayerLabels;
-	QList<Plasma::Label*> m_prayerTimeLabels;
+	PrayerTimesView *m_prayerTimesView;
 	Plasma::Label *m_locationLabel;
 	Plasma::Label *m_nextPrayerLabel;
 	Plasma::Label *m_qiblaOrientationLabel;

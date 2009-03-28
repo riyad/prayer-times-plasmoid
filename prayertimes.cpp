@@ -3,6 +3,7 @@
 
 #include "compassgraphicswidget.h"
 #include "dataengine/prayertimesengine.h"
+#include "prayertimesview.h"
 
 // Qt
 #include <QGraphicsLinearLayout>
@@ -198,19 +199,8 @@ void PrayerTimes::updateInterface()
 	QFont boldFont(font());
 	boldFont.setBold(true);
 
-	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
-		m_prayerTimeLabels[prayer]->setText(prayerTimeFor(prayer).toString("hh:mm"));
-		QFont* prayerFont = 0;
-		if(prayer != Shorooq && prayer == currentPrayer()) {
-			prayerFont = &boldFont;
-			m_prayerIcons[prayer]->setVisible(true);
-		} else {
-			prayerFont = &normalFont;
-			m_prayerIcons[prayer]->setVisible(false);
-		}
-		static_cast<QLabel*>(m_prayerLabels[prayer]->widget())->setFont(*prayerFont);
-		static_cast<QLabel*>(m_prayerTimeLabels[prayer]->widget())->setFont(*prayerFont);
-	}
+	// TODO: update prayer times
+
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
 	m_nextPrayerLabel->setText(i18nc("<time> to <prayer>", "%1 to %2", nextPrayerTime.toString("hh:mm"), labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
@@ -225,10 +215,8 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setVerticalSpacing(0);
 
-	layout->setColumnStretchFactor(0, 2);
-	layout->setColumnStretchFactor(1, 0.5);
-	layout->setColumnStretchFactor(2, 1);
-	layout->setColumnStretchFactor(3, 1);
+	layout->setColumnStretchFactor(0, 1);
+	layout->setColumnStretchFactor(1, 1);
 
 	m_locationLabel = new Plasma::Label(this);
 	m_locationLabel->setAlignment(Qt::AlignCenter);
@@ -238,24 +226,8 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 1, 0, 5, 1);
 
-	for(int prayer = Fajr; prayer <= Ishaa; ++prayer) {
-		Plasma::IconWidget *prayerIcon = new Plasma::IconWidget(this);
-		prayerIcon->setIcon("arrow-right");
-		prayerIcon->setVisible(false);
-		layout->addItem(prayerIcon, 1+prayer, 1);
-		m_prayerIcons.append(prayerIcon);
-
-		Plasma::Label *prayerLabel = new Plasma::Label(this);
-		prayerLabel->setAlignment(Qt::AlignRight | Qt::AlignHCenter);
-		prayerLabel->setText(labelFor(prayer));
-		layout->addItem(prayerLabel, 1+prayer, 2);
-		m_prayerLabels.append(prayerLabel);
-
-		Plasma::Label *prayerTimesLabel = new Plasma::Label(this);
-		prayerTimesLabel->setAlignment(Qt::AlignLeft | Qt::AlignHCenter);
-		layout->addItem(prayerTimesLabel, 1+prayer, 3);
-		m_prayerTimeLabels.append(prayerTimesLabel);
-	}
+	m_prayerTimesView = new PrayerTimesView(this);
+	layout->addItem(m_prayerTimesView, 1, 1, 6, 1);
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
