@@ -23,8 +23,10 @@ add_subdirectory(dataengine)
 
 # We add our source code here
 set(prayertimes_SRCS
+    compassgraphicswidget.cpp
     prayertimes.cpp
-    compassgraphicswidget.cpp)
+    prayertimesview.cpp
+    prayerdelegate.cpp)
 
 # Adding configuration ui files
 kde4_add_ui_files(prayertimes_SRCS
