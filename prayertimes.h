@@ -12,6 +12,7 @@ class CompassGraphicsWidget;
 class PrayerTimesView;
 
 class QGraphicsWidget;
+class QStandardItemModel;
 class QString;
 class QTime;
 class QTimer;
@@ -46,6 +47,8 @@ class PrayerTimes : public Plasma::Applet
 
 	QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
 	double m_qibla;
+
+	QStandardItemModel *m_prayerTimesModel;
 
 	QTimer* m_updateTimer;
 

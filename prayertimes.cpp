@@ -9,6 +9,9 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 #include <QGraphicsWidget>
+#include <QList>
+#include <QStandardItem>
+#include <QStandardItemModel>
 #include <QString>
 #include <QTextOption>
 #include <QTime>
@@ -35,7 +38,8 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_locationName(""),
 	m_latitude(21.431536), m_longitude(39.819145), // Makkah
-	m_calculationMethod(5) // Muslim World League
+	m_calculationMethod(5), // Muslim World League
+	m_prayerTimesModel(0)
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -199,7 +203,37 @@ void PrayerTimes::updateInterface()
 	QFont boldFont(font());
 	boldFont.setBold(true);
 
-	// TODO: update prayer times
+	if(!m_prayerTimesModel) {
+		m_prayerTimesModel = new QStandardItemModel(this);
+	} else {
+		m_prayerTimesModel->clear();
+	}
+
+	QList<QStandardItem *> prayerNameItems;
+	QList<QStandardItem *> prayerTimeItems;
+
+	QFont titleFont = QApplication::font();
+	titleFont.setBold(true);
+
+	for(int prayer = Fajr; prayer <= Ishaa; prayer++) {
+		QStandardItem *prayerName = new QStandardItem();
+		prayerName->setForeground(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
+		prayerName->setFont(titleFont);
+		prayerName->setText(labelFor(prayer));
+		prayerNameItems.append(prayerName);
+
+		QStandardItem *prayerTime = new QStandardItem();
+		prayerTime->setFont(titleFont);
+		prayerTime->setText(prayerTimeFor(prayer).toString("hh:mm"));
+		prayerTimeItems.append(prayerTime);
+	}
+
+	m_prayerTimesModel->appendColumn(prayerNameItems);
+	m_prayerTimesModel->appendColumn(prayerTimeItems);
+
+	if (!m_prayerTimesView->model()) {
+		m_prayerTimesView->setModel(m_prayerTimesModel);
+	}
 
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
