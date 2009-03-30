@@ -122,8 +122,8 @@ void PrayerTimesEngine::parseSource(const QString& source, Location& location, i
 	location.degreeLat = splitCoords[0].toDouble();
 	location.degreeLong = splitCoords[1].toDouble();
 
-	location.gmtDiff = double(localTimeZone->currentOffset())/3600;
-	location.dst = localTimeZone->isDstAtUtc(localTimeZone->toUtc(QDateTime::currentDateTime())) ? 1 : 0;
+	location.dst = localTimeZone->isDstAtUtc(QDateTime::currentDateTime().toUTC()) ? 1 : 0;
+	location.gmtDiff = double(localTimeZone->currentOffset())/3600 - location.dst;
 
 	location.seaLevel = 0; // just for simplicity
 	location.pressure = 1010; // default from itl's prayer.h
@@ -146,10 +146,11 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location& location, const int
 	getMethod(methodNum, &method);
 
 	// the date of the day the prayer times are goign to be calculated for
+	QDate currentDate = QDate::currentDate();
 	Date date;
-	date.day = QDate::currentDate().day();
-	date.month = QDate::currentDate().month();
-	date.year = QDate::currentDate().year();
+	date.day = currentDate.day();
+	date.month = currentDate.month();
+	date.year = currentDate.year();
 
 	// the actual prayer times calculation
 	getPrayerTimes(&location, &method, &date, prayers);
