@@ -8,6 +8,7 @@
 #include "ui_prayertimesLocationConfig.h"
 #include "ui_prayertimesCalculationMethodConfig.h"
 
+#include "dataengine/prayertimesengine.h"
 class CompassGraphicsWidget;
 class PrayerTimesView;
 
@@ -82,10 +83,10 @@ class PrayerTimes : public Plasma::Applet
 		void disconnectSources();
 		const QString sourceName() const;
 
-		int currentPrayer() const;
-		static const QString& labelFor(int prayer);
-		int nextPrayer() const;
-		const QTime& prayerTimeFor(int prayer) const;
+		PrayerTime currentPrayer() const;
+		static const QString& labelFor(PrayerTime prayer);
+		PrayerTime nextPrayer() const;
+		const QTime& prayerTimeFor(PrayerTime prayer) const;
 };
  
 // This is the command that links your applet to the .desktop file

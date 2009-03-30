@@ -2,7 +2,6 @@
 #include "prayertimes.h"
 
 #include "compassgraphicswidget.h"
-#include "dataengine/prayertimesengine.h"
 #include "prayertimesview.h"
 
 // Qt
@@ -212,18 +211,15 @@ void PrayerTimes::updateInterface()
 	QList<QStandardItem *> prayerNameItems;
 	QList<QStandardItem *> prayerTimeItems;
 
-	QFont titleFont = QApplication::font();
-	titleFont.setBold(true);
-
-	for(int prayer = Fajr; prayer <= Ishaa; prayer++) {
+	for(PrayerTime prayer = Fajr; prayer <= Ishaa; prayer = PrayerTime(prayer+1)) {
 		QStandardItem *prayerName = new QStandardItem();
 		prayerName->setForeground(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
-		prayerName->setFont(titleFont);
+		prayerName->setFont(boldFont);
 		prayerName->setText(labelFor(prayer));
 		prayerNameItems.append(prayerName);
 
 		QStandardItem *prayerTime = new QStandardItem();
-		prayerTime->setFont(titleFont);
+		prayerTime->setFont(normalFont);
 		prayerTime->setText(prayerTimeFor(prayer).toString("hh:mm"));
 		prayerTimeItems.append(prayerTime);
 	}
@@ -234,6 +230,7 @@ void PrayerTimes::updateInterface()
 	if (!m_prayerTimesView->model()) {
 		m_prayerTimesView->setModel(m_prayerTimesModel);
 	}
+	m_prayerTimesView->setCurrentPrayer(currentPrayer());
 
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
@@ -320,17 +317,17 @@ const QString PrayerTimes::sourceName() const
 	return QString("%1/%2,%3").arg(calculationMethodName[m_calculationMethod]).arg(m_latitude).arg(m_longitude);
 }
 
-int PrayerTimes::currentPrayer() const
+PrayerTime PrayerTimes::currentPrayer() const
 {
-	for(int prayer=Fajr; prayer <= Ishaa; ++prayer) {
-		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor((prayer+1)%PRAYER_TIMES)) {
+	for(PrayerTime prayer=Fajr; prayer <= Ishaa; prayer = PrayerTime(prayer+1)) {
+		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor(PrayerTime(prayer+1))) {
 			return prayer;
 		}
 	}
 	return Ishaa;
 }
 
-const QString& PrayerTimes::labelFor(int prayer)
+const QString& PrayerTimes::labelFor(PrayerTime prayer)
 {
 	static const QString labels[PRAYER_TIMES] = {i18n("Fajr"),
 		i18n("Shorooq"),
@@ -343,12 +340,12 @@ const QString& PrayerTimes::labelFor(int prayer)
 	return labels[prayer];
 }
 
-int PrayerTimes::nextPrayer() const
+PrayerTime PrayerTimes::nextPrayer() const
 {
-	return (currentPrayer()+1)%PRAYER_TIMES;
+	return PrayerTime(currentPrayer()+1);
 }
 
-const QTime& PrayerTimes::prayerTimeFor(int prayer) const
+const QTime& PrayerTimes::prayerTimeFor(PrayerTime prayer) const
 {
 	const QTime* times[PRAYER_TIMES] = {&m_fajr,
 		&m_shorooq,
