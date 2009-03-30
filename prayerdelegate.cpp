@@ -44,7 +44,7 @@ PrayerDelegate::~PrayerDelegate()
 }
 
 PrayerTime PrayerDelegate::currentPrayer() {
-	d->currentPrayer;
+	return d->currentPrayer;
 }
 
 void PrayerDelegate::setCurrentPrayer(PrayerTime prayer) {
@@ -76,11 +76,7 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 
 	QColor backgroundColor(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
 
-	if (index.row() == d->currentPrayer) {
-		backgroundColor.setAlphaF(0.1);
-	} else {
-		backgroundColor.setAlphaF(0.2);
-	}
+	backgroundColor.setAlphaF(0.1);
 
 	QRect backgroundRect(option.rect);
 
@@ -126,6 +122,56 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 		painter->setPen(Qt::NoPen);
 		painter->setBrush(backgroundColor);
 		painter->drawPath(path);
+	}
+
+	if (index.row() == d->currentPrayer) {
+		QRect topLineRect(backgroundRect);
+		topLineRect.setBottom(topLineRect.top());
+		QRect bottomLineRect(backgroundRect);
+		bottomLineRect.setTop(bottomLineRect.bottom());
+
+		painter->setPen(Qt::NoPen);
+
+		QColor outerLineColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor);
+		QColor innerLineColor = outerLineColor;
+		outerLineColor.setAlphaF(0);
+		innerLineColor.setAlphaF(0.3);
+
+		QColor outerBgColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor);
+		QColor innerBgColor = outerBgColor;
+		outerBgColor.setAlphaF(0);
+		innerBgColor.setAlphaF(0.2);
+
+		QLinearGradient topLineGradient(topLineRect.topLeft(), topLineRect.bottomRight());
+		QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomRight());
+		QLinearGradient bottomLineGradient(bottomLineRect.topLeft(), bottomLineRect.bottomRight());
+		if (index.column() == 0) {
+			topLineGradient.setColorAt(0, outerLineColor);
+			topLineGradient.setColorAt(0.5, innerLineColor);
+			bgGradient.setColorAt(0, outerBgColor);
+			bgGradient.setColorAt(0.5, innerBgColor);
+			bottomLineGradient.setColorAt(0, outerLineColor);
+			bottomLineGradient.setColorAt(0.5, innerLineColor);
+		} else if (index.column() == columns - 1) {
+			topLineGradient.setColorAt(0.5, innerLineColor);
+			topLineGradient.setColorAt(1, outerLineColor);
+			bgGradient.setColorAt(0.5, innerBgColor);
+			bgGradient.setColorAt(1, outerBgColor);
+			bottomLineGradient.setColorAt(0.5, innerLineColor);
+			bottomLineGradient.setColorAt(1, outerLineColor);
+		}
+
+			painter->setBrush(bgGradient);
+			painter->drawRect(backgroundRect);
+
+			if(d->currentPrayer != Fajr) {
+				painter->setBrush(topLineGradient);
+				painter->drawRect(topLineRect);
+			}
+			if(d->currentPrayer != Ishaa) {
+				painter->setBrush(bottomLineGradient);
+				painter->drawRect(bottomLineRect);
+			}
 	}
 
 	QString titleText = index.data(Qt::DisplayRole).value<QString>();
