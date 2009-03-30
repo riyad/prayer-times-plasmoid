@@ -1,6 +1,7 @@
 //Own
 #include "prayertimesview.h"
 
+#include "dataengine/prayertimesengine.h"
 #include "prayerdelegate.h"
 
 // Qt
@@ -32,7 +33,14 @@ PrayerTimesView::PrayerTimesView(QGraphicsWidget* parent)
 
 PrayerTimesView::~PrayerTimesView()
 {
+}
 
+PrayerTime PrayerTimesView::currentPrayer() const {
+	m_delegate->currentPrayer();
+}
+
+void PrayerTimesView::setCurrentPrayer(PrayerTime prayer) {
+	m_delegate->setCurrentPrayer(prayer);
 }
 
 void PrayerTimesView::resizeEvent(QGraphicsSceneResizeEvent* event)

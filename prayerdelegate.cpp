@@ -1,6 +1,8 @@
 // Own
 #include "prayerdelegate.h"
 
+#include "dataengine/prayertimesengine.h"
+
 // Qt
 #include <QAbstractItemDelegate>
 #include <QColor>
@@ -16,15 +18,38 @@
 #include <Plasma/PaintUtils>
 #include <Plasma/Theme>
 
+class PrayerDelegatePrivate
+{
+public:
+    PrayerDelegatePrivate()
+        : currentPrayer(NextFajr)
+    {
+    }
+
+    ~PrayerDelegatePrivate() {
+    }
+
+    PrayerTime currentPrayer;
+};
+
 PrayerDelegate::PrayerDelegate(QObject* parent)
-	: QAbstractItemDelegate(parent)
+	: QAbstractItemDelegate(parent),
+	d(new PrayerDelegatePrivate)
 {
 }
 
 PrayerDelegate::~PrayerDelegate()
 {
+	delete d;
 }
 
+PrayerTime PrayerDelegate::currentPrayer() {
+	d->currentPrayer;
+}
+
+void PrayerDelegate::setCurrentPrayer(PrayerTime prayer) {
+	d->currentPrayer = prayer;
+}
 
 QSize PrayerDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
@@ -34,7 +59,7 @@ QSize PrayerDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelI
 
 	size.setHeight(qMax(option.decorationSize.height(), metrics.height()));
 
-	size.setWidth(option.decorationSize.width() + metrics.width(index.data(Qt::DisplayRole).value<QString>()));
+	size.setWidth(/*option.decorationSize.width() +*/ metrics.width(index.data(Qt::DisplayRole).value<QString>()));
 
 	return size;
 }
@@ -51,14 +76,13 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 
 	QColor backgroundColor(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
 
-	if (index.column() % 2 == 0) {
+	if (index.row() == d->currentPrayer) {
 		backgroundColor.setAlphaF(0.1);
 	} else {
 		backgroundColor.setAlphaF(0.2);
 	}
 
 	QRect backgroundRect(option.rect);
-	//backgroundRect.adjust(0, backgroundRect.height() / 4.2, 0, -backgroundRect.height() / 4.2);
 
 	if (index.column() == 0) {
 		drawLeft = true;
@@ -94,7 +118,6 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 
 		path = Plasma::PaintUtils::roundedRectangle(backgroundRectToClip, radius);
 
-
 		QPainterPath clipPath;
 		clipPath.addRect(backgroundRect);
 		path = path.intersected(clipPath);
@@ -114,11 +137,10 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 																				option.rect.size(),
 																				option.rect);
 
-	if (titleColor.isValid()) {
-		painter->setPen(titleColor);
-	} else {
-		painter->setPen(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
+	if (!titleColor.isValid()) {
+		titleColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
 	}
+	painter->setPen(titleColor);
 	painter->setFont(titleFont);
 	painter->drawText(titleRect, Qt::AlignCenter, titleText);
 }

@@ -4,6 +4,7 @@
 
 #include <Plasma/TreeView>
 
+#include "dataengine/prayertimesengine.h"
 class PrayerDelegate;
 
 class QGraphicsSceneResizeEvent;
@@ -16,6 +17,9 @@ class PrayerTimesView : public Plasma::TreeView
 	public:
 		explicit PrayerTimesView(QGraphicsWidget *parent = 0);
 		~PrayerTimesView();
+
+		PrayerTime currentPrayer() const;
+		void setCurrentPrayer(PrayerTime prayer);
 
 	protected:
 		void resizeEvent(QGraphicsSceneResizeEvent *event);
