@@ -330,7 +330,7 @@ PrayerTime PrayerTimes::currentPrayer() const
 const QString& PrayerTimes::labelFor(PrayerTime prayer)
 {
 	static const QString labels[PRAYER_TIMES] = {i18n("Fajr"),
-		i18n("Shorooq"),
+		i18n("Shuruq"),
 		i18n("Dhuhr"),
 		i18n("Asr"),
 		i18n("Maghrib"),
