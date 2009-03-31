@@ -59,7 +59,7 @@ QSize PrayerDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelI
 
 	size.setHeight(qMax(option.decorationSize.height(), metrics.height()));
 
-	size.setWidth(/*option.decorationSize.width() +*/ metrics.width(index.data(Qt::DisplayRole).value<QString>()));
+	size.setWidth(/*option.decorationSize.width() +*/ metrics.width(index.data().toString()));
 
 	return size;
 }
@@ -176,8 +176,8 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 	}
 
 	const QString titleText = index.data(Qt::DisplayRole).value<QString>();
-	const QFont titleFont = qvariant_cast<QFont>(index.data(Qt::FontRole)).resolve(option.font);
-	QColor titleColor = qvariant_cast<QColor>(index.data(Qt::ForegroundRole));
+	const QFont titleFont = index.data(Qt::FontRole).value<QFont>().resolve(option.font);
+	QColor titleColor = index.data(Qt::ForegroundRole).value<QColor>();
 	const QRect titleRect = QStyle::alignedRect(option.direction,
 																				option.decorationPosition == QStyleOptionViewItem::Left ?
 																				Qt::AlignRight : Qt::AlignLeft,
