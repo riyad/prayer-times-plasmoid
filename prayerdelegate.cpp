@@ -125,10 +125,11 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 	}
 
 	if (index.row() == d->currentPrayer) {
+		int lineHeight = 0.02*backgroundRect.height();
 		QRect topLineRect(backgroundRect);
-		topLineRect.setBottom(topLineRect.top());
+		topLineRect.setBottom(topLineRect.top() + lineHeight);
 		QRect bottomLineRect(backgroundRect);
-		bottomLineRect.setTop(bottomLineRect.bottom());
+		bottomLineRect.setTop(bottomLineRect.bottom() - lineHeight);
 
 		painter->setPen(Qt::NoPen);
 
