@@ -246,8 +246,8 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setVerticalSpacing(0);
 
-	layout->setColumnStretchFactor(0, 2);
-	layout->setColumnStretchFactor(1, 0.5);
+	layout->setRowStretchFactor(1, 4);
+	layout->setRowStretchFactor(2, 1);
 
 	m_locationLabel = new Plasma::Label(this);
 	m_locationLabel->setAlignment(Qt::AlignCenter);
@@ -255,14 +255,15 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
-	layout->addItem(kaabaIconWidget, 1, 0, 5, 1);
+	layout->addItem(kaabaIconWidget, 1, 0);
 
 	m_prayerTimesView = new PrayerTimesView(this);
-	layout->addItem(m_prayerTimesView, 1, 1, 6, 1);
+	m_prayerTimesView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+	layout->addItem(m_prayerTimesView, 1, 1, 2, 1);
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-	layout->addItem(m_nextPrayerLabel, 6, 0);
+	layout->addItem(m_nextPrayerLabel, 2, 0);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
