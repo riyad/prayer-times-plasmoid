@@ -125,7 +125,7 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 	}
 
 	if (index.row() == d->currentPrayer) {
-		int lineHeight = 0.02*backgroundRect.height();
+		const int lineHeight = 0.02*backgroundRect.height();
 		QRect topLineRect(backgroundRect);
 		topLineRect.setBottom(topLineRect.top() + lineHeight);
 		QRect bottomLineRect(backgroundRect);
@@ -175,10 +175,10 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 			}
 	}
 
-	QString titleText = index.data(Qt::DisplayRole).value<QString>();
-	QFont titleFont = qvariant_cast<QFont>(index.data(Qt::FontRole)).resolve(option.font);
+	const QString titleText = index.data(Qt::DisplayRole).value<QString>();
+	const QFont titleFont = qvariant_cast<QFont>(index.data(Qt::FontRole)).resolve(option.font);
 	QColor titleColor = qvariant_cast<QColor>(index.data(Qt::ForegroundRole));
-	QRect titleRect = QStyle::alignedRect(option.direction,
+	const QRect titleRect = QStyle::alignedRect(option.direction,
 																				option.decorationPosition == QStyleOptionViewItem::Left ?
 																				Qt::AlignRight : Qt::AlignLeft,
 																				option.rect.size(),
