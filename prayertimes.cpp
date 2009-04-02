@@ -23,6 +23,7 @@
 // Plasma
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
+#include <Plasma/Frame>
 #include <Plasma/IconWidget>
 #include <Plasma/Label>
 #include <Plasma/Svg>
@@ -60,12 +61,18 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	m_locationLabel->nativeWidget()->setWordWrap(false);
 	m_locationLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
+	QGraphicsLinearLayout *titleLayout = new QGraphicsLinearLayout();
+	titleLayout->addItem(m_locationLabel);
+
+	Plasma::Frame *titleFrame = new Plasma::Frame(this);
+	titleFrame->setLayout(titleLayout);
+
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
 	tabbar->addTab("Times", createPrayerTimesWidget());
 	tabbar->addTab("Qibla", createQiblaWidget());
 
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
-	layout->addItem(m_locationLabel);
+	layout->addItem(titleFrame);
 	layout->addItem(tabbar);
 	setLayout(layout);
 
