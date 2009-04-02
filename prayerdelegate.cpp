@@ -141,7 +141,7 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 		QColor outerBgColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor);
 		QColor innerBgColor = outerBgColor;
 		outerBgColor.setAlphaF(0);
-		innerBgColor.setAlphaF(0.2);
+		innerBgColor.setAlphaF(0.3);
 
 		QLinearGradient topLineGradient(topLineRect.topLeft(), topLineRect.bottomRight());
 		QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomRight());
