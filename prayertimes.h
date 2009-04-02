@@ -37,6 +37,7 @@ class PrayerTimes : public Plasma::Applet
 
 	PrayerTimesView *m_prayerTimesView;
 	Plasma::Label *m_locationLabel;
+	Plasma::Label *m_dateLabel;
 	Plasma::Label *m_nextPrayerLabel;
 	Plasma::Label *m_qiblaOrientationLabel;
 	Plasma::Svg *m_prayertimesSvg;

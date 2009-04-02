@@ -52,11 +52,20 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 	setAspectRatioMode(Plasma::IgnoreAspectRatio);
 	setMinimumSize(280, 220);
 
+	m_locationLabel = new Plasma::Label(this);
+	QFont titleFont = font();
+	titleFont.setPointSize(titleFont.pointSize() * 1.6);
+	titleFont.setBold(true);
+	m_locationLabel->nativeWidget()->setFont(titleFont);
+	m_locationLabel->nativeWidget()->setWordWrap(false);
+	m_locationLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
 	tabbar->addTab("Times", createPrayerTimesWidget());
 	tabbar->addTab("Qibla", createQiblaWidget());
 
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
+	layout->addItem(m_locationLabel);
 	layout->addItem(tabbar);
 	setLayout(layout);
 
@@ -235,7 +244,8 @@ void PrayerTimes::updateInterface()
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
 	m_nextPrayerLabel->setText(i18nc("<time> to <prayer>", "%1 to %2", nextPrayerTime.toString("hh:mm"), labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
-	m_locationLabel->setText(i18nc("Prayer times for <town> on <date>", "Prayer times for %1 on %2", m_locationName, QDate::currentDate().toString()));
+	m_locationLabel->setText(m_locationName);
+	m_dateLabel->setText(QDate::currentDate().toString());
 
 	m_qiblaWidget->setNeedle(m_qibla);
 	m_qiblaOrientationLabel->setText(i18nc("Qibla direction is <orientation>", "Qibla direction is %1", m_qiblaWidget->needleOrientation()));
@@ -244,14 +254,12 @@ void PrayerTimes::updateInterface()
 QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 {
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
-	layout->setVerticalSpacing(0);
 
 	layout->setRowStretchFactor(1, 4);
-	layout->setRowStretchFactor(2, 1);
 
-	m_locationLabel = new Plasma::Label(this);
-	m_locationLabel->setAlignment(Qt::AlignCenter);
-	layout->addItem(m_locationLabel, 0, 0, 1, 2);
+	m_dateLabel = new Plasma::Label(this);
+	m_dateLabel->setAlignment(Qt::AlignCenter);
+	layout->addItem(m_dateLabel, 0, 0);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
@@ -259,7 +267,7 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_prayerTimesView = new PrayerTimesView(this);
 	m_prayerTimesView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-	layout->addItem(m_prayerTimesView, 1, 1, 2, 1);
+	layout->addItem(m_prayerTimesView, 0, 1, 3, 1);
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
