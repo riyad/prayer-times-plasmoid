@@ -60,4 +60,12 @@ void PrayerTimesView::resizeEvent(QGraphicsSceneResizeEvent* event)
 	nativeWidget()->setIconSize(QSize(newIconSize, newIconSize));
 }
 
+QSizeF PrayerTimesView::sizeHint(Qt::SizeHint which, const QSizeF & constraint = QSizeF()) const
+{
+	Q_UNUSED(which);
+	Q_UNUSED(constraint);
+
+	return QSizeF(0,0);
+}
+
 #include <prayertimesview.moc>
