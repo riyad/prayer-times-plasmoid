@@ -47,17 +47,17 @@ void PrayerTimesView::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
 	QGraphicsProxyWidget::resizeEvent(event);
 
-	const int newWidth = size().width() / nativeWidget()->header()->count();
+	const int newHeaderSectionWidth = size().width() / nativeWidget()->header()->count();
 
 	for (int i = 0; i < nativeWidget()->header()->count(); ++i) {
-		nativeWidget()->header()->resizeSection(i, newWidth);
+		nativeWidget()->header()->resizeSection(i, newHeaderSectionWidth);
 	}
 
-	int iconSize = int(KIconLoader::SizeSmall);
+	int newIconSize = int(KIconLoader::SizeSmall);
 	if (model()) {
-		iconSize = qMax(iconSize, int(size().height()/model()->rowCount()));
+		newIconSize = qMax(newIconSize, int(size().height()/model()->rowCount()));
 	}
-	nativeWidget()->setIconSize(QSize(iconSize, iconSize));
+	nativeWidget()->setIconSize(QSize(newIconSize, newIconSize));
 }
 
 #include <prayertimesview.moc>
