@@ -66,6 +66,13 @@ QSize PrayerDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelI
 
 void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+	paintBackground(painter, option, index);
+	paintHighlight(painter, option, index);
+	paintText(painter, option, index);
+}
+
+void PrayerDelegate::paintBackground(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
 	const int rows = index.model()->rowCount();
 	const int columns = index.model()->columnCount();
 	const int radius = 5;
@@ -123,6 +130,12 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 		painter->setBrush(backgroundColor);
 		painter->drawPath(path);
 	}
+}
+
+void PrayerDelegate::paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	const int columns = index.model()->columnCount();
+	const QRect backgroundRect(option.rect);
 
 	if (index.row() == d->currentPrayer) {
 		const int lineHeight = 0.02*backgroundRect.height();
@@ -174,7 +187,10 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 				painter->drawRect(bottomLineRect);
 			}
 	}
+}
 
+void PrayerDelegate::paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
 	const QString titleText = index.data(Qt::DisplayRole).value<QString>();
 	const QFont titleFont = index.data(Qt::FontRole).value<QFont>().resolve(option.font);
 	QColor titleColor = index.data(Qt::ForegroundRole).value<QColor>();
@@ -191,5 +207,7 @@ void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 	painter->setFont(titleFont);
 	painter->drawText(titleRect, Qt::AlignCenter, titleText);
 }
+
+
 
 #include <prayerdelegate.moc>

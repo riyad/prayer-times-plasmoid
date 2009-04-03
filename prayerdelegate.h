@@ -24,6 +24,10 @@ class PrayerDelegate :  public QAbstractItemDelegate
 		virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
 	private:
+		void paintBackground(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+		void paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+		void paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
 		PrayerDelegatePrivate * const d;
 };
 
