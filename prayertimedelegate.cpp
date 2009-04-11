@@ -1,5 +1,5 @@
 // Own
-#include "prayerdelegate.h"
+#include "prayertimedelegate.h"
 
 #include "dataengine/prayertimesengine.h"
 
@@ -18,40 +18,40 @@
 #include <Plasma/PaintUtils>
 #include <Plasma/Theme>
 
-class PrayerDelegatePrivate
+class PrayerTimeDelegatePrivate
 {
 public:
-    PrayerDelegatePrivate()
+    PrayerTimeDelegatePrivate()
         : currentPrayer(NextFajr)
     {
     }
 
-    ~PrayerDelegatePrivate() {
+    ~PrayerTimeDelegatePrivate() {
     }
 
     PrayerTime currentPrayer;
 };
 
-PrayerDelegate::PrayerDelegate(QObject* parent)
+PrayerTimeDelegate::PrayerTimeDelegate(QObject* parent)
 	: QAbstractItemDelegate(parent),
-	d(new PrayerDelegatePrivate)
+	d(new PrayerTimeDelegatePrivate)
 {
 }
 
-PrayerDelegate::~PrayerDelegate()
+PrayerTimeDelegate::~PrayerTimeDelegate()
 {
 	delete d;
 }
 
-PrayerTime PrayerDelegate::currentPrayer() {
+PrayerTime PrayerTimeDelegate::currentPrayer() {
 	return d->currentPrayer;
 }
 
-void PrayerDelegate::setCurrentPrayer(PrayerTime prayer) {
+void PrayerTimeDelegate::setCurrentPrayer(PrayerTime prayer) {
 	d->currentPrayer = prayer;
 }
 
-QSize PrayerDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+QSize PrayerTimeDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	QSize size = option.rect.size();
 
@@ -64,14 +64,14 @@ QSize PrayerDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelI
 	return size;
 }
 
-void PrayerDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void PrayerTimeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	paintBackground(painter, option, index);
 	paintHighlight(painter, option, index);
 	paintText(painter, option, index);
 }
 
-void PrayerDelegate::paintBackground(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	const int rows = index.model()->rowCount();
 	const int columns = index.model()->columnCount();
@@ -132,7 +132,7 @@ void PrayerDelegate::paintBackground(QPainter* painter, const QStyleOptionViewIt
 	}
 }
 
-void PrayerDelegate::paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	const int columns = index.model()->columnCount();
 	const QRect backgroundRect(option.rect);
@@ -189,7 +189,7 @@ void PrayerDelegate::paintHighlight(QPainter* painter, const QStyleOptionViewIte
 	}
 }
 
-void PrayerDelegate::paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void PrayerTimeDelegate::paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	const QString titleText = index.data(Qt::DisplayRole).value<QString>();
 	const QFont titleFont = index.data(Qt::FontRole).value<QFont>().resolve(option.font);
@@ -208,6 +208,4 @@ void PrayerDelegate::paintText(QPainter* painter, const QStyleOptionViewItem& op
 	painter->drawText(titleRect, Qt::AlignCenter, titleText);
 }
 
-
-
-#include <prayerdelegate.moc>
+#include <prayertimedelegate.moc>

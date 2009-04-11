@@ -26,7 +26,7 @@ set(prayertimes_SRCS
     compassgraphicswidget.cpp
     prayertimes.cpp
     prayertimesview.cpp
-    prayerdelegate.cpp)
+    prayertimedelegate.cpp)
 
 # Adding configuration ui files
 kde4_add_ui_files(prayertimes_SRCS

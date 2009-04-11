@@ -2,7 +2,7 @@
 #include "prayertimesview.h"
 
 #include "dataengine/prayertimesengine.h"
-#include "prayerdelegate.h"
+#include "prayertimedelegate.h"
 
 // Qt
 #include <QGraphicsSceneResizeEvent>
@@ -27,7 +27,7 @@ PrayerTimesView::PrayerTimesView(QGraphicsWidget* parent)
 	native->setIconSize(QSize(KIconLoader::SizeMedium, KIconLoader::SizeMedium));
 	native->setRootIsDecorated(false);
 
-	m_delegate = new PrayerDelegate(this);
+	m_delegate = new PrayerTimeDelegate(this);
 	native->setItemDelegate(m_delegate);
 }
 

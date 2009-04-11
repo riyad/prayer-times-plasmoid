@@ -5,7 +5,7 @@
 #include <Plasma/TreeView>
 
 #include "dataengine/prayertimesengine.h"
-class PrayerDelegate;
+class PrayerTimeDelegate;
 
 class QGraphicsSceneResizeEvent;
 class QGraphicsWidget;
@@ -26,7 +26,7 @@ class PrayerTimesView : public Plasma::TreeView
 		virtual QSizeF sizeHint(Qt::SizeHint which, const QSizeF & constraint) const;
 
 	private:
-		PrayerDelegate *m_delegate;
+		PrayerTimeDelegate *m_delegate;
 };
 
 #endif // PRAYERTIMESVIEW_H

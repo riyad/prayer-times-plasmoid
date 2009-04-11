@@ -7,15 +7,15 @@
 #include <qabstractitemdelegate.h>
 
 #include "dataengine/prayertimesengine.h"
-class PrayerDelegatePrivate;
+class PrayerTimeDelegatePrivate;
 
-class PrayerDelegate :  public QAbstractItemDelegate
+class PrayerTimeDelegate :  public QAbstractItemDelegate
 {
 	Q_OBJECT
 
 	public:
-		PrayerDelegate(QObject *parent = 0);
-		~PrayerDelegate();
+		PrayerTimeDelegate(QObject *parent = 0);
+		~PrayerTimeDelegate();
 
 		PrayerTime currentPrayer();
 		void setCurrentPrayer(PrayerTime prayer);
@@ -28,7 +28,7 @@ class PrayerDelegate :  public QAbstractItemDelegate
 		void paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 		void paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 
-		PrayerDelegatePrivate * const d;
+		PrayerTimeDelegatePrivate * const d;
 };
 
 #endif // PRAYERDELEGATE_H
