@@ -33,7 +33,6 @@ kde4_add_ui_files(prayertimes_SRCS
                   prayertimesLocationConfig.ui
                   prayertimesCalculationMethodConfig.ui)
 
-# Now make sure all files get to the right place
 kde4_add_plugin(plasma_applet_prayertimes ${prayertimes_SRCS})
 target_link_libraries(plasma_applet_prayertimes
                       ${KDE4_KDECORE_LIBS}
@@ -42,6 +41,7 @@ target_link_libraries(plasma_applet_prayertimes
                       ${ITL_LIBRARY}
                       ${MARBLE_LIBRARIES})
 
+# Now make sure all files get to the right place
 install(TARGETS plasma_applet_prayertimes
         DESTINATION ${PLUGIN_INSTALL_DIR})
 install(FILES plasma-applet-prayertimes.desktop
