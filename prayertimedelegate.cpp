@@ -154,7 +154,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 		QColor outerBgColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor);
 		QColor innerBgColor = outerBgColor;
 		outerBgColor.setAlphaF(0);
-		innerBgColor.setAlphaF(0.3);
+		innerBgColor.setAlphaF(0.5);
 
 		QLinearGradient topLineGradient(topLineRect.topLeft(), topLineRect.bottomRight());
 		QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomRight());
