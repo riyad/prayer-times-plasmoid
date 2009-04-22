@@ -215,6 +215,7 @@ void PrayerTimes::configMouseGeoPositionChanged()
 void PrayerTimes::updateInterface()
 {
 	QFont normalFont(font());
+
 	QFont boldFont(font());
 	boldFont.setBold(true);
 
@@ -264,17 +265,20 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	layout->setRowStretchFactor(1, 4);
 
-	m_dateLabel = new Plasma::Label(this);
-	m_dateLabel->setAlignment(Qt::AlignCenter);
-	layout->addItem(m_dateLabel, 0, 0);
-
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
-	layout->addItem(kaabaIconWidget, 1, 0);
+	layout->addItem(kaabaIconWidget, 0, 0, 2, 1);
+
+	m_dateLabel = new Plasma::Label(this);
+	m_dateLabel->setAlignment(Qt::AlignCenter);
+	QFont titleFont = font();
+	titleFont.setPointSize(titleFont.pointSize() * 1.1);
+	m_dateLabel->nativeWidget()->setFont(titleFont);
+	layout->addItem(m_dateLabel, 0, 1);
 
 	m_prayerTimesView = new PrayerTimesView(this);
 	m_prayerTimesView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-	layout->addItem(m_prayerTimesView, 0, 1, 3, 1);
+	layout->addItem(m_prayerTimesView, 1, 1, 2, 1);
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
