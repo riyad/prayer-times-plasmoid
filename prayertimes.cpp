@@ -261,6 +261,9 @@ void PrayerTimes::updateInterface()
 
 QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 {
+	QFont titleFont = font();
+	titleFont.setPointSize(titleFont.pointSize() * 1.1);
+
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 
 	layout->setRowStretchFactor(1, 4);
@@ -271,8 +274,6 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_dateLabel = new Plasma::Label(this);
 	m_dateLabel->setAlignment(Qt::AlignCenter);
-	QFont titleFont = font();
-	titleFont.setPointSize(titleFont.pointSize() * 1.1);
 	m_dateLabel->nativeWidget()->setFont(titleFont);
 	layout->addItem(m_dateLabel, 0, 1);
 
@@ -282,6 +283,7 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
+	m_nextPrayerLabel->nativeWidget()->setFont(titleFont);
 	layout->addItem(m_nextPrayerLabel, 2, 0);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
