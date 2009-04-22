@@ -146,12 +146,12 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 
 		painter->setPen(Qt::NoPen);
 
-		QColor outerLineColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor);
+		QColor outerLineColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
 		QColor innerLineColor = outerLineColor;
 		outerLineColor.setAlphaF(0);
 		innerLineColor.setAlphaF(0.3);
 
-		QColor outerBgColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor);
+		QColor outerBgColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
 		QColor innerBgColor = outerBgColor;
 		outerBgColor.setAlphaF(0);
 		innerBgColor.setAlphaF(0.5);
