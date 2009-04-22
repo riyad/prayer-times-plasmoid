@@ -31,7 +31,7 @@ namespace Marble {
 }
 
 // Define our plasma Applet
-class PrayerTimes : public Plasma::Applet
+class PrayerTimesApplet : public Plasma::Applet
 {
 	Q_OBJECT
 
@@ -60,8 +60,8 @@ class PrayerTimes : public Plasma::Applet
 
 	public:
 		// Basic Create/Destroy
-		PrayerTimes(QObject *parent, const QVariantList &args);
-		~PrayerTimes();
+		PrayerTimesApplet(QObject *parent, const QVariantList &args);
+		~PrayerTimesApplet();
 
 		void init();
 
@@ -91,5 +91,5 @@ class PrayerTimes : public Plasma::Applet
 };
  
 // This is the command that links your applet to the .desktop file
-K_EXPORT_PLASMA_APPLET(prayertimes, PrayerTimes)
+K_EXPORT_PLASMA_APPLET(prayertimes, PrayerTimesApplet)
 #endif

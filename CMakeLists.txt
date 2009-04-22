@@ -24,7 +24,7 @@ add_subdirectory(dataengine)
 # We add our source code here
 set(prayertimes_SRCS
     compassgraphicswidget.cpp
-    prayertimes.cpp
+    prayertimesapplet.cpp
     prayertimesview.cpp
     prayertimedelegate.cpp)
 

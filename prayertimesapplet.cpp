@@ -1,5 +1,5 @@
 // Own
-#include "prayertimes.h"
+#include "prayertimesapplet.h"
 
 #include "compassgraphicswidget.h"
 #include "prayertimesview.h"
@@ -34,7 +34,7 @@
 #include <marble/MarbleModel.h>
 #include <marble/MarbleWidget.h>
 
-PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
+PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_locationName(""),
 	m_latitude(21.431536), m_longitude(39.819145), // Makkah
@@ -80,7 +80,7 @@ PrayerTimes::PrayerTimes(QObject *parent, const QVariantList &args)
 }
 
 
-PrayerTimes::~PrayerTimes()
+PrayerTimesApplet::~PrayerTimesApplet()
 {
 	if (hasFailedToLaunch()) {
 		// Do some cleanup here
@@ -91,7 +91,7 @@ PrayerTimes::~PrayerTimes()
 	m_updateTimer->stop();
 }
 
-void PrayerTimes::init()
+void PrayerTimesApplet::init()
 {
 	KConfigGroup cg = config();
 	m_locationName = cg.readEntry("locationName", m_locationName);
@@ -108,7 +108,7 @@ void PrayerTimes::init()
 	connectSources();
 }
 
-void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
+void PrayerTimesApplet::dataUpdated(const QString &source, const Plasma::DataEngine::Data &data)
 {
 	Q_UNUSED(source);
 
@@ -125,7 +125,7 @@ void PrayerTimes::dataUpdated(const QString &source, const Plasma::DataEngine::D
 	updateInterface();
 }
 
-void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
+void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 {
 	QWidget *locationWidget = new QWidget(parent);
 	locationConfigUi.setupUi(locationWidget);
@@ -162,7 +162,7 @@ void PrayerTimes::createConfigurationInterface(KConfigDialog* parent)
 	connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
 }
 
-void PrayerTimes::configAccepted()
+void PrayerTimesApplet::configAccepted()
 {
 	disconnectSources();
 
@@ -199,7 +199,7 @@ void PrayerTimes::configAccepted()
 	emit configNeedsSaving();
 }
 
-void PrayerTimes::configMouseGeoPositionChanged()
+void PrayerTimesApplet::configMouseGeoPositionChanged()
 {
 	Marble::MarbleWidget* map = locationConfigUi.mapWidget;
 	double lon = locationConfigUi.mapWidget->centerLongitude();
@@ -212,7 +212,7 @@ void PrayerTimes::configMouseGeoPositionChanged()
 	}
 }
 
-void PrayerTimes::updateInterface()
+void PrayerTimesApplet::updateInterface()
 {
 	QFont normalFont(font());
 
@@ -259,7 +259,7 @@ void PrayerTimes::updateInterface()
 	m_qiblaOrientationLabel->setText(i18nc("Qibla direction is <orientation>", "Qibla direction is %1", m_qiblaWidget->needleOrientation()));
 }
 
-QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
+QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 {
 	QFont titleFont = font();
 	titleFont.setPointSize(titleFont.pointSize() * 1.1);
@@ -291,7 +291,7 @@ QGraphicsWidget* PrayerTimes::createPrayerTimesWidget()
 	return widget;
 }
 
-QGraphicsWidget* PrayerTimes::createQiblaWidget()
+QGraphicsWidget* PrayerTimesApplet::createQiblaWidget()
 {
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setRowStretchFactor(0, 1);
@@ -315,7 +315,7 @@ QGraphicsWidget* PrayerTimes::createQiblaWidget()
 }
 
 
-void PrayerTimes::connectSources()
+void PrayerTimesApplet::connectSources()
 {
 	if(m_locationName.isEmpty()) {
 		setConfigurationRequired(true, i18n("Please setup your location."));
@@ -327,19 +327,19 @@ void PrayerTimes::connectSources()
 	}
 }
 
-void PrayerTimes::disconnectSources()
+void PrayerTimesApplet::disconnectSources()
 {
 	Plasma::DataEngine* prayerTimesEngine;
 	prayerTimesEngine = dataEngine("prayertimes");
 	prayerTimesEngine->disconnectSource(sourceName(), this);
 }
 
-const QString PrayerTimes::sourceName() const
+const QString PrayerTimesApplet::sourceName() const
 {
 	return QString("%1/%2,%3").arg(calculationMethodName[m_calculationMethod]).arg(m_latitude).arg(m_longitude);
 }
 
-PrayerTime PrayerTimes::currentPrayer() const
+PrayerTime PrayerTimesApplet::currentPrayer() const
 {
 	for(PrayerTime prayer=Fajr; prayer <= Ishaa; prayer = PrayerTime(prayer+1)) {
 		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor(PrayerTime(prayer+1))) {
@@ -349,7 +349,7 @@ PrayerTime PrayerTimes::currentPrayer() const
 	return Ishaa;
 }
 
-const QString& PrayerTimes::labelFor(PrayerTime prayer)
+const QString& PrayerTimesApplet::labelFor(PrayerTime prayer)
 {
 	static const QString labels[PRAYER_TIMES] = {i18n("Fajr"),
 		i18n("Shuruq"),
@@ -362,12 +362,12 @@ const QString& PrayerTimes::labelFor(PrayerTime prayer)
 	return labels[prayer];
 }
 
-PrayerTime PrayerTimes::nextPrayer() const
+PrayerTime PrayerTimesApplet::nextPrayer() const
 {
 	return PrayerTime(currentPrayer()+1);
 }
 
-const QTime& PrayerTimes::prayerTimeFor(PrayerTime prayer) const
+const QTime& PrayerTimesApplet::prayerTimeFor(PrayerTime prayer) const
 {
 	const QTime* times[PRAYER_TIMES] = {&m_fajr,
 		&m_shorooq,
@@ -380,4 +380,4 @@ const QTime& PrayerTimes::prayerTimeFor(PrayerTime prayer) const
 	return *times[prayer];
 }
 
-#include "prayertimes.moc"
+#include "prayertimesapplet.moc"
