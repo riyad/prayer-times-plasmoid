@@ -202,9 +202,9 @@ void PrayerTimesApplet::configAccepted()
 void PrayerTimesApplet::configMouseGeoPositionChanged()
 {
 	Marble::MarbleWidget* map = locationConfigUi.mapWidget;
-	double lon = locationConfigUi.mapWidget->centerLongitude();
-	double lat = locationConfigUi.mapWidget->centerLatitude();
-	int x, y;
+	qreal lon = locationConfigUi.mapWidget->centerLongitude();
+	qreal lat = locationConfigUi.mapWidget->centerLatitude();
+	qreal x, y;
 	map->screenCoordinates(lon, lat, x, y);
 	QVector<QModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
 	if(!featureList.isEmpty()) {
