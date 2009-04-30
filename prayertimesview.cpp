@@ -36,7 +36,7 @@ PrayerTimesView::~PrayerTimesView()
 }
 
 PrayerTime PrayerTimesView::currentPrayer() const {
-	m_delegate->currentPrayer();
+	return m_delegate->currentPrayer();
 }
 
 void PrayerTimesView::setCurrentPrayer(PrayerTime prayer) {
