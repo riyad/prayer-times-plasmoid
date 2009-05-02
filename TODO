@@ -6,11 +6,12 @@ Plasmoid:
 - Prayer times tab:
   - Find nice icon/image to place next to the prayer times
 - Qibla tab:
-  - Find nice Kompas image
+  - Make compass more readable
 
 Data Engine:
 - Check for valid arguments
 
 Configuration:
+- Get initial Location from GEO location engine
 - Calculation
 - Notification (Athan, message 15min before, ...)
