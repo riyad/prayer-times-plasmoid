@@ -293,21 +293,27 @@ QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 
 QGraphicsWidget* PrayerTimesApplet::createQiblaWidget()
 {
-	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
-	layout->setRowStretchFactor(0, 1);
-	layout->setRowStretchFactor(1, 6);
+	QFont titleFont = font();
+	titleFont.setPointSize(titleFont.pointSize() * 1.1);
 
-	m_qiblaOrientationLabel = new Plasma::Label(this);
-	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
-	m_qiblaOrientationLabel->setText("");
-	layout->addItem(m_qiblaOrientationLabel, 0, 0, 1, 2);
+	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
+
+	layout->setColumnStretchFactor(1, 2);
+	//layout->setRowStretchFactor(0, 6);
+	//layout->setRowStretchFactor(1, 1);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
-	layout->addItem(kaabaIconWidget, 1, 0);
+	layout->addItem(kaabaIconWidget, 0, 0);
+
+	m_qiblaOrientationLabel = new Plasma::Label(this);
+	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
+	m_qiblaOrientationLabel->nativeWidget()->setFont(titleFont);
+	m_qiblaOrientationLabel->setText("");
+	layout->addItem(m_qiblaOrientationLabel, 1, 0);
 
 	m_qiblaWidget = new CompassGraphicsWidget(this);
-	layout->addItem(m_qiblaWidget, 1, 1);
+	layout->addItem(m_qiblaWidget, 0, 1, 2, 1);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
