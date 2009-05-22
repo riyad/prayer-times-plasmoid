@@ -27,6 +27,7 @@ namespace Plasma {
 }
 
 namespace Marble {
+	class GeoDataCoordinates;
 	class MarbleWidget;
 }
 
@@ -44,7 +45,7 @@ class PrayerTimesApplet : public Plasma::Applet
 	CompassGraphicsWidget *m_qiblaWidget;
 
 	QString m_locationName;
-	double m_latitude, m_longitude;
+	Marble::GeoDataCoordinates m_location;
 	int m_calculationMethod;
 
 	QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;

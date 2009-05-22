@@ -31,13 +31,14 @@
 #include <Plasma/Theme>
 
 // Marble
+#include <marble/GeoDataCoordinates.h>
 #include <marble/MarbleModel.h>
 #include <marble/MarbleWidget.h>
 
 PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_locationName(""),
-	m_latitude(21.431536), m_longitude(39.819145), // Makkah
+	m_location(39.819145, 21.431536, 0, Marble::GeoDataCoordinates::Degree), // Makkah
 	m_calculationMethod(5), // Muslim World League
 	m_prayerTimesModel(0)
 {
@@ -95,11 +96,10 @@ void PrayerTimesApplet::init()
 {
 	KConfigGroup cg = config();
 	m_locationName = cg.readEntry("locationName", m_locationName);
-	m_latitude = cg.readEntry("latitude", m_latitude);
-	m_longitude = cg.readEntry("longitude", m_longitude);
+	bool success = false;
+	m_location = Marble::GeoDataCoordinates::fromString(cg.readEntry("location", m_location.toString()), success);
+	Q_ASSERT(success);
 	m_calculationMethod = cg.readEntry("calculationMethod", m_calculationMethod);
-
-	connect(Plasma::Theme::defaultTheme(), SIGNAL(themeChanged()), this, SLOT(updateColors()));
 
 	m_updateTimer = new QTimer(this);
 	connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(updateInterface()));
@@ -136,7 +136,7 @@ void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 	Marble::MarbleWidget* map = locationConfigUi.mapWidget;
 	map->setProjection(Marble::Spherical);
 	//Set how we want the map to look
-	map->centerOn(m_longitude, m_latitude);
+	map->centerOn(m_location);
 	map->zoomView(map->maximumZoom());
 	map->setMapThemeId( "earth/atlas/atlas.dgml" );
 	map->setShowGrid       ( true );
@@ -174,16 +174,13 @@ void PrayerTimesApplet::configAccepted()
 		cg.writeEntry("locationName", m_locationName);
 	}
 
-	double latitude = locationConfigUi.mapWidget->centerLatitude();
-	if(m_latitude != latitude) {
-		m_latitude = latitude;
-		cg.writeEntry("latitude", m_latitude);
-	}
-
 	double longitude = locationConfigUi.mapWidget->centerLongitude();
-	if(m_longitude != longitude) {
-		m_longitude = longitude;
-		cg.writeEntry("longitude", m_longitude);
+	double latitude = locationConfigUi.mapWidget->centerLatitude();
+	if(m_location.longitude() != longitude
+		|| m_location.latitude() != latitude) {
+		m_location.setLongitude(longitude, Marble::GeoDataCoordinates::Degree);
+		m_location.setLatitude(latitude, Marble::GeoDataCoordinates::Degree);
+		cg.writeEntry("location", m_location.toString());
 	}
 
 	double method = calculationMethodConfigUi.methodComboBox->currentIndex();
@@ -191,6 +188,10 @@ void PrayerTimesApplet::configAccepted()
 		m_calculationMethod = method;
 		cg.writeEntry("calculationMethod", m_calculationMethod);
 	}
+
+
+	kDebug() << "Location: " << m_location.toString(Marble::GeoDataCoordinates::Decimal);
+	kDebug() << "Method: " << m_calculationMethod;
 
 	connectSources();
 
@@ -342,7 +343,7 @@ void PrayerTimesApplet::disconnectSources()
 
 const QString PrayerTimesApplet::sourceName() const
 {
-	return QString("%1/%2,%3").arg(calculationMethodName[m_calculationMethod]).arg(m_latitude).arg(m_longitude);
+	return QString("location:%1|method:%2").arg(m_location.toString()).arg(calculationMethodName[m_calculationMethod]);
 }
 
 PrayerTime PrayerTimesApplet::currentPrayer() const
