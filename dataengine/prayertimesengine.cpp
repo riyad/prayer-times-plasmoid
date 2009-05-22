@@ -19,6 +19,7 @@
 
 // Qt
 #include <QDate>
+#include <QRegExp>
 #include <QString>
 #include <QTime>
 #include <QVector>
@@ -26,6 +27,9 @@
 // KDE
 #include <KSystemTimeZone>
 #include <KTimeZone>
+
+// Marble
+#include <marble/GeoDataCoordinates.h>
 
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 	: Plasma::DataEngine(parent),
@@ -99,12 +103,27 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
  */
 void PrayerTimesEngine::parseSource(const QString& source, Location& location, int& methodNum)
 {
-	QStringList sourceParts = source.split("/");
-	QString methodName = sourceParts[0];
-	QString coords = sourceParts[1];
+	Marble::GeoDataCoordinates coords;
+	QString methodName;
+	QStringList sourceParts = source.split("|");
+	foreach(QString sourcePart, sourceParts) {
+		QRegExp regex;
+		if(sourcePart.contains((regex = QRegExp("^\\s*location:\\s*")))) { // location
+			sourcePart = sourcePart.remove(regex);
+			bool success = false;
+			coords = Marble::GeoDataCoordinates::fromString(sourcePart, success);
+			Q_ASSERT(success);
+			kDebug() << "Parsed location: " << coords.toString();
+		} else if((regex = QRegExp("^\\s*method:\\s*")).exactMatch(sourcePart)) { // calculation method
+			methodName = sourcePart.remove(regex);
+			kDebug() << "Parsed method: " << methodName;
+		} else {
+			kDebug() << "Unrecognized source parameter: " << sourcePart;
+		}
+	}
 
 	if(source.isEmpty()) {
-		kDebug() << "Error: coords is empty: " << coords;
+		kDebug() << "Error: source is empty";
 		return;
 	}
 
@@ -118,9 +137,8 @@ void PrayerTimesEngine::parseSource(const QString& source, Location& location, i
 	}
 
 	// extracting latitude and longitude
-	QStringList splitCoords = QString(coords).remove(" ").split(",");
-	location.degreeLat = splitCoords[0].toDouble();
-	location.degreeLong = splitCoords[1].toDouble();
+	location.degreeLat = coords.latitude(Marble::GeoDataCoordinates::Degree);
+	location.degreeLong = coords.longitude(Marble::GeoDataCoordinates::Degree);
 
 	location.dst = localTimeZone->isDstAtUtc(QDateTime::currentDateTime().toUTC()) ? 1 : 0;
 	location.gmtDiff = double(localTimeZone->currentOffset())/3600 - location.dst;
