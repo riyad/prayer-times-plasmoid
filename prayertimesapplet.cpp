@@ -96,9 +96,12 @@ void PrayerTimesApplet::init()
 {
 	KConfigGroup cg = config();
 	m_locationName = cg.readEntry("locationName", m_locationName);
+
+	m_location.setDefaultNotation(Marble::GeoDataCoordinates::Decimal);
 	bool success = false;
 	m_location = Marble::GeoDataCoordinates::fromString(cg.readEntry("location", m_location.toString()), success);
 	Q_ASSERT(success);
+
 	m_calculationMethod = cg.readEntry("calculationMethod", m_calculationMethod);
 
 	m_updateTimer = new QTimer(this);
