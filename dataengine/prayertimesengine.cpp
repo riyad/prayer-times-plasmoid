@@ -108,13 +108,13 @@ void PrayerTimesEngine::parseSource(const QString& source, Location& location, i
 	QStringList sourceParts = source.split("|");
 	foreach(QString sourcePart, sourceParts) {
 		QRegExp regex;
-		if(sourcePart.contains((regex = QRegExp("^\\s*location:\\s*")))) { // location
+		if(sourcePart.contains(regex = QRegExp("^\\s*location:\\s*"))) { // location
 			sourcePart = sourcePart.remove(regex);
 			bool success = false;
 			coords = Marble::GeoDataCoordinates::fromString(sourcePart, success);
 			Q_ASSERT(success);
 			kDebug() << "Parsed location: " << coords.toString();
-		} else if((regex = QRegExp("^\\s*method:\\s*")).exactMatch(sourcePart)) { // calculation method
+		} else if(sourcePart.contains(regex = QRegExp("^\\s*method:\\s*"))) { // calculation method
 			methodName = sourcePart.remove(regex);
 			kDebug() << "Parsed method: " << methodName;
 		} else {
