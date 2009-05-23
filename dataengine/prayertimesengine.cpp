@@ -31,6 +31,9 @@
 // Marble
 #include <marble/GeoDataCoordinates.h>
 
+// ITL
+#include <itl/prayer.h>
+
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 	: Plasma::DataEngine(parent),
 	localTimeZone(0)
@@ -139,7 +142,7 @@ void PrayerTimesEngine::parseSource(const QString& source, Location& location, i
 	// extracting latitude and longitude
 	location.degreeLat = parsedLocation.latitude(Marble::GeoDataCoordinates::Degree);
 	location.degreeLong = parsedLocation.longitude(Marble::GeoDataCoordinates::Degree);
-	kDebug() << "Location lon / lat: " << location.degreeLong << " / " << location.degreeLat;
+	kDebug() << "Location lon / lat:" << location.degreeLong << location.degreeLat;
 
 	location.dst = localTimeZone->isDstAtUtc(QDateTime::currentDateTime().toUTC()) ? 1 : 0;
 	kDebug() << "Location dst: " << location.dst;
@@ -181,6 +184,9 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location& location, const int
 	prayerTimes.resize(PRAYER_TIMES);
 	for(int prayer = Fajr; prayer <= NextFajr; ++prayer) {
 		prayerTimes[prayer].setHMS(prayers[prayer].hour, prayers[prayer].minute, prayers[prayer].second);
+		if (prayers[prayer].isExtreme) {
+			kDebug() << "Calculated prayer time for prayer" << prayer << "is extreme.";
+		}
 	}
 }
 
