@@ -103,20 +103,20 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
  */
 void PrayerTimesEngine::parseSource(const QString& source, Location& location, int& methodNum)
 {
-	Marble::GeoDataCoordinates coords;
-	QString methodName;
+	Marble::GeoDataCoordinates parsedLocation;
+	QString parsedName;
 	QStringList sourceParts = source.split("|");
 	foreach(QString sourcePart, sourceParts) {
 		QRegExp regex;
 		if(sourcePart.contains(regex = QRegExp("^\\s*location:\\s*"))) { // location
 			sourcePart = sourcePart.remove(regex);
 			bool success = false;
-			coords = Marble::GeoDataCoordinates::fromString(sourcePart, success);
+			parsedLocation = Marble::GeoDataCoordinates::fromString(sourcePart, success);
 			Q_ASSERT(success);
-			kDebug() << "Parsed location: " << coords.toString();
+			kDebug() << "Parsed location: " << parsedLocation.toString();
 		} else if(sourcePart.contains(regex = QRegExp("^\\s*method:\\s*"))) { // calculation method
-			methodName = sourcePart.remove(regex);
-			kDebug() << "Parsed method: " << methodName;
+			parsedName = sourcePart.remove(regex);
+			kDebug() << "Parsed method: " << parsedName;
 		} else {
 			kDebug() << "Unrecognized source parameter: " << sourcePart;
 		}
@@ -130,18 +130,21 @@ void PrayerTimesEngine::parseSource(const QString& source, Location& location, i
 	// looking up the requested calculation method
 	methodNum = CALCULATION_METHODS-1;
 	while(methodNum) {
-		if(methodName == calculationMethodName[methodNum]) {
+		if(parsedName == calculationMethodName[methodNum]) {
 			break;
 		}
 		--methodNum;
 	}
 
 	// extracting latitude and longitude
-	location.degreeLat = coords.latitude(Marble::GeoDataCoordinates::Degree);
-	location.degreeLong = coords.longitude(Marble::GeoDataCoordinates::Degree);
+	location.degreeLat = parsedLocation.latitude(Marble::GeoDataCoordinates::Degree);
+	location.degreeLong = parsedLocation.longitude(Marble::GeoDataCoordinates::Degree);
+	kDebug() << "Location lon / lat: " << location.degreeLong << " / " << location.degreeLat;
 
 	location.dst = localTimeZone->isDstAtUtc(QDateTime::currentDateTime().toUTC()) ? 1 : 0;
+	kDebug() << "Location dst: " << location.dst;
 	location.gmtDiff = double(localTimeZone->currentOffset())/3600 - location.dst;
+	kDebug() << "Location gmtDiff: " << location.gmtDiff;
 
 	location.seaLevel = 0; // just for simplicity
 	location.pressure = 1010; // default from itl's prayer.h
