@@ -39,8 +39,7 @@ PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_locationName(""),
 	m_location(39.819145, 21.431536, 0, Marble::GeoDataCoordinates::Degree), // Makkah
-	m_calculationMethod(5), // Muslim World League
-	m_prayerTimesModel(0)
+	m_calculationMethod(5) // Muslim World League
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -223,12 +222,6 @@ void PrayerTimesApplet::updateInterface()
 	QFont boldFont(font());
 	boldFont.setBold(true);
 
-	if(!m_prayerTimesModel) {
-		m_prayerTimesModel = new QStandardItemModel(this);
-	} else {
-		m_prayerTimesModel->clear();
-	}
-
 	QList<QStandardItem *> prayerNameItems;
 	QList<QStandardItem *> prayerTimeItems;
 
@@ -245,12 +238,11 @@ void PrayerTimesApplet::updateInterface()
 		prayerTimeItems.append(prayerTime);
 	}
 
-	m_prayerTimesModel->appendColumn(prayerNameItems);
-	m_prayerTimesModel->appendColumn(prayerTimeItems);
+	QStandardItemModel *prayerTimesModel = new QStandardItemModel(this);
+	prayerTimesModel->appendColumn(prayerNameItems);
+	prayerTimesModel->appendColumn(prayerTimeItems);
+	m_prayerTimesView->setModel(prayerTimesModel);
 
-	if (!m_prayerTimesView->model()) {
-		m_prayerTimesView->setModel(m_prayerTimesModel);
-	}
 	m_prayerTimesView->setCurrentPrayer(currentPrayer());
 
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
