@@ -247,7 +247,7 @@ void PrayerTimesApplet::updateInterface()
 
 	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
 	QTime nextPrayerTime = QTime().addMSecs(diffMSecs);
-	m_nextPrayerLabel->setText(i18nc("<time> to <prayer>", "%1 to %2", nextPrayerTime.toString("hh:mm"), labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
+	m_nextPrayerLabel->setText(i18nc("<time> till <prayer>", "%1 till %2", nextPrayerTime.toString("hh:mm"), labelFor(nextPrayer() == NextFajr ? Fajr : nextPrayer())));
 	m_locationLabel->setText(m_locationName);
 	m_dateLabel->setText(QDate::currentDate().toString());
 
