@@ -1,0 +1,14 @@
+[Global]
+IconName=prayertimes
+Comment=Prayer Times Applet
+
+[Event/PrayerTimeNotification]
+Name=Prayer Time Notification
+Comment=Reminder before the next prayer
+Action=Popup
+
+[Event/Athan]
+Name=Adhan
+Comment=Call to prayer
+Sound=/usr/share/minbar/athan.ogg
+Action=Sound|Popup

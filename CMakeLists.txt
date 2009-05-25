@@ -51,3 +51,6 @@ install(FILES prayertimes.svgz
         DESTINATION ${DATA_INSTALL_DIR}/desktoptheme/default/prayertimes/)
 install(FILES compass.svgz
         DESTINATION ${DATA_INSTALL_DIR}/desktoptheme/default/widgets/)
+
+install(FILES plasma-applet-prayertimes.notifyrc
+        DESTINATION ${DATA_INSTALL_DIR}/plasma-applet-prayertimes)
