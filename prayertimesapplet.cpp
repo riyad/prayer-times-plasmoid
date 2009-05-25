@@ -19,6 +19,7 @@
 // KDE
 #include <KConfigDialog>
 #include <KIconLoader>
+#include <KNotification>
 
 // Plasma
 #include <Plasma/Applet>
@@ -39,7 +40,9 @@ PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),
 	m_locationName(""),
 	m_location(39.819145, 21.431536, 0, Marble::GeoDataCoordinates::Degree), // Makkah
-	m_calculationMethod(5) // Muslim World League
+	m_calculationMethod(5), // Muslim World League
+	m_notify(false),
+	m_notified(false)
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -125,6 +128,7 @@ void PrayerTimesApplet::dataUpdated(const QString &source, const Plasma::DataEng
 	m_qibla = data["Qibla"].toDouble();
 
 	updateInterface();
+	notify();
 }
 
 void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
@@ -255,6 +259,55 @@ void PrayerTimesApplet::updateInterface()
 	m_qiblaOrientationLabel->setText(i18nc("Qibla direction is <orientation>", "Qibla direction is %1", m_qiblaWidget->needleOrientation()));
 }
 
+void PrayerTimesApplet::notify()
+{
+	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
+	QTime diffToNextPrayerTime = QTime().addMSecs(diffMSecs);
+
+	if(diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() <= 15) {
+		if(!m_notify && diffToNextPrayerTime.minute() > 0) {
+			m_notify = true;
+
+			if(diffToNextPrayerTime.minute() == 1) {
+				showNotification(i18n("There is 1 minute left till %1", labelFor(currentPrayer())));
+			} else {
+				showNotification(i18n("There are %1 minutes left till %2", diffToNextPrayerTime.minute(), labelFor(currentPrayer())));
+			}
+		} else if(!m_notified && diffToNextPrayerTime.minute() == 0) {
+			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
+			m_notified = true;
+		}
+	} else {
+		if(m_notify && !m_notified) {
+			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
+			m_notified = true;
+		}
+
+		m_notify = false;
+		m_notified = false;
+	}
+}
+
+K_GLOBAL_STATIC_WITH_ARGS(KComponentData
+, prayerTimesComponent
+, ("plasma-applet-prayertimes"
+	, QByteArray()
+	, KComponentData::SkipMainComponentRegistration
+	)
+)
+
+void PrayerTimesApplet::showNotification(const QString &message) const
+{
+	kDebug() << "Sending prayer time notification: " << message;
+	KNotification::event("PrayerTimeNotification"
+	, message
+	, m_prayertimesSvg->pixmap("kaaba")
+	, 0L
+	, KNotification::CloseOnTimeout
+	, *prayerTimesComponent
+	);
+}
+
 QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 {
 	QFont titleFont = font();
@@ -315,7 +368,6 @@ QGraphicsWidget* PrayerTimesApplet::createQiblaWidget()
 	widget->setLayout(layout);
 	return widget;
 }
-
 
 void PrayerTimesApplet::connectSources()
 {
