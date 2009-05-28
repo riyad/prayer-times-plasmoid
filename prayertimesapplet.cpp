@@ -269,9 +269,9 @@ void PrayerTimesApplet::notify()
 			m_notify = true;
 
 			if(diffToNextPrayerTime.minute() == 1) {
-				showNotification(i18n("There is 1 minute left till %1", labelFor(currentPrayer())));
+				showNotification(i18n("There is 1 minute left till %1", labelFor(nextPrayer())));
 			} else {
-				showNotification(i18n("There are %1 minutes left till %2", diffToNextPrayerTime.minute(), labelFor(currentPrayer())));
+				showNotification(i18n("There are %1 minutes left till %2", diffToNextPrayerTime.minute(), labelFor(nextPrayer())));
 			}
 		} else if(!m_notified && diffToNextPrayerTime.minute() == 0) {
 			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
