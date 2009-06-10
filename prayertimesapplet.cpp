@@ -261,12 +261,16 @@ void PrayerTimesApplet::updateInterface()
 
 void PrayerTimesApplet::notify()
 {
-	int diffMSecs = QTime::currentTime().msecsTo(prayerTimeFor(nextPrayer()));
-	QTime diffToNextPrayerTime = QTime().addMSecs(diffMSecs);
+	int diffSecs = QTime::currentTime().secsTo(prayerTimeFor(nextPrayer()));
+	QTime diffToNextPrayerTime = QTime().addSecs(diffSecs + 60);
+
+	kDebug() << "Current time:" << QTime::currentTime().toString();
+	kDebug() << "Diff to next prayer:" << diffToNextPrayerTime.toString();
 
 	if(diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() <= 15) {
 		if(!m_notify && diffToNextPrayerTime.minute() > 0) {
 			m_notify = true;
+			m_notified = false;
 
 			if(diffToNextPrayerTime.minute() == 1) {
 				showNotification(i18n("There is 1 minute left till %1", labelFor(nextPrayer())));
@@ -274,18 +278,17 @@ void PrayerTimesApplet::notify()
 				showNotification(i18n("There are %1 minutes left till %2", diffToNextPrayerTime.minute(), labelFor(nextPrayer())));
 			}
 		} else if(!m_notified && diffToNextPrayerTime.minute() == 0) {
-			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
-			m_notified = true;
-		}
-	} else {
-		if(m_notify && !m_notified) {
-			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
-			m_notified = true;
-		}
+			if(m_notify && !m_notified) {
+				showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
+				m_notified = true;
+			}
 
-		m_notify = false;
-		m_notified = false;
+			m_notify = false;
+		}
 	}
+
+	kDebug() << "Notify:" << m_notify;
+	kDebug() << "Notified:" << m_notified;
 }
 
 K_GLOBAL_STATIC_WITH_ARGS(KComponentData
@@ -395,8 +398,9 @@ const QString PrayerTimesApplet::sourceName() const
 
 PrayerTime PrayerTimesApplet::currentPrayer() const
 {
+	QTime currentTime = QTime::currentTime();
 	for(PrayerTime prayer=Fajr; prayer <= Ishaa; prayer = PrayerTime(prayer+1)) {
-		if(prayerTimeFor(prayer) <= QTime::currentTime() && QTime::currentTime() < prayerTimeFor(PrayerTime(prayer+1))) {
+		if(prayerTimeFor(prayer) <= currentTime && currentTime < prayerTimeFor(PrayerTime(prayer+1))) {
 			return prayer;
 		}
 	}
