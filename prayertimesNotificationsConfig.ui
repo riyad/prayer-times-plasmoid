@@ -100,8 +100,8 @@
          <bool>true</bool>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <widget class="KUrlRequesterf" name="adhanFileUrlRequester">
+         <item row="0" column="0" colspan="2">
+          <widget class="KUrlRequester" name="adhanFileUrlRequester">
            <property name="text">
             <string>/usr/share/minbar/athan.ogg</string>
            </property>
@@ -132,7 +132,7 @@
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
-   <header location="global">kurlrequester.h</header>
+   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -141,7 +141,6 @@
   <tabstop>notifyOnNextPrayerGroupBox</tabstop>
   <tabstop>showPopupOnNextPrayerCheckBox</tabstop>
   <tabstop>playAdhanOnNextPrayerGroupBox</tabstop>
-  <tabstop>adhanFileUrlRequester</tabstop>
  </tabstops>
  <resources/>
  <connections/>
