@@ -5,6 +5,7 @@
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
 
+#include "ui_prayertimesNotificationsConfig.h"
 #include "ui_prayertimesLocationConfig.h"
 #include "ui_prayertimesCalculationMethodConfig.h"
 
@@ -43,9 +44,16 @@ class PrayerTimesApplet : public Plasma::Applet
 	Plasma::Svg *m_prayertimesSvg;
 	CompassGraphicsWidget *m_qiblaWidget;
 
+	// Configuration variables
 	QString m_locationName;
 	Marble::GeoDataCoordinates m_location;
 	int m_calculationMethod;
+	bool m_notifyBeforeNextPrayer;
+	int m_notifyMinutesBeforeNextPrayer;
+	bool m_notifyOnNextPrayer;
+	bool m_showPopupOnNextPrayer;
+	bool m_playAdhanOnNextPrayer;
+	KUrl m_adhanUrl;
 
 	QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
 	double m_qibla;
@@ -56,6 +64,7 @@ class PrayerTimesApplet : public Plasma::Applet
 	QTimer* m_updateTimer;
 
 	// Configuration dialog
+	Ui::prayertimesNotificationsConfig notificationsConfigUi;
 	Ui::prayertimesLocationConfig locationConfigUi;
 	Ui::prayertimesCalculationMethodConfig calculationMethodConfigUi;
 
