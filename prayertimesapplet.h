@@ -58,9 +58,6 @@ class PrayerTimesApplet : public Plasma::Applet
 	QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
 	double m_qibla;
 
-	bool m_notify;
-	bool m_notified;
-
 	QTimer* m_updateTimer;
 
 	// Configuration dialog

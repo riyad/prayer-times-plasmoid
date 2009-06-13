@@ -46,9 +46,7 @@ PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	m_notifyOnNextPrayer(true),
 	m_showPopupOnNextPrayer(true),
 	m_playAdhanOnNextPrayer(true),
-	m_adhanFileUrl("/usr/share/minbar/athan.ogg"),
-	m_notify(false),
-	m_notified(false)
+	m_adhanFileUrl("/usr/share/minbar/athan.ogg")
 {
 	// this will get us the standard applet background, for free!
 	setBackgroundHints(DefaultBackground);
@@ -111,6 +109,13 @@ void PrayerTimesApplet::init()
 	Q_ASSERT(success);
 
 	m_calculationMethod = cg.readEntry("calculationMethod", m_calculationMethod);
+
+	m_notifyBeforeNextPrayer = cg.readEntry("notifyBeforeNextPrayer", m_notifyBeforeNextPrayer);
+	m_notifyMinutesBeforeNextPrayer = cg.readEntry("notifyMinutesBeforeNextPrayer", m_notifyMinutesBeforeNextPrayer);
+	m_notifyOnNextPrayer = cg.readEntry("notifyOnNextPrayer", m_notifyOnNextPrayer);
+	m_showPopupOnNextPrayer = cg.readEntry("showPopupOnNextPrayer", m_showPopupOnNextPrayer);
+	m_playAdhanOnNextPrayer = cg.readEntry("playAdhanOnNextPrayer", m_playAdhanOnNextPrayer);
+	m_adhanFileUrl = cg.readEntry("adhanFileUrl", m_adhanFileUrl);
 
 	m_updateTimer = new QTimer(this);
 	connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(updateInterface()));
@@ -328,12 +333,9 @@ void PrayerTimesApplet::notify()
 			}
 		} else if(m_notifyOnNextPrayer && diffToNextPrayerTime.minute() == 0) {
 			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
-			// TODO: play adhan
+			// TODO: play adhan or make knotify do it
 		}
 	}
-
-	kDebug() << "Notify:" << m_notify;
-	kDebug() << "Notified:" << m_notified;
 }
 
 K_GLOBAL_STATIC_WITH_ARGS(KComponentData
