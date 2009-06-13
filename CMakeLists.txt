@@ -29,6 +29,7 @@ set(prayertimes_SRCS
 
 # Adding configuration ui files
 kde4_add_ui_files(prayertimes_SRCS
+                  prayertimesNotificationsConfig.ui
                   prayertimesLocationConfig.ui
                   prayertimesCalculationMethodConfig.ui)
 
@@ -36,6 +37,7 @@ kde4_add_plugin(plasma_applet_prayertimes ${prayertimes_SRCS})
 target_link_libraries(plasma_applet_prayertimes
                       ${KDE4_KDECORE_LIBS}
                       ${KDE4_KDEUI_LIBS}
+                      ${KDE4_KIO_LIBS}
                       ${KDE4_PLASMA_LIBS}
                       ${MARBLE_LIBRARIES})
 
