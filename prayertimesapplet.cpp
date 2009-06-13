@@ -41,6 +41,12 @@ PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	m_locationName(""),
 	m_location(39.819145, 21.431536, 0, Marble::GeoDataCoordinates::Degree), // Makkah
 	m_calculationMethod(5), // Muslim World League
+	m_notifyBeforeNextPrayer(true),
+	m_notifyMinutesBeforeNextPrayer(15),
+	m_notifyOnNextPrayer(true),
+	m_showPopupOnNextPrayer(true),
+	m_playAdhanOnNextPrayer(true),
+	m_adhanUrl("/usr/share/minbar/athan.ogg"),
 	m_notify(false),
 	m_notified(false)
 {
@@ -133,6 +139,17 @@ void PrayerTimesApplet::dataUpdated(const QString &source, const Plasma::DataEng
 
 void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 {
+	QWidget *notificationsWidget = new QWidget(parent);
+	notificationsConfigUi.setupUi(notificationsWidget);
+
+	parent->addPage(notificationsWidget, i18n("Notifications"), "preferences-desktop-notification");
+	notificationsConfigUi.notifyBeforeNextPrayerGroupBox->setChecked(m_notifyBeforeNextPrayer);
+	notificationsConfigUi.notifyBeforeNextPrayerSpinBox->setValue(m_notifyMinutesBeforeNextPrayer);
+	notificationsConfigUi.notifyOnNextPrayerGroupBox->setChecked(m_notifyOnNextPrayer);
+	notificationsConfigUi.showPopupOnNextPrayerCheckBox->setChecked(m_showPopupOnNextPrayer);
+	notificationsConfigUi.playAdhanOnNextPrayerGroupBox->setChecked(m_playAdhanOnNextPrayer);
+	notificationsConfigUi.adhanFileUrlRequester->setUrl(m_adhanUrl);
+
 	QWidget *locationWidget = new QWidget(parent);
 	locationConfigUi.setupUi(locationWidget);
 
@@ -194,7 +211,6 @@ void PrayerTimesApplet::configAccepted()
 		m_calculationMethod = method;
 		cg.writeEntry("calculationMethod", m_calculationMethod);
 	}
-
 
 	kDebug() << "Location: " << m_location.toString(Marble::GeoDataCoordinates::Decimal);
 	kDebug() << "Method: " << m_calculationMethod;
