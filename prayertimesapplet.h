@@ -53,7 +53,7 @@ class PrayerTimesApplet : public Plasma::Applet
 	bool m_notifyOnNextPrayer;
 	bool m_showPopupOnNextPrayer;
 	bool m_playAdhanOnNextPrayer;
-	KUrl m_adhanUrl;
+	KUrl m_adhanFileUrl;
 
 	QTime m_fajr, m_shorooq, m_dhuhr, m_asr, m_maghrib, m_ishaa, m_nextFajr;
 	double m_qibla;

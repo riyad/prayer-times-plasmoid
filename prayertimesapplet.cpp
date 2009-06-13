@@ -46,7 +46,7 @@ PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	m_notifyOnNextPrayer(true),
 	m_showPopupOnNextPrayer(true),
 	m_playAdhanOnNextPrayer(true),
-	m_adhanUrl("/usr/share/minbar/athan.ogg"),
+	m_adhanFileUrl("/usr/share/minbar/athan.ogg"),
 	m_notify(false),
 	m_notified(false)
 {
@@ -148,7 +148,7 @@ void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 	notificationsConfigUi.notifyOnNextPrayerGroupBox->setChecked(m_notifyOnNextPrayer);
 	notificationsConfigUi.showPopupOnNextPrayerCheckBox->setChecked(m_showPopupOnNextPrayer);
 	notificationsConfigUi.playAdhanOnNextPrayerGroupBox->setChecked(m_playAdhanOnNextPrayer);
-	notificationsConfigUi.adhanFileUrlRequester->setUrl(m_adhanUrl);
+	notificationsConfigUi.adhanFileUrlRequester->setUrl(m_adhanFileUrl);
 
 	QWidget *locationWidget = new QWidget(parent);
 	locationConfigUi.setupUi(locationWidget);
@@ -214,6 +214,42 @@ void PrayerTimesApplet::configAccepted()
 
 	kDebug() << "Location: " << m_location.toString(Marble::GeoDataCoordinates::Decimal);
 	kDebug() << "Method: " << m_calculationMethod;
+
+	bool notifyBeforeNextPrayer = notificationsConfigUi.notifyBeforeNextPrayerGroupBox->isChecked();
+	if(m_notifyBeforeNextPrayer != notifyBeforeNextPrayer) {
+		m_notifyBeforeNextPrayer = notifyBeforeNextPrayer;
+		cg.writeEntry("notifyBeforeNextPrayer", m_notifyBeforeNextPrayer);
+	}
+
+	int notifyMinutesBeforeNextPrayer = notificationsConfigUi.notifyBeforeNextPrayerSpinBox->value();
+	if(m_notifyMinutesBeforeNextPrayer != notifyMinutesBeforeNextPrayer) {
+		m_notifyMinutesBeforeNextPrayer = notifyMinutesBeforeNextPrayer;
+		cg.writeEntry("notifyMinutesBeforeNextPrayer", m_notifyMinutesBeforeNextPrayer);
+	}
+
+	bool notifyOnNextPrayer = notificationsConfigUi.notifyOnNextPrayerGroupBox->isChecked();
+	if(m_notifyOnNextPrayer != notifyOnNextPrayer) {
+		m_notifyOnNextPrayer = notifyOnNextPrayer;
+		cg.writeEntry("notifyOnNextPrayer", m_notifyOnNextPrayer);
+	}
+
+	bool showPopupOnNextPrayer = notificationsConfigUi.showPopupOnNextPrayerCheckBox->isChecked();
+	if(m_showPopupOnNextPrayer != showPopupOnNextPrayer) {
+		m_showPopupOnNextPrayer = showPopupOnNextPrayer;
+		cg.writeEntry("showPopupOnNextPrayer", m_showPopupOnNextPrayer);
+	}
+
+	bool playAdhanOnNextPrayer = notificationsConfigUi.playAdhanOnNextPrayerGroupBox->isChecked();
+	if(m_playAdhanOnNextPrayer != playAdhanOnNextPrayer) {
+		m_playAdhanOnNextPrayer = playAdhanOnNextPrayer;
+		cg.writeEntry("playAdhanOnNextPrayer", m_playAdhanOnNextPrayer);
+	}
+
+	KUrl adhanFileUrl = notificationsConfigUi.adhanFileUrlRequester->url();
+	if(m_adhanFileUrl != adhanFileUrl) {
+		m_adhanFileUrl = adhanFileUrl;
+		cg.writeEntry("adhanUrl", m_adhanFileUrl);
+	}
 
 	connectSources();
 
