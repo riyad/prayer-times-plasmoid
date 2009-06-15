@@ -324,17 +324,19 @@ void PrayerTimesApplet::notify()
 	kDebug() << "Current time:" << QTime::currentTime().toString();
 	kDebug() << "Diff to next prayer:" << diffToNextPrayerTime.toString();
 
-	if(diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() <= m_notifyMinutesBeforeNextPrayer) {
-		if(m_notifyBeforeNextPrayer && diffToNextPrayerTime.minute() > 0) {
+	if(m_notifyBeforeNextPrayer) {
+		if(diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() == m_notifyMinutesBeforeNextPrayer) {
 			if(diffToNextPrayerTime.minute() == 1) {
 				showNotification(i18n("There is 1 minute left till %1", labelFor(nextPrayer())));
 			} else {
 				showNotification(i18n("There are %1 minutes left till %2", diffToNextPrayerTime.minute(), labelFor(nextPrayer())));
 			}
-		} else if(m_notifyOnNextPrayer && diffToNextPrayerTime.minute() == 0) {
-			showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
-			// TODO: play adhan or make knotify do it
 		}
+	}
+
+	if(m_notifyOnNextPrayer && diffToNextPrayerTime.minute() == 0) {
+		showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
+		// TODO: play adhan or make knotify do it
 	}
 }
 
