@@ -72,7 +72,7 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="notifyOnNextPrayerGroupBox">
      <property name="title">
-      <string>Notify on entering next prayer time</string>
+      <string>Notify on entering prayer time</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
