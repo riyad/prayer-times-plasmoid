@@ -327,15 +327,15 @@ void PrayerTimesApplet::notify()
 	if(m_notifyBeforeNextPrayer) {
 		if(diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() == m_notifyMinutesBeforeNextPrayer) {
 			if(diffToNextPrayerTime.minute() == 1) {
-				showNotification(i18n("There is 1 minute left till %1", labelFor(nextPrayer())));
+				showNotification(i18n("There is 1 minute left till %1.", labelFor(nextPrayer())));
 			} else {
-				showNotification(i18n("There are %1 minutes left till %2", diffToNextPrayerTime.minute(), labelFor(nextPrayer())));
+				showNotification(i18n("There are %1 minutes left till %2.", diffToNextPrayerTime.minute(), labelFor(nextPrayer())));
 			}
 		}
 	}
 
-	if(m_notifyOnNextPrayer && diffToNextPrayerTime.minute() == 0) {
-		showNotification(i18n("It is now time to pray %1", labelFor(currentPrayer())));
+	if(m_notifyOnNextPrayer && diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() == 0) {
+		showNotification(i18n("It is now time to pray %1.", labelFor(currentPrayer())));
 		// TODO: play adhan or make knotify do it
 	}
 }
