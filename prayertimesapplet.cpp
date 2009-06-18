@@ -340,12 +340,12 @@ void PrayerTimesApplet::notify()
 	}
 }
 
-K_GLOBAL_STATIC_WITH_ARGS(KComponentData,
-	prayerTimesComponent,
-	("plasma-applet-prayertimes",
-	QByteArray(),
-	KComponentData::SkipMainComponentRegistration
-	)
+K_GLOBAL_STATIC_WITH_ARGS(KComponentData
+	, prayerTimesComponent
+	, ("plasma-applet-prayertimes"
+		, QByteArray()
+		, KComponentData::SkipMainComponentRegistration
+		)
 )
 
 void PrayerTimesApplet::showNotification(const QString &message) const
