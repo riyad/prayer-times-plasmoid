@@ -1,29 +1,45 @@
-Plasma Applet Template
-----------------------
+Prayer Times Plasmoid
+---------------------
 
-You need KDE 4.1
+This is a plasmiod + data engine for calculating and displaying the islamic
+prayer times and qibla (direction to Mecca) for your current location.
 
--- Build instructions --
+For compiling and using this plasmoid you will need:
+- KDE 4.3
+- Marble
+- Islamic Tools and Libraries (ITL)
+
+
+
+### Build instructions ###
+
+1. Install all the needed development files for the packages mentioned above.
+
+2. Build this plasmoid
 
 cd /where/your/applet/is/installed
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=$KDEDIRS .. 
-make 
+cmake -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ..
+make
 make install
 
-(your $KDEDIRS is where you install your KDE 4)
+3.a Restart plasma to load the applet
 
-Restart plasma to load the applet 
-kquitapp plasma
-plasma
+kbuildsycoca4
+kquitapp plasma-desktop
+plasma-desktop
 
-or view it with 
+3.b or view it with
+
 plasmoidviewer prayertimes
 
--- Tutorials and resources --
-The explanation of the template
-http://techbase.kde.org/index.php?title=Development/Tutorials/Plasma/GettingStarted
 
-Plasma techbase pages
-http://techbase.kde.org/Projects/Plasma
+
+### How to find us ###
+
+You can find the main repository at:
+
+http://gitorious.org/prayer-times-plasmoid
+
+If have come a across any bug or have suggestions please feel free to mail the authors.
