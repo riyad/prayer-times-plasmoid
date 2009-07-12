@@ -23,7 +23,6 @@ class PrayerTimesView : public Plasma::TreeView
 
 	protected:
 		void resizeEvent(QGraphicsSceneResizeEvent *event);
-		virtual QSizeF sizeHint(Qt::SizeHint which, const QSizeF & constraint) const;
 
 	private:
 		PrayerTimeDelegate *m_delegate;
