@@ -368,9 +368,9 @@ QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 	layout->setRowStretchFactor(1, 4); // so the Kaaba icon grows
 
-
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
+	kaabaIconWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	layout->addItem(kaabaIconWidget, 0, 0, 2, 1);
 
 	m_dateLabel = new Plasma::Label(this);
@@ -379,7 +379,7 @@ QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 	layout->addItem(m_dateLabel, 0, 1);
 
 	m_prayerTimesView = new PrayerTimesView(this);
-	m_prayerTimesView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+	m_prayerTimesView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	layout->addItem(m_prayerTimesView, 1, 1, 2, 1);
 
 	m_nextPrayerLabel = new Plasma::Label(this);
