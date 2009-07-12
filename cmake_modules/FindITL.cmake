@@ -1,8 +1,8 @@
 # - Try to find the ITL
 # Once done this will define
 #
-#  ITL_FOUND - system has Marble
-#  ITL_INCLUDE_DIR - the Marble include directory
+#  ITL_FOUND - system has ITL
+#  ITL_INCLUDE_DIR - the ITL include directory
 #  ITL_LIBRARY
 
 
@@ -21,6 +21,6 @@ IF (ITL_FOUND)
   ENDIF (NOT ITL_FIND_QUIETLY)
 ELSE (ITL_FOUND)
   IF (ITL_FIND_REQUIRED)
-    MESSAGE(FATAL_ERROR "Could not find ITL")
+    MESSAGE(FATAL_ERROR "Could not find Islamic Tools and Libraries (ITL) <http://www.arabeyes.org/project.php?proj=ITL>")
   ENDIF (ITL_FIND_REQUIRED)
 ENDIF (ITL_FOUND)
