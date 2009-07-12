@@ -75,8 +75,8 @@ PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	titleFrame->setLayout(titleLayout);
 
 	Plasma::TabBar* tabbar = new Plasma::TabBar(this);
-	tabbar->addTab("Times", createPrayerTimesWidget(tabbar));
-	tabbar->addTab("Qibla", createQiblaWidget(tabbar));
+	tabbar->addTab("Times", createPrayerTimesWidget());
+	tabbar->addTab("Qibla", createQiblaWidget());
 
 	QGraphicsLinearLayout* layout = new QGraphicsLinearLayout(Qt::Vertical, this);
 	layout->addItem(titleFrame);
@@ -360,7 +360,7 @@ void PrayerTimesApplet::showNotification(const QString &message) const
 	);
 }
 
-QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget(QGraphicsWidget *parent)
+QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 {
 	QFont titleFont = font();
 	titleFont.setPointSize(titleFont.pointSize() * 1.1);
@@ -369,30 +369,30 @@ QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget(QGraphicsWidget *par
 
 	layout->setRowStretchFactor(1, 4);
 
-	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(parent);
+	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 0, 0, 2, 1);
 
-	m_dateLabel = new Plasma::Label(parent);
+	m_dateLabel = new Plasma::Label(this);
 	m_dateLabel->setAlignment(Qt::AlignCenter);
 	m_dateLabel->nativeWidget()->setFont(titleFont);
 	layout->addItem(m_dateLabel, 0, 1);
 
-	m_prayerTimesView = new PrayerTimesView(parent);
+	m_prayerTimesView = new PrayerTimesView(this);
 	m_prayerTimesView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 	layout->addItem(m_prayerTimesView, 1, 1, 2, 1);
 
-	m_nextPrayerLabel = new Plasma::Label(parent);
+	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
 	m_nextPrayerLabel->nativeWidget()->setFont(titleFont);
 	layout->addItem(m_nextPrayerLabel, 2, 0);
 
-	QGraphicsWidget* widget = new QGraphicsWidget(parent);
+	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
 	return widget;
 }
 
-QGraphicsWidget* PrayerTimesApplet::createQiblaWidget(QGraphicsWidget *parent)
+QGraphicsWidget* PrayerTimesApplet::createQiblaWidget()
 {
 	QFont titleFont = font();
 	titleFont.setPointSize(titleFont.pointSize() * 1.1);
@@ -403,20 +403,20 @@ QGraphicsWidget* PrayerTimesApplet::createQiblaWidget(QGraphicsWidget *parent)
 	//layout->setRowStretchFactor(0, 6);
 	//layout->setRowStretchFactor(1, 1);
 
-	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(parent);
+	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	layout->addItem(kaabaIconWidget, 0, 0);
 
-	m_qiblaOrientationLabel = new Plasma::Label(parent);
+	m_qiblaOrientationLabel = new Plasma::Label(this);
 	m_qiblaOrientationLabel->setAlignment(Qt::AlignCenter);
 	m_qiblaOrientationLabel->nativeWidget()->setFont(titleFont);
 	m_qiblaOrientationLabel->setText("");
 	layout->addItem(m_qiblaOrientationLabel, 1, 0);
 
-	m_qiblaWidget = new CompassGraphicsWidget(parent);
+	m_qiblaWidget = new CompassGraphicsWidget(this);
 	layout->addItem(m_qiblaWidget, 0, 1, 2, 1);
 
-	QGraphicsWidget* widget = new QGraphicsWidget(parent);
+	QGraphicsWidget* widget = new QGraphicsWidget(this);
 	widget->setLayout(layout);
 	return widget;
 }
