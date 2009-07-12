@@ -385,6 +385,7 @@ QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 	m_nextPrayerLabel = new Plasma::Label(this);
 	m_nextPrayerLabel->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
 	m_nextPrayerLabel->nativeWidget()->setFont(titleFont);
+	m_nextPrayerLabel->nativeWidget()->setWordWrap(false);
 	layout->addItem(m_nextPrayerLabel, 2, 0);
 
 	QGraphicsWidget* widget = new QGraphicsWidget(this);
