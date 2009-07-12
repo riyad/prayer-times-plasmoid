@@ -167,10 +167,10 @@ void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 	map->centerOn(m_location);
 	map->zoomView(map->maximumZoom());
 	map->setMapThemeId( "earth/atlas/atlas.dgml" );
-	map->setShowGrid       ( true );
+	map->setShowGrid       ( false );
 	map->setShowPlaces     ( true );
 	map->setShowOtherPlaces( false );
-	//map->setShowBorders    ( true );
+	map->setShowBorders    ( true );
 	map->setShowCities     ( true );
 	map->setShowCompass    ( false );
 	map->setShowCrosshairs ( true );
