@@ -1,42 +1,59 @@
 Prayer Times Plasmoid
----------------------
+=====================
 
-This is a plasmiod + data engine for calculating and displaying the islamic
-prayer times and qibla (direction to Mecca) for your current location.
+
+This project brings you a plasmoid + data engine for calculating and displaying the Islamic
+prayer times and qibla (direction to Makkah) for your current location.
+
+
+
+## Features ##
+
+* Prayer times based on your current location
+* Qibla direction
+* Notifications before a new prayer and upon entering
+
+Please have a look at the [ToDos](http://gitorious.org/prayer-times-plasmoid/prayer-times-plasmoid/blobs/master/TODO) for features, that are missing.
+
+
+
+## Build instructions ###
 
 For compiling and using this plasmoid you will need:
-- KDE 4.3
-- Marble
-- Islamic Tools and Libraries (ITL)
+
+* KDE 4.3
+* Marble
+* Islamic Tools and Libraries (ITL)
+
+### Install needed packages ###
+
+When using Debian or (K)Ubuntu you can install the necessary packages with
+    sudo aptitude install build-essential debhelper cmake kdelibs5-dev libmarble-dev libitl-dev
+
+### Build it ###
+
+    cd /where/your/applet/is/installed
+    mkdir build
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ..
+    make
+    make install
+
+### Use it ###
+
+To load the applet you need to restart Plasma.
+
+    kbuildsycoca4
+    kquitapp plasma-desktop
+    plasma-desktop
+
+Now you can add it to your desktop or you can also view it with the Plasmoid Viewer.
+
+    plasmoidviewer prayertimes
 
 
 
-### Build instructions ###
-
-1. Install all the needed development files for the packages mentioned above.
-
-2. Build this plasmoid
-
-cd /where/your/applet/is/installed
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ..
-make
-make install
-
-3.a Restart plasma to load the applet
-
-kbuildsycoca4
-kquitapp plasma-desktop
-plasma-desktop
-
-3.b or view it with
-
-plasmoidviewer prayertimes
-
-
-
-### How to find us ###
+## Contact and Support ##
 
 You can find the main repository at:
 
