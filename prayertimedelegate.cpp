@@ -119,27 +119,26 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 	if (!drawLeft && !drawRight && !drawTop && !drawBottom) {
 		painter->fillRect(backgroundRect, backgroundColor);
 	} else {
-		QPainterPath path;
-		QRect backgroundRectToClip(backgroundRect);
+		QRect roundedBackgroundRect(backgroundRect);
 
 		if (!drawLeft) {
-				backgroundRectToClip.setLeft(backgroundRectToClip.left()-radius);
+			roundedBackgroundRect.setLeft(roundedBackgroundRect.left()-radius);
 		}
 		if (!drawRight) {
-				backgroundRectToClip.setRight(backgroundRectToClip.right()+radius);
+			roundedBackgroundRect.setRight(roundedBackgroundRect.right()+radius);
 		}
 		if (!drawTop) {
-				backgroundRectToClip.setTop(backgroundRectToClip.top()-radius);
+			roundedBackgroundRect.setTop(roundedBackgroundRect.top()-radius);
 		}
 		if (!drawBottom) {
-				backgroundRectToClip.setBottom(backgroundRectToClip.bottom()+radius);
+			roundedBackgroundRect.setBottom(roundedBackgroundRect.bottom()+radius);
 		}
 
-		path = Plasma::PaintUtils::roundedRectangle(backgroundRectToClip, radius);
+		QPainterPath roundedBackgroundPath = Plasma::PaintUtils::roundedRectangle(roundedBackgroundRect, radius);
 
-		QPainterPath clipPath;
-		clipPath.addRect(backgroundRect);
-		path = path.intersected(clipPath);
+		QPainterPath backgroundClipPath;
+		backgroundClipPath.addRect(backgroundRect);
+		QPainterPath path = roundedBackgroundPath.intersected(backgroundClipPath);
 
 		painter->setRenderHint(QPainter::Antialiasing);
 		painter->setPen(Qt::NoPen);
