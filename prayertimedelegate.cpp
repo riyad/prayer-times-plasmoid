@@ -89,9 +89,11 @@ void PrayerTimeDelegate::paint(QPainter* painter, const QStyleOptionViewItem& op
 
 void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+	QRect backgroundRect(option.rect);
+
 	const int rows = index.model()->rowCount();
 	const int columns = index.model()->columnCount();
-	const int radius = 5;
+	const int radius = 0.05*backgroundRect.width();
 	bool drawLeft = false;
 	bool drawRight = false;
 	bool drawTop = false;
@@ -100,8 +102,6 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 	QColor backgroundColor(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
 
 	backgroundColor.setAlphaF(0.1);
-
-	QRect backgroundRect(option.rect);
 
 	if (index.column() == 0) {
 		drawLeft = true;
