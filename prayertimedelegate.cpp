@@ -157,17 +157,32 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	const QRect backgroundRect(option.rect);
 
 	const int margin = 0.03*backgroundRect.width();
-	const int radius = 0.07*backgroundRect.width();
+	const int radius = 0.05*backgroundRect.width();
+
+	// determine which side we are painting
+	bool drawLeft = false;
+	bool drawRight = false;
+
+	if (index.column() == 0) {
+		drawLeft = true;
+	} else if (index.column() == columns - 1) {
+		drawRight = true;
+	}
 
 	// calculate the highlight rect
 	QRect roundedHighlightRect(backgroundRect);
+	roundedHighlightRect.setTop(roundedHighlightRect.top() + margin);
+	roundedHighlightRect.setBottom(roundedHighlightRect.bottom() - margin);
 
-	if (index.column() == 0) {
+	if(drawLeft) {
 		roundedHighlightRect.setLeft(roundedHighlightRect.left() + margin);
-		roundedHighlightRect.setRight(roundedHighlightRect.right() + radius);
-	} else if (index.column() == columns - 1) {
+	} else {
 		roundedHighlightRect.setLeft(roundedHighlightRect.left() - radius);
+	}
+	if(drawRight) {
 		roundedHighlightRect.setRight(roundedHighlightRect.right() - margin);
+	} else {
+		roundedHighlightRect.setRight(roundedHighlightRect.right() + radius);
 	}
 
 	QPainterPath roundedHightlightPath = Plasma::PaintUtils::roundedRectangle(roundedHighlightRect, radius);
@@ -177,7 +192,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	QPainterPath path = roundedHightlightPath.intersected(backgroundClipPath);
 
 	// calculate the background gradient
-	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
+	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
 	highlightColor.setAlphaF(0.3);
 
 	QColor topBgColor = highlightColor;
@@ -189,12 +204,26 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	bgGradient.setColorAt(0, topBgColor);
 	bgGradient.setColorAt(1, bottomBgColor);
 
-	// paint the hightlight at last
+	// paint at last
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(Qt::NoPen);
 
+	// paint the hightlight background
 	painter->setBrush(bgGradient);
 	painter->drawPath(path);
+
+	// paint stroke
+	QPainterPathStroker stroker;
+	stroker.setWidth(margin/2);
+	QPainterPath strokePath = stroker.createStroke(roundedHightlightPath);
+
+	strokePath = strokePath.intersected(backgroundClipPath);
+
+	QColor strokeColor = highlightColor;
+	strokeColor.setAlphaF(0.5);
+
+	painter->setBrush(strokeColor);
+	painter->drawPath(strokePath);
 }
 
 void PrayerTimeDelegate::paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
