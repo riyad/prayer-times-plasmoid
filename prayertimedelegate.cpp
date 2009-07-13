@@ -149,59 +149,52 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 
 void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+	if (index.row() != d->currentPrayer) {
+		return;
+	}
+
 	const int columns = index.model()->columnCount();
 	const QRect backgroundRect(option.rect);
 
-	if (index.row() == d->currentPrayer) {
-		const int lineHeight = 0.02*backgroundRect.height();
-		QRect topLineRect(backgroundRect);
-		topLineRect.setBottom(topLineRect.top() + lineHeight);
-		QRect bottomLineRect(backgroundRect);
-		bottomLineRect.setTop(bottomLineRect.bottom() - lineHeight);
+	const int margin = 0.03*backgroundRect.width();
+	const int radius = 0.07*backgroundRect.width();
 
-		painter->setPen(Qt::NoPen);
+	// calculate the highlight rect
+	QRect roundedHighlightRect(backgroundRect);
 
-		QColor outerLineColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
-		QColor innerLineColor = outerLineColor;
-		outerLineColor.setAlphaF(0);
-		innerLineColor.setAlphaF(0.3);
-
-		QColor outerBgColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
-		QColor innerBgColor = outerBgColor;
-		outerBgColor.setAlphaF(0);
-		innerBgColor.setAlphaF(0.5);
-
-		QLinearGradient topLineGradient(topLineRect.topLeft(), topLineRect.bottomRight());
-		QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomRight());
-		QLinearGradient bottomLineGradient(bottomLineRect.topLeft(), bottomLineRect.bottomRight());
-		if (index.column() == 0) {
-			topLineGradient.setColorAt(0, outerLineColor);
-			topLineGradient.setColorAt(0.5, innerLineColor);
-			bgGradient.setColorAt(0, outerBgColor);
-			bgGradient.setColorAt(0.5, innerBgColor);
-			bottomLineGradient.setColorAt(0, outerLineColor);
-			bottomLineGradient.setColorAt(0.5, innerLineColor);
-		} else if (index.column() == columns - 1) {
-			topLineGradient.setColorAt(0.5, innerLineColor);
-			topLineGradient.setColorAt(1, outerLineColor);
-			bgGradient.setColorAt(0.5, innerBgColor);
-			bgGradient.setColorAt(1, outerBgColor);
-			bottomLineGradient.setColorAt(0.5, innerLineColor);
-			bottomLineGradient.setColorAt(1, outerLineColor);
-		}
-
-			painter->setBrush(bgGradient);
-			painter->drawRect(backgroundRect);
-
-			if(d->currentPrayer != Fajr) {
-				painter->setBrush(topLineGradient);
-				painter->drawRect(topLineRect);
-			}
-			if(d->currentPrayer != Ishaa) {
-				painter->setBrush(bottomLineGradient);
-				painter->drawRect(bottomLineRect);
-			}
+	if (index.column() == 0) {
+		roundedHighlightRect.setLeft(roundedHighlightRect.left() + margin);
+		roundedHighlightRect.setRight(roundedHighlightRect.right() + radius);
+	} else if (index.column() == columns - 1) {
+		roundedHighlightRect.setLeft(roundedHighlightRect.left() - radius);
+		roundedHighlightRect.setRight(roundedHighlightRect.right() - margin);
 	}
+
+	QPainterPath roundedHightlightPath = Plasma::PaintUtils::roundedRectangle(roundedHighlightRect, radius);
+
+	QPainterPath backgroundClipPath;
+	backgroundClipPath.addRect(backgroundRect);
+	QPainterPath path = roundedHightlightPath.intersected(backgroundClipPath);
+
+	// calculate the background gradient
+	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
+	highlightColor.setAlphaF(0.3);
+
+	QColor topBgColor = highlightColor;
+	QColor bottomBgColor = highlightColor;
+	topBgColor.setAlphaF(0.2);
+	bottomBgColor.setAlphaF(0.7);
+
+	QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomLeft());
+	bgGradient.setColorAt(0, topBgColor);
+	bgGradient.setColorAt(1, bottomBgColor);
+
+	// paint the hightlight at last
+	painter->setRenderHint(QPainter::Antialiasing);
+	painter->setPen(Qt::NoPen);
+
+	painter->setBrush(bgGradient);
+	painter->drawPath(path);
 }
 
 void PrayerTimeDelegate::paintText(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
