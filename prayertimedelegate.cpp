@@ -99,7 +99,7 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 	bool drawTop = false;
 	bool drawBottom = false;
 
-	QColor backgroundColor(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
+	QColor backgroundColor(Plasma::Theme::defaultTheme()->color(Plasma::Theme::BackgroundColor));
 
 	backgroundColor.setAlphaF(0.1);
 
