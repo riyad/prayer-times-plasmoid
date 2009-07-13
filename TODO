@@ -1,16 +1,25 @@
+This is a atempt to give an overview on things that can be improved or added to the Prayer Times Plasmoid.
 
-General:
-- Revisit license headers
+## Plasmoid ##
 
-Plasmoid:
-- Prayer times tab:
-  - Find nice icon/image to place next to the prayer times
+* Add other form factors
+* Make it play the athan (find a nice athan file with appropriate license)
+* Find/make some nice icons
+    * Minbar besides the prayer times
+    * Kaaba on the qibla tab
 
-Data Engine:
-- Check for valid arguments
 
-Configuration:
-- Get initial location from GEO location engine
-- Make possible to pick a location from a list
-- Calculation
-- Notifications (Athan)
+
+## Data Engine ##
+
+* Check for argument validity
+* Support custom calculation methods
+
+
+
+## Configuration ##
+
+* Get location from geo location engine
+* Make possible to pick a location from a list (of towns)
+* Make it possible to customize the calculation method
+* Make it possible to define correction offsets for prayer times
