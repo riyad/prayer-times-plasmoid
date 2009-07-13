@@ -208,13 +208,11 @@ void PrayerTimeDelegate::paintText(QPainter* painter, const QStyleOptionViewItem
 {
 	const QString titleText = index.data(Qt::DisplayRole).value<QString>();
 	const QFont titleFont = index.data(Qt::FontRole).value<QFont>().resolve(option.font);
+	const QRect titleRect = QStyle::alignedRect(option.direction
+		, option.decorationPosition == QStyleOptionViewItem::Left ? Qt::AlignRight : Qt::AlignLeft
+		, option.rect.size()
+		, option.rect);
 	QColor titleColor = index.data(Qt::ForegroundRole).value<QColor>();
-	const QRect titleRect = QStyle::alignedRect(option.direction,
-																				option.decorationPosition == QStyleOptionViewItem::Left ?
-																				Qt::AlignRight : Qt::AlignLeft,
-																				option.rect.size(),
-																				option.rect);
-
 	if (!titleColor.isValid()) {
 		titleColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
 	}
