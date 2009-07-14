@@ -169,6 +169,22 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 		drawRight = true;
 	}
 
+	// calculate the background gradient
+	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
+	highlightColor.setAlphaF(0.3);
+
+	QColor strokeColor = highlightColor;
+	strokeColor.setAlphaF(0.5);
+
+	QColor topBgColor = highlightColor;
+	QColor bottomBgColor = highlightColor;
+	topBgColor.setAlphaF(0.2);
+	bottomBgColor.setAlphaF(0.7);
+
+	QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomLeft());
+	bgGradient.setColorAt(0, topBgColor);
+	bgGradient.setColorAt(1, bottomBgColor);
+
 	// calculate the highlight rect
 	QRect roundedHighlightRect(backgroundRect);
 	roundedHighlightRect.setTop(roundedHighlightRect.top() + margin);
@@ -191,19 +207,6 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	backgroundClipPath.addRect(backgroundRect);
 	QPainterPath path = roundedHightlightPath.intersected(backgroundClipPath);
 
-	// calculate the background gradient
-	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
-	highlightColor.setAlphaF(0.3);
-
-	QColor topBgColor = highlightColor;
-	QColor bottomBgColor = highlightColor;
-	topBgColor.setAlphaF(0.2);
-	bottomBgColor.setAlphaF(0.7);
-
-	QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomLeft());
-	bgGradient.setColorAt(0, topBgColor);
-	bgGradient.setColorAt(1, bottomBgColor);
-
 	// paint at last
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(Qt::NoPen);
@@ -218,9 +221,6 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	QPainterPath strokePath = stroker.createStroke(roundedHightlightPath);
 
 	strokePath = strokePath.intersected(backgroundClipPath);
-
-	QColor strokeColor = highlightColor;
-	strokeColor.setAlphaF(0.5);
 
 	painter->setBrush(strokeColor);
 	painter->drawPath(strokePath);
