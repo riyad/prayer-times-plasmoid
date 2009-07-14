@@ -1,0 +1,5 @@
+prayer-times-plasmoid (0.3~git##DATE##-1~##DIST##1~upstream1) ##DIST##; urgency=low
+
+  * Initial release.
+
+ -- Riyad Preukschas <includeme@users.sourceforge.net>  ##RDATE##

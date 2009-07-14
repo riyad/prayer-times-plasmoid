@@ -1,0 +1,19 @@
+Source: prayer-times-plasmoid
+Section: kde
+Priority: extra
+Maintainer: Riyad Preukschas <includeme@users.sourceforge.net>
+Build-Depends: debhelper (>= 7), cmake, kdelibs5-dev (>= 4.2), libmarble-dev (>= 4.3), libitl-dev (>= 0.6)
+Standards-Version: 3.8.0
+Homepage: http://gitorious.org/prayer-times-plasmoid/
+
+Package: prayer-times-plasmoid
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A Plasmoid for showing the Islamic prayer times.
+ This is a plasmoid + data engine for calculating and displaying the Islamic
+ prayer times and qibla (direction to Makkah) for your current location.
+ .
+ Features:
+ * Prayer times based on your current location
+ * Qibla direction
+ * Notifications before a new prayer and upon entering
