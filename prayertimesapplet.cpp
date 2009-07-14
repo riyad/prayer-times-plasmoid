@@ -319,7 +319,7 @@ void PrayerTimesApplet::updateInterface()
 void PrayerTimesApplet::notify()
 {
 	int diffSecs = QTime::currentTime().secsTo(prayerTimeFor(nextPrayer()));
-	QTime diffToNextPrayerTime = QTime().addSecs(diffSecs + 60);
+	QTime diffToNextPrayerTime = QTime().addSecs(diffSecs);
 
 	kDebug() << "Current time:" << QTime::currentTime().toString();
 	kDebug() << "Diff to next prayer:" << diffToNextPrayerTime.toString();
