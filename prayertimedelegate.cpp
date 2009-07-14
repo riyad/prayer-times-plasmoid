@@ -170,16 +170,16 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	}
 
 	// calculate the background gradient
-	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::HighlightColor);
+	QColor highlightColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
 	highlightColor.setAlphaF(0.3);
 
 	QColor strokeColor = highlightColor;
 	strokeColor.setAlphaF(0.5);
 
-	QColor topBgColor = highlightColor.lighter(150);
-	QColor bottomBgColor = highlightColor.darker(110);
-	topBgColor.setAlphaF(0.4);
-	bottomBgColor.setAlphaF(0.6);
+	QColor topBgColor = highlightColor.lighter(170);
+	QColor bottomBgColor = highlightColor.darker(130);
+	topBgColor.setAlphaF(0.2);
+	bottomBgColor.setAlphaF(0.5);
 
 	QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomLeft());
 	bgGradient.setColorAt(0, topBgColor);
