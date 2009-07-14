@@ -186,22 +186,22 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	bgGradient.setColorAt(1, bottomBgColor);
 
 	// calculate the highlight rect
-	QRect roundedHighlightRect(backgroundRect);
-	roundedHighlightRect.setTop(roundedHighlightRect.top() + margin);
-	roundedHighlightRect.setBottom(roundedHighlightRect.bottom() - margin);
+	QRect highlightRect(backgroundRect);
+	highlightRect.setTop(highlightRect.top() + margin);
+	highlightRect.setBottom(highlightRect.bottom() - margin);
 
 	if(drawLeft) {
-		roundedHighlightRect.setLeft(roundedHighlightRect.left() + margin);
+		highlightRect.setLeft(highlightRect.left() + margin);
 	} else {
-		roundedHighlightRect.setLeft(roundedHighlightRect.left() - radius);
+		highlightRect.setLeft(highlightRect.left() - radius);
 	}
 	if(drawRight) {
-		roundedHighlightRect.setRight(roundedHighlightRect.right() - margin);
+		highlightRect.setRight(highlightRect.right() - margin);
 	} else {
-		roundedHighlightRect.setRight(roundedHighlightRect.right() + radius);
+		highlightRect.setRight(highlightRect.right() + radius);
 	}
 
-	QPainterPath roundedHightlightPath = Plasma::PaintUtils::roundedRectangle(roundedHighlightRect, radius);
+	QPainterPath roundedHightlightPath = Plasma::PaintUtils::roundedRectangle(highlightRect, radius);
 
 	QPainterPath backgroundClipPath;
 	backgroundClipPath.addRect(backgroundRect);
