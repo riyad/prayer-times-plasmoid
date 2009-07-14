@@ -156,7 +156,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	const int columns = index.model()->columnCount();
 	const QRect backgroundRect(option.rect);
 
-	const int margin = 0.03*backgroundRect.width();
+	const int margin = 0.05*backgroundRect.height();
 	const int radius = 0.05*backgroundRect.width();
 
 	// determine which side we are painting
