@@ -93,7 +93,7 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 
 	const int rows = index.model()->rowCount();
 	const int columns = index.model()->columnCount();
-	const int radius = 0.1*backgroundRect.width();
+	const int radius = 0.3*backgroundRect.height();
 	bool drawLeft = false;
 	bool drawRight = false;
 	bool drawTop = false;
@@ -157,7 +157,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	const QRect backgroundRect(option.rect);
 
 	const int margin = 0.05*backgroundRect.height();
-	const int radius = 0.07*backgroundRect.width();
+	const int radius = 0.3*backgroundRect.height();
 
 	// determine which side we are painting
 	bool drawLeft = false;
