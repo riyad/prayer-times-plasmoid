@@ -304,7 +304,6 @@ void PrayerTimesApplet::updateInterface()
 
 	for(PrayerTime prayer = Fajr; prayer <= Ishaa; prayer = PrayerTime(prayer+1)) {
 		QStandardItem *prayerName = new QStandardItem();
-		prayerName->setForeground(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
 		prayerName->setFont(boldFont);
 		prayerName->setText(labelFor(prayer));
 		prayerNameItems.append(prayerName);

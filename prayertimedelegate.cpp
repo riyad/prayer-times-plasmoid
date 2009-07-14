@@ -234,11 +234,7 @@ void PrayerTimeDelegate::paintText(QPainter* painter, const QStyleOptionViewItem
 		, option.decorationPosition == QStyleOptionViewItem::Left ? Qt::AlignRight : Qt::AlignLeft
 		, option.rect.size()
 		, option.rect);
-	QColor titleColor = index.data(Qt::ForegroundRole).value<QColor>();
-	if (!titleColor.isValid()) {
-		titleColor = Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
-	}
-	painter->setPen(titleColor);
+	painter->setPen(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
 	painter->setFont(titleFont);
 	painter->drawText(titleRect, Qt::AlignCenter, titleText);
 }
