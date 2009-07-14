@@ -157,7 +157,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	const QRect backgroundRect(option.rect);
 
 	const int margin = 0.05*backgroundRect.height();
-	const int radius = 0.05*backgroundRect.width();
+	const int radius = 0.07*backgroundRect.width();
 
 	// determine which side we are painting
 	bool drawLeft = false;
@@ -179,7 +179,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	QColor topBgColor = highlightColor;
 	QColor bottomBgColor = highlightColor;
 	topBgColor.setAlphaF(0.2);
-	bottomBgColor.setAlphaF(0.7);
+	bottomBgColor.setAlphaF(0.6);
 
 	QLinearGradient bgGradient(backgroundRect.topLeft(), backgroundRect.bottomLeft());
 	bgGradient.setColorAt(0, topBgColor);
@@ -217,7 +217,7 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 
 	// paint stroke
 	QPainterPathStroker stroker;
-	stroker.setWidth(margin/2);
+	stroker.setWidth(margin);
 	QPainterPath strokePath = stroker.createStroke(roundedHightlightPath);
 
 	strokePath = strokePath.intersected(backgroundClipPath);
