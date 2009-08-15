@@ -5,6 +5,8 @@ Prayer Times Plasmoid
 This project brings you a plasmoid + data engine for calculating and displaying the Islamic
 prayer times and qibla (direction to Makkah) for your current location.
 
+Please visit the [[Screenshots]] page for getting a glimpse of how it actually looks.
+
 
 
 ## Features ##
@@ -13,7 +15,7 @@ prayer times and qibla (direction to Makkah) for your current location.
 * Qibla direction
 * Notifications before a new prayer and upon entering
 
-Please have a look at the [ToDos](http://gitorious.org/prayer-times-plasmoid/prayer-times-plasmoid/blobs/master/TODO) for features, that are missing.
+Please have a look at the [[ToDo]]s for features, that are missing.
 
 
 
@@ -28,11 +30,19 @@ For compiling and using this plasmoid you will need:
 ### Install needed packages ###
 
 When using Debian or (K)Ubuntu you can install the necessary packages with
-    sudo aptitude install build-essential debhelper cmake kdelibs5-dev libmarble-dev libitl-dev
+    sudo aptitude install build-essential debhelper devscripts cmake kdelibs5-dev libmarble-dev libitl-dev
 
 ### Build it ###
 
-    cd /where/your/applet/is/installed
+If you are using Debian or (K)Ubuntu you can build a .dep package and install it:
+
+    cd /where/you/downloaded/the/plasmoid
+    ./builddeb.sh
+    sudo dpkg -i ../prayer-times-plasmoid*.deb
+
+Users of other systems please follow the general recipe:
+
+    cd /where/you/downloaded/the/plasmoid
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ..
