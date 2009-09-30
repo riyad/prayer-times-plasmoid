@@ -15,7 +15,7 @@
 */
 /**
  * @file
- * The Islamic Prayer Times data engine.
+ * Contains a Plasma data engine for calculating prayer times.
  */
 
 #ifndef PRAYERTIMESENGINE_H
