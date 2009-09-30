@@ -19,8 +19,8 @@
 #define PRAYERTIMES_HEADER
 
 #include <Plasma/Applet>
-#include <Plasma/DataEngine>
 
+// Own
 #include "ui_prayertimesNotificationsConfig.h"
 #include "ui_prayertimesLocationConfig.h"
 #include "ui_prayertimesCalculationMethodConfig.h"
@@ -29,22 +29,12 @@
 class CompassGraphicsWidget;
 class PrayerTimesView;
 
-class QGraphicsWidget;
-class QString;
-class QTime;
-class QTimer;
-
+// KDE
 class KConfigDialog;
 
+// Plasma
 namespace Plasma {
 	class Label;
-	class Svg;
-	class TabBar;
-}
-
-namespace Marble {
-	class GeoDataCoordinates;
-	class MarbleWidget;
 }
 
 // Define our plasma Applet
@@ -113,7 +103,7 @@ class PrayerTimesApplet : public Plasma::Applet
 		PrayerTime nextPrayer() const;
 		const QTime& prayerTimeFor(PrayerTime prayer) const;
 };
- 
+
 // This is the command that links your applet to the .desktop file
 K_EXPORT_PLASMA_APPLET(prayertimes, PrayerTimesApplet)
 #endif

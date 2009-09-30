@@ -14,21 +14,10 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Own
 #include "prayertimedelegate.h"
 
-#include "dataengine/prayertimesengine.h"
-
 // Qt
-#include <QAbstractItemDelegate>
-#include <QColor>
-#include <QFontMetrics>
-#include <QModelIndex>
 #include <QPainter>
-#include <QPainterPath>
-#include <QRect>
-#include <QSize>
-#include <QStyleOptionViewItem>
 
 // Plasma
 #include <Plasma/PaintUtils>

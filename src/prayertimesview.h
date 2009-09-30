@@ -17,13 +17,12 @@
 #ifndef PRAYERTIMESVIEW_H
 #define PRAYERTIMESVIEW_H
 
-#include <Plasma/TreeView>
-
+// Own
 #include "dataengine/prayertimesengine.h"
 class PrayerTimeDelegate;
 
-class QGraphicsSceneResizeEvent;
-class QGraphicsWidget;
+// Plasma
+#include <Plasma/TreeView>
 
 class PrayerTimesView : public Plasma::TreeView
 {

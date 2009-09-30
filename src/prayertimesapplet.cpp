@@ -14,8 +14,12 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Own
 #include "prayertimesapplet.h"
+
+// Own
+#include "ui_prayertimesNotificationsConfig.h"
+#include "ui_prayertimesLocationConfig.h"
+#include "ui_prayertimesCalculationMethodConfig.h"
 
 #include "compassgraphicswidget.h"
 #include "prayertimesview.h"
@@ -23,34 +27,21 @@
 // Qt
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
-#include <QGraphicsWidget>
-#include <QList>
-#include <QStandardItem>
 #include <QStandardItemModel>
-#include <QString>
-#include <QTextOption>
-#include <QTime>
-#include <QTimer>
 
 // KDE
 #include <KConfigDialog>
-#include <KIconLoader>
 #include <KNotification>
 
 // Plasma
 #include <Plasma/Applet>
-#include <Plasma/DataEngine>
 #include <Plasma/Frame>
 #include <Plasma/IconWidget>
 #include <Plasma/Label>
-#include <Plasma/Svg>
 #include <Plasma/TabBar>
-#include <Plasma/Theme>
 
 // Marble
-#include <marble/GeoDataCoordinates.h>
 #include <marble/MarbleModel.h>
-#include <marble/MarbleWidget.h>
 
 PrayerTimesApplet::PrayerTimesApplet(QObject *parent, const QVariantList &args)
 	: Plasma::Applet(parent, args),

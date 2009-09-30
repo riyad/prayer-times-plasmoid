@@ -16,22 +16,11 @@
 
 #include "prayertimesengine.h"
 
-// Qt
-#include <QDate>
-#include <QRegExp>
-#include <QString>
-#include <QTime>
-#include <QVector>
-
 // KDE
 #include <KSystemTimeZone>
-#include <KTimeZone>
 
 // Marble
 #include <marble/GeoDataCoordinates.h>
-
-// ITL
-#include <itl/prayer.h>
 
 PrayerTimesEngine::PrayerTimesEngine(QObject* parent, const QVariantList& args)
 	: Plasma::DataEngine(parent),

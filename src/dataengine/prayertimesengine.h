@@ -21,15 +21,16 @@
 #ifndef PRAYERTIMESENGINE_H
 #define PRAYERTIMESENGINE_H
 
-#include <itl/prayer.h>
-
-class QString;
-class QTime;
-template <typename T> class QVector;
-
+// KDE
 class KTimeZone;
 
 #include <KLocalizedString>
+
+// Plasma
+#include <Plasma/DataEngine>
+
+// ITL
+#include <itl/prayer.h>
 
 /**
 * A helper defnition.
@@ -69,8 +70,6 @@ enum PrayerTime {
 	Ishaa,
 	NextFajr
 };
-
-#include <Plasma/DataEngine>
 
 /**
  * @class PrayerTimesEngine

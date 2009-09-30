@@ -17,14 +17,10 @@
 #ifndef QIBLAGRAPHICSWIDGET_H
 #define QIBLAGRAPHICSWIDGET_H
 
-#include <QGraphicsProxyWidget>
+// Qt
+#include <QGraphicsWidget>
 
-class QGraphicsItem;
-class QPainter;
-class QString;
-class QStyleOptionGraphicsItem;
-class QWidget;
-
+// Plasma
 namespace Plasma {
 	class Svg;
 }

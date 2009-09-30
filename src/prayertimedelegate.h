@@ -17,10 +17,12 @@
 #ifndef PRAYERDELEGATE_H
 #define PRAYERDELEGATE_H
 
-#include <qabstractitemdelegate.h>
-
+// Own
 #include "dataengine/prayertimesengine.h"
 class PrayerTimeDelegatePrivate;
+
+// Qt
+#include <qabstractitemdelegate.h>
 
 class PrayerTimeDelegate :  public QAbstractItemDelegate
 {

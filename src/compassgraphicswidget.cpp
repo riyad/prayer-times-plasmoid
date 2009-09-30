@@ -16,16 +16,13 @@
 
 #include "compassgraphicswidget.h"
 
-#include <QGraphicsItem>
+// Qt
 #include <QPainter>
-#include <QPointF>
-#include <QRectF>
-#include <QString>
-#include <QStyleOptionGraphicsItem>
-#include <QWidget>
 
+// KDE
 #include <KLocalizedString>
 
+// Plasma
 #include <Plasma/Svg>
 
 CompassGraphicsWidget::CompassGraphicsWidget(QGraphicsItem* parent, Qt::WindowFlags wFlags)

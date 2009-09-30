@@ -14,24 +14,17 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//Own
 #include "prayertimesview.h"
 
-#include "dataengine/prayertimesengine.h"
+//Own
 #include "prayertimedelegate.h"
 
 // Qt
-#include <QGraphicsSceneResizeEvent>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsWidget>
 #include <QHeaderView>
 #include <QTreeView>
 
 // KDE
 #include <KIconLoader>
-
-// Plasma
-#include <Plasma/TreeView>
 
 PrayerTimesView::PrayerTimesView(QGraphicsWidget* parent)
 	: Plasma::TreeView(parent)
