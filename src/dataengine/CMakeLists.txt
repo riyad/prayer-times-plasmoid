@@ -1,13 +1,4 @@
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-include_directories(
-  ${CMAKE_SOURCE_DIR}
-  ${CMAKE_BINARY_DIR}
-  ${KDE4_INCLUDES}
-  ${ITL_INCLUDE_DIR}
-  ${MARBLE_INCLUDE_DIR}
-  )
-
 set(prayertimes_engine_SRCS prayertimesengine.cpp)
 
 kde4_add_plugin(plasma_engine_prayertimes ${prayertimes_engine_SRCS})
