@@ -63,10 +63,6 @@ bool PrayerTimesEngine::sourceRequestEvent(const QString& name)
 	return updateSourceEvent(name);
 }
 
-/**
- * Calculates/updates the prayer times and the qibla for the given coordinates.
- * @param name the coordinats in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
- */
 bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 {
 	Location location;
@@ -93,16 +89,6 @@ bool PrayerTimesEngine::updateSourceEvent(const QString& name)
 	return true;
 }
 
-/**
- * Generates a Location from the given coordinates.
- * @param source the source to parse consits of 2 parts separated by "/" namely:
- *               - the calculation method
- *               - coordinates in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
- * @param location for setting the requested location
- * @param methodNum for setting the requested calculation method
- * @note uses the local time zone for setting the corresponding fields in location
- * @note location will be overwritten
- */
 void PrayerTimesEngine::parseSource(const QString& source, Location& location, int& methodNum)
 {
 	Marble::GeoDataCoordinates parsedLocation;
@@ -153,12 +139,6 @@ void PrayerTimesEngine::parseSource(const QString& source, Location& location, i
 	location.temperature = 10; // default from itl's prayer.
 }
 
-/**
- * Calculates the prayer times for the given location for the current day.
- * @param location the location for calculating the prayer times
- * @param prayerTimes the six times (i.e. fajr, shorook, dhuhr, ..., ishaa) for the current day
- * @note prayerTimes will be overwritten
- */
 void PrayerTimesEngine::calculatePrayerTimes(const Location& location, const int& methodNum, QVector<QTime>& prayerTimes)
 {
 	// for retrieving the results of the calculation
@@ -189,12 +169,6 @@ void PrayerTimesEngine::calculatePrayerTimes(const Location& location, const int
 	}
 }
 
-/**
- * Calculates the qibla for the given location.
- * @param location the location for calculating the qibla
- * @param qiblaDegrees the qibla from the location in degrees
- * @note qiblaDegrees will be overwritten
- */
 void PrayerTimesEngine::calculateQibla(const Location& location, double& qiblaDegrees)
 {
 	qiblaDegrees = -getNorthQibla(&location);

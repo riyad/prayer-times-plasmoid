@@ -13,6 +13,10 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+/**
+ * \file
+ * The Islamic Prayer Times data engine.
+ */
 
 #ifndef PRAYERTIMESENGINE_H
 #define PRAYERTIMESENGINE_H
@@ -27,8 +31,15 @@ class KTimeZone;
 
 #include <KLocalizedString>
 
+/**
+* A helper defnition.
+* It should be equal to the number of elements in the @ref calculationMethodName array.
+*/
 #define CALCULATION_METHODS 8
-// according to itl/prayer.h
+
+/**
+ * Translatable names of the predefined calculation methods in ITL.
+ */
 static const QString calculationMethodName[] = {
       i18nc("No calculation method specified.", "None"),
       i18n("Egyptian General Authority of Survey"),
@@ -40,8 +51,15 @@ static const QString calculationMethodName[] = {
       i18n("Fixed Ishaa Interval (always 90)")
 };
 
+/**
+ * A helper defnition.
+ * It should be equal to the number of elements in the @ref PrayerTime enum.
+ */
 #define PRAYER_TIMES 7
 
+/**
+ * An enumeration of all provided prayer times.
+ */
 enum PrayerTime {
 	Fajr,
 	Shorooq,
@@ -54,6 +72,12 @@ enum PrayerTime {
 
 #include <Plasma/DataEngine>
 
+/**
+ * \class PrayerTimesEngine
+ * Implements a Plasma data engine for parts of the ITL.
+ * Exposed items include prayer times and qibla directions.
+ * The minimum polling interval is 1 minute.
+ */
 class PrayerTimesEngine : public Plasma::DataEngine
 {
 	Q_OBJECT
@@ -61,18 +85,57 @@ class PrayerTimesEngine : public Plasma::DataEngine
 	KTimeZone* localTimeZone;
 
 public:
-		PrayerTimesEngine(QObject* parent, const QVariantList& args);
-		~PrayerTimesEngine();
+	PrayerTimesEngine(QObject* parent, const QVariantList& args);
+	~PrayerTimesEngine();
 
-		void init();
+	/**
+	 * Initializes the data engine.
+	 * It currently only sets the time zone to the the system's local time zone.
+	 * @note The local time zone will be used for all calculations.
+	 */
+	void init();
 
 protected:
-		bool sourceRequestEvent(const QString& name);
-		bool updateSourceEvent(const QString& source);
+	/**
+	 * @see updateSourceEvent()
+	 */
+	bool sourceRequestEvent(const QString& name);
+
+	/*!
+	* Calculates/updates the prayer times and the qibla for the given source.
+	* A source name might look like "location:53.07 N 8.8 E|method:5" (see @a name for more details).
+	* @param name the source name to parse consits of parts separated by "|" namely:
+	*             - "method": the calculation method as defined in ITL's prayer.h
+	*             - "location": coordinates in decimal format (e.g. "53.07,8.8" for 53.07 N 8.8 E)
+	*/
+	bool updateSourceEvent(const QString& name);
 
 private:
-	void parseSource(const QString& coords, Location& location, int& methodNum);
+	/**
+	* Extracts and generates the necessary structures from the source name.
+	* @param name as in updateSourceEvent()
+	* @param location for setting the requested location
+	* @param methodNum for setting the requested calculation method
+	* @note uses the local time zone for setting the corresponding fields in location
+	* @note @a location will be overwritten
+	* @note @a methodNum will be overwritten
+	*/
+	void parseSource(const QString& name, Location& location, int& methodNum);
+
+	/**
+	* Calculates the prayer times for the current day.
+	* @param location the location for which to calculate the prayer times
+	* @param prayerTimes the six times (i.e. fajr, shorook, dhuhr, ..., ishaa) for the current day
+	* @note @a prayerTimes will be overwritten
+	*/
 	void calculatePrayerTimes(const Location& location, const int& methodNum, QVector<QTime>& prayerTimes);
+
+	/**
+	* Calculates the qibla direction.
+	* @param location the location for which to calculate the qibla
+	* @param qiblaDegrees the qibla from the location in degrees from north
+	* @note @a qiblaDegrees will be overwritten
+	*/
 	void calculateQibla(const Location& location, double& qiblaDegrees);
 };
 
