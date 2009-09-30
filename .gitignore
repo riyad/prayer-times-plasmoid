@@ -5,3 +5,6 @@
 
 # ignore build directory
 build/
+
+# ignore generated documentation
+doc/
