@@ -14,7 +14,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * \file
+ * @file
  * The Islamic Prayer Times data engine.
  */
 
@@ -73,7 +73,7 @@ enum PrayerTime {
 #include <Plasma/DataEngine>
 
 /**
- * \class PrayerTimesEngine
+ * @class PrayerTimesEngine
  * Implements a Plasma data engine for parts of the ITL.
  * Exposed items include prayer times and qibla directions.
  * The minimum polling interval is 1 minute.
