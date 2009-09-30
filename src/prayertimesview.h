@@ -57,6 +57,7 @@ class PrayerTimesView : public Plasma::TreeView
 		/**
 		 * This is called upon resizes.
 		 * It is used to update header and icon sizes.
+		 * @param event The event.
 		 * @todo make it change the font size too.
 		 */
 		void resizeEvent(QGraphicsSceneResizeEvent *event);
