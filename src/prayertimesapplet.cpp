@@ -327,7 +327,11 @@ void PrayerTimesApplet::notify()
 	int diffSecs = QTime::currentTime().secsTo(prayerTimeFor(nextPrayer()));
 	QTime diffToNextPrayerTime = QTime().addSecs(diffSecs);
 
+	diffSecs = prayerTimeFor(currentPrayer()).secsTo(QTime::currentTime());
+	QTime diffFromCurrentPrayerTime = QTime().addSecs(diffSecs);
+
 	kDebug() << "Current time:" << QTime::currentTime().toString();
+	kDebug() << "Diff from current prayer:" << diffFromCurrentPrayerTime.toString();
 	kDebug() << "Diff to next prayer:" << diffToNextPrayerTime.toString();
 
 	if(m_notifyBeforeNextPrayer) {
@@ -340,7 +344,7 @@ void PrayerTimesApplet::notify()
 		}
 	}
 
-	if(m_notifyOnNextPrayer && diffToNextPrayerTime.hour() == 0 && diffToNextPrayerTime.minute() == 0) {
+	if(m_notifyOnNextPrayer && diffFromCurrentPrayerTime.hour() == 0 && diffFromCurrentPrayerTime.minute() == 0) {
 		showNotification(i18n("It is now time to pray %1.", labelFor(currentPrayer())));
 		// TODO: play adhan or make knotify do it
 	}
