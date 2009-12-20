@@ -82,53 +82,61 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 
 	const int rows = index.model()->rowCount();
 	const int columns = index.model()->columnCount();
-	const int radius = 0.3*backgroundRect.height();
-	bool drawLeft = false;
-	bool drawRight = false;
-	bool drawTop = false;
-	bool drawBottom = false;
+	const int radius = 0.3*backgroundRect.height(); // radius for rounded corners
+	bool drawLeftBorder = false;
+	bool drawRightBorder = false;
+	bool drawTopBorder = false;
+	bool drawBottomBorder = false;
 
 	QColor backgroundColor(Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor));
-
 	backgroundColor.setAlphaF(0.1);
 
+	// drawing left-most column
 	if (index.column() == 0) {
-		drawLeft = true;
+		drawLeftBorder = true;
 	}
+	// drawing right-most column
 	if (index.column() == columns - 1) {
-		drawRight = true;
+		drawRightBorder = true;
 	}
+	// drawing top-most row
 	if (index.row() == 0) {
-		drawTop = true;
+		drawTopBorder = true;
 	}
+	// drawing bottom-most row
 	if (index.row() == rows - 1) {
-		drawBottom = true;
+		drawBottomBorder = true;
 	}
 
-	if (!drawLeft && !drawRight && !drawTop && !drawBottom) {
+	// drawing something in the middle
+	if (!drawLeftBorder && !drawRightBorder && !drawTopBorder && !drawBottomBorder) {
 		painter->fillRect(backgroundRect, backgroundColor);
-	} else {
+	} else { // drawing something on the border
 		QRect roundedBackgroundRect(backgroundRect);
 
-		if (!drawLeft) {
+		// extend borders that are not going to be rounded
+		if (!drawLeftBorder) {
 			roundedBackgroundRect.setLeft(roundedBackgroundRect.left()-radius);
 		}
-		if (!drawRight) {
+		if (!drawRightBorder) {
 			roundedBackgroundRect.setRight(roundedBackgroundRect.right()+radius);
 		}
-		if (!drawTop) {
+		if (!drawTopBorder) {
 			roundedBackgroundRect.setTop(roundedBackgroundRect.top()-radius);
 		}
-		if (!drawBottom) {
+		if (!drawBottomBorder) {
 			roundedBackgroundRect.setBottom(roundedBackgroundRect.bottom()+radius);
 		}
 
+		// round background rect
 		QPainterPath roundedBackgroundPath = Plasma::PaintUtils::roundedRectangle(roundedBackgroundRect, radius);
 
+		// clip extended and rounded background rect with original beackground rect
 		QPainterPath backgroundClipPath;
 		backgroundClipPath.addRect(backgroundRect);
 		QPainterPath path = roundedBackgroundPath.intersected(backgroundClipPath);
 
+		// set up painter and paint
 		painter->setRenderHint(QPainter::Antialiasing);
 		painter->setPen(Qt::NoPen);
 		painter->setBrush(backgroundColor);
@@ -138,6 +146,7 @@ void PrayerTimeDelegate::paintBackground(QPainter* painter, const QStyleOptionVi
 
 void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
+	// skip if this row is not highlighted
 	if (index.row() != d->currentPrayer) {
 		return;
 	}
@@ -174,11 +183,13 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	bgGradient.setColorAt(0, topBgColor);
 	bgGradient.setColorAt(1, bottomBgColor);
 
-	// calculate the highlight rect
+	// abjust the size of the highlight marker
 	QRect highlightRect(backgroundRect);
 	highlightRect.setTop(highlightRect.top() + margin);
 	highlightRect.setBottom(highlightRect.bottom() - margin);
 
+	// add margin (for the stroke) to borders to be rounded
+	// and extend borders that are are not going to be rounded
 	if(drawLeft) {
 		highlightRect.setLeft(highlightRect.left() + margin);
 	} else {
@@ -190,13 +201,15 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 		highlightRect.setRight(highlightRect.right() + radius);
 	}
 
+	// round highlight rect
 	QPainterPath roundedHightlightPath = Plasma::PaintUtils::roundedRectangle(highlightRect, radius);
 
+	// clip extended and rounded highlight rect with original beackground rect
 	QPainterPath backgroundClipPath;
 	backgroundClipPath.addRect(backgroundRect);
 	QPainterPath path = roundedHightlightPath.intersected(backgroundClipPath);
 
-	// paint at last
+	// set up painter
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setPen(Qt::NoPen);
 
@@ -204,13 +217,15 @@ void PrayerTimeDelegate::paintHighlight(QPainter* painter, const QStyleOptionVie
 	painter->setBrush(bgGradient);
 	painter->drawPath(path);
 
-	// paint stroke
+	// create highlight stroke from rounded highlight rect
 	QPainterPathStroker stroker;
 	stroker.setWidth(margin);
 	QPainterPath strokePath = stroker.createStroke(roundedHightlightPath);
 
+	// clip highlight stroke path with original beackground rect
 	strokePath = strokePath.intersected(backgroundClipPath);
 
+	// paint highlight stroke
 	painter->setBrush(strokeColor);
 	painter->drawPath(strokePath);
 }
