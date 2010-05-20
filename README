@@ -63,6 +63,24 @@ Now you can add it to your desktop or you can also view it with the Plasmoid Vie
 
 
 
+## Code documentation ##
+
+To get a better overview over the source code you can have the code documentation generated in HTML format.
+
+### Install needed packages ###
+
+When using Debian or (K)Ubuntu you can install the necessary packages with
+    sudo aptitude install doxygen
+
+### Generate it ###
+
+    cd /where/you/downloaded/the/plasmoid
+    doxygen Doxyfile
+
+You can now browse the documentation starting in the doc/html/index.html file.
+
+
+
 ## Contact and Support ##
 
 You can find the main repository at:
