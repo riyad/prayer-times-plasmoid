@@ -153,13 +153,13 @@ private:
 	 * Constructs the widget for the applet's prayer times tab.
 	 * @return The prayer times widget.
 	 */
-	QGraphicsWidget* createPrayerTimesWidget();
+	QGraphicsLayoutItem* createPrayerTimesWidget();
 
 	/**
 	* Constructs the  widget for the applet's qibla tab.
 	* @return The qibla widget.
 	*/
-	QGraphicsWidget* createQiblaWidget();
+	QGraphicsLayoutItem* createQiblaWidget();
 
 	/**
 	 * Connects the applet to the data engine if the configuration permits.

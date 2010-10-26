@@ -370,7 +370,7 @@ void PrayerTimesApplet::showNotification(const QString &message) const
 	);
 }
 
-QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
+QGraphicsLayoutItem* PrayerTimesApplet::createPrayerTimesWidget()
 {
 	QFont titleFont = font();
 	titleFont.setPointSize(titleFont.pointSize() * 1.1);
@@ -398,12 +398,10 @@ QGraphicsWidget* PrayerTimesApplet::createPrayerTimesWidget()
 	m_nextPrayerLabel->nativeWidget()->setWordWrap(false);
 	layout->addItem(m_nextPrayerLabel, 2, 0);
 
-	QGraphicsWidget* widget = new QGraphicsWidget(this);
-	widget->setLayout(layout);
-	return widget;
+	return layout;
 }
 
-QGraphicsWidget* PrayerTimesApplet::createQiblaWidget()
+QGraphicsLayoutItem* PrayerTimesApplet::createQiblaWidget()
 {
 	QFont titleFont = font();
 	titleFont.setPointSize(titleFont.pointSize() * 1.1);
@@ -427,9 +425,7 @@ QGraphicsWidget* PrayerTimesApplet::createQiblaWidget()
 	m_qiblaWidget = new CompassGraphicsWidget(this);
 	layout->addItem(m_qiblaWidget, 0, 1, 2, 1);
 
-	QGraphicsWidget* widget = new QGraphicsWidget(this);
-	widget->setLayout(layout);
-	return widget;
+	return layout;
 }
 
 void PrayerTimesApplet::connectSources()
