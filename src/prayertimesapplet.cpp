@@ -28,6 +28,7 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
 #include <QStandardItemModel>
+#include <QTimer>
 
 // KDE
 #include <KConfigDialog>
@@ -376,12 +377,13 @@ QGraphicsLayoutItem* PrayerTimesApplet::createPrayerTimesWidget()
 	titleFont.setPointSize(titleFont.pointSize() * 1.1);
 
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
-	layout->setRowStretchFactor(1, 4); // so the Kaaba icon grows
+	layout->setRowStretchFactor(1, 5); // so the Kaaba icon grows
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
 	kaabaIconWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	layout->addItem(kaabaIconWidget, 0, 0, 2, 1);
+
 
 	m_dateLabel = new Plasma::Label(this);
 	m_dateLabel->setAlignment(Qt::AlignCenter);
@@ -409,8 +411,6 @@ QGraphicsLayoutItem* PrayerTimesApplet::createQiblaWidget()
 	QGraphicsGridLayout* layout = new QGraphicsGridLayout();
 
 	layout->setColumnStretchFactor(1, 2);
-	//layout->setRowStretchFactor(0, 6);
-	//layout->setRowStretchFactor(1, 1);
 
 	Plasma::IconWidget* kaabaIconWidget = new Plasma::IconWidget(this);
 	kaabaIconWidget->setSvg(m_prayertimesSvg->imagePath(), "kaaba");
