@@ -121,6 +121,12 @@ protected Q_SLOTS:
 	void configMouseGeoPositionChanged();
 
 	/**
+	 * For the places list view in the location configuration page to call when an item is selected.
+	 * It updates the location configuration page's elements according to what entry was activated.
+	 */
+	void configPlacemarkActivated(const QModelIndex &index);
+
+	/**
 	 * Updates all UI elements to show the latest data.
 	 */
 	void updateInterface();

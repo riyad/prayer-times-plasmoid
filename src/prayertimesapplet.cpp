@@ -284,6 +284,12 @@ void PrayerTimesApplet::configMouseGeoPositionChanged()
 	}
 }
 
+void PrayerTimesApplet::configPlacemarkActivated(const QModelIndex& index)
+{
+	locationConfigUi.mapWidget->centerOn(index);
+	locationConfigUi.locationNameLineEdit->setText(index.data().toString());
+}
+
 void PrayerTimesApplet::updateInterface()
 {
 	QFont normalFont(font());
