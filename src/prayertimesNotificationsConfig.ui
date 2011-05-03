@@ -90,6 +90,9 @@
       </item>
       <item row="1" column="0">
        <widget class="QGroupBox" name="playAdhanOnNextPrayerGroupBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="title">
          <string>Play adhan</string>
         </property>
