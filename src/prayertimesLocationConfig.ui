@@ -1,69 +1,103 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>prayertimesLocationConfig</class>
- <widget class="QWidget" name="prayertimesLocationConfig" >
-  <property name="geometry" >
+ <widget class="QWidget" name="prayertimesLocationConfig">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>501</width>
-    <height>353</height>
+    <width>882</width>
+    <height>479</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="0" column="0" colspan="2" >
-    <widget class="QFrame" name="frame" >
-     <layout class="QGridLayout" name="gridLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
-      <item row="0" column="0" >
-       <widget class="Marble::MarbleWidget" native="1" name="mapWidget" />
-      </item>
-     </layout>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="KFilterProxySearchLine" name="placemarkSearchLine">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="label_3" >
-     <property name="text" >
-      <string>Name of selected location:</string>
+   <item row="0" column="1" rowspan="2" colspan="3">
+    <widget class="Marble::MarbleWidget" name="mapWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="alignment" >
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="2">
+    <widget class="QListView" name="placemarksListView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Name to be displayed:</string>
+     </property>
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <layout class="QHBoxLayout" name="horizontalLayout_3" >
-     <item>
-      <widget class="QLineEdit" name="locationNameLineEdit" />
-     </item>
-     <item>
-      <spacer name="horizontalSpacer" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="locationNameLineEdit"/>
+   </item>
+   <item row="2" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>214</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KFilterProxySearchLine</class>
+   <extends>QWidget</extends>
+   <header>kfilterproxysearchline.h</header>
+  </customwidget>
+  <customwidget>
    <class>Marble::MarbleWidget</class>
    <extends>QWidget</extends>
-   <header>marble/MarbleWidget.h</header>
+   <header>MarbleWidget.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>mapWidget</tabstop>
+  <tabstop>placemarksListView</tabstop>
+  <tabstop>locationNameLineEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
