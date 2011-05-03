@@ -185,8 +185,8 @@ void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 	map->setShowScaleBar   ( false );
 	map->setShowClouds     ( false );
 
-	connect(locationConfigUi.mapWidget, SIGNAL(mouseMoveGeoPosition(QString)), this, SLOT(configMouseGeoPositionChanged()));
-	connect(locationConfigUi.mapWidget, SIGNAL(zoomChanged(int)), this, SLOT(configMouseGeoPositionChanged()));
+	connect(locationConfigUi.placemarksListView, SIGNAL(activated(QModelIndex)), this, SLOT(configPlacemarkActivated(QModelIndex)));
+	connect(locationConfigUi.mapWidget, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(configMouseGeoPositionChanged()));
 
 	QWidget *methodWidget = new QWidget(parent);
 	calculationMethodConfigUi.setupUi(methodWidget);
