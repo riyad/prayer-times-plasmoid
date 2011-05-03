@@ -278,7 +278,7 @@ void PrayerTimesApplet::configMouseGeoPositionChanged()
 	qreal lat = locationConfigUi.mapWidget->centerLatitude();
 	qreal x, y;
 	map->screenCoordinates(lon, lat, x, y);
-	QVector<QModelIndex> featureList = map->model()->whichFeatureAt(QPoint(x, y));
+	QVector<QModelIndex> featureList = map->whichFeatureAt(QPoint(x, y));
 	if(!featureList.isEmpty()) {
 		locationConfigUi.locationNameLineEdit->setText(featureList.at(0).data().toString());
 	}
