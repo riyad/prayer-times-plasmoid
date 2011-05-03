@@ -115,7 +115,7 @@ protected Q_SLOTS:
 	void configAccepted();
 
 	/**
-	 * For the Marble widget in the location configuration page to call when the view is moved.
+	 * For the Marble widget in the location configuration page to call when the view is clicked.
 	 * It updates the location configuration page's elements according to what the cursor is positioned over.
 	 */
 	void configMouseGeoPositionChanged();
