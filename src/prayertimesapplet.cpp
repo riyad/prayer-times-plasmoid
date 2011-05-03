@@ -174,7 +174,7 @@ void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 	//Set how we want the map to look
 	map->centerOn(m_location);
 	map->zoomView(map->maximumZoom());
-	map->setMapThemeId( "earth/atlas/atlas.dgml" );
+	map->setMapThemeId( "earth/srtm/srtm.dgml" );
 	map->setShowGrid       ( false );
 	map->setShowPlaces     ( true );
 	map->setShowOtherPlaces( false );
