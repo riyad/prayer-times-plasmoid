@@ -27,6 +27,7 @@
 // Qt
 #include <QGraphicsLinearLayout>
 #include <QGraphicsGridLayout>
+#include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 #include <QTimer>
 
@@ -184,6 +185,15 @@ void PrayerTimesApplet::createConfigurationInterface(KConfigDialog* parent)
 	map->setShowCrosshairs ( true );
 	map->setShowScaleBar   ( false );
 	map->setShowClouds     ( false );
+
+	QSortFilterProxyModel *placemarkFilterModel = new QSortFilterProxyModel(locationWidget);
+	placemarkFilterModel->setSourceModel(map->model()->placemarkModel());
+	
+	KFilterProxySearchLine *placemarkSearch = locationConfigUi.placemarkSearchLine;
+	placemarkSearch->setProxy(placemarkFilterModel);
+
+	QListView *placemarksList = locationConfigUi.placemarksListView;
+	placemarksList->setModel(placemarkFilterModel);
 
 	connect(locationConfigUi.placemarksListView, SIGNAL(activated(QModelIndex)), this, SLOT(configPlacemarkActivated(QModelIndex)));
 	connect(locationConfigUi.mapWidget, SIGNAL(mouseClickGeoPosition(qreal,qreal,GeoDataCoordinates::Unit)), this, SLOT(configMouseGeoPositionChanged()));
