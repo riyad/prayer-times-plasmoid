@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>prayertimesCalculationMethodConfig</class>
- <widget class="QWidget" name="prayertimesCalculationMethodConfig" >
-  <property name="geometry" >
+ <widget class="QWidget" name="prayertimesCalculationMethodConfig">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,70 +10,73 @@
     <height>358</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
       <string>Calculation Method:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="QComboBox" name="methodComboBox" >
+   <item row="0" column="1">
+    <widget class="QComboBox" name="methodComboBox">
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Custom</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Egyptian General Authority of Survey</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>University of Islamic Sciences, Karachi (Shaf'i)</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>University of Islamic Sciences, Karachi (Hanafi)</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Islamic Society of North America</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Muslim World League (MWL)</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Umm Al-Qurra, Saudi Arabia</string>
       </property>
      </item>
      <item>
-      <property name="text" >
+      <property name="text">
        <string>Fixed Ishaa Interval (always 90)</string>
       </property>
      </item>
     </widget>
    </item>
-   <item row="0" column="2" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>302</width>
        <height>20</height>
@@ -80,12 +84,12 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0" colspan="3" >
-    <widget class="QGroupBox" name="calculationMethodDetailsGroupBox" >
-     <property name="enabled" >
+   <item row="1" column="0" colspan="3">
+    <widget class="QGroupBox" name="calculationMethodDetailsGroupBox">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Method Details</string>
      </property>
     </widget>
