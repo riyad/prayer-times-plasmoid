@@ -23,6 +23,5 @@ Plase visit the project Wiki at [1] for the most recent list of TODOs.
 ## Configuration ##
 
 * Get location from geo location engine
-* Make possible to pick a location from a list (of towns)
 * Make it possible to customize the calculation method
 * Make it possible to define correction offsets for prayer times
