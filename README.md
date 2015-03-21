@@ -85,6 +85,6 @@ You can now browse the documentation starting in the doc/html/index.html file.
 
 You can find the main repository at:
 
-http://gitorious.org/prayer-times-plasmoid
+https://github.com/riyad/prayer-times-plasmoid
 
 If have come a across any bug or have suggestions please feel free to mail the authors.
